@@ -10,7 +10,8 @@
 ### 提交
 
 - 远端 M0 commit：`d39f783e72e6d88ae584676ea505576a344a84c9`
-- 回填提交（当前 main）：`36180f972b4641e59a028c6e4527049a6f5d3343`；CI run `40813380321`，`completed / success`
+- 回填提交：`36180f972b4641e59a028c6e4527049a6f5d3343`；CI run `40813380321`，`completed / success`
+- main 的最新 SHA 以 GitHub 仓库为准；DEVLOG 不记录自身提交的 SHA，避免递归
 - URL：https://github.com/qi-qi-qi-web/mapping-knowledge-domain/commit/d39f783e72e6d88ae584676ea505576a344a84c9
 - tree：`493ec920265213d68f6c83095836e0b4ba7ea0bf`
 - 文件：42 个；42/42 本地 Git blob SHA 与远端 main tree 一致。
