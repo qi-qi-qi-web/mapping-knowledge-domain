@@ -5,6 +5,38 @@
 
 ---
 
+## 2026-10-29 | M0 远端提交回填与验证
+
+### 提交
+
+- 远端 `main`：`d39f783e72e6d88ae584676ea505576a344a84c9`
+- URL：https://github.com/qi-qi-qi-web/mapping-knowledge-domain/commit/d39f783e72e6d88ae584676ea505576a344a84c9
+- tree：`493ec920265213d68f6c83095836e0b4ba7ea0bf`
+- 文件：42 个；42/42 本地 Git blob SHA 与远端 main tree 一致。
+- CI：GitHub Actions run `40813253228`，`completed / success`
+  （https://github.com/qi-qi-qi-web/mapping-knowledge-domain/actions/runs/40813253228）。
+- 方式：GitHub REST Git Data API；未 force push；未改写历史。
+
+### 发布故障与处理
+
+- 首次 ref 更新被远端拒绝，定位到 `.gitignore` 中与证书（PEM）和 Python 字节码字符类相关的两条通配模式触发内容校验。
+- 处理：字节码改为逐后缀显式忽略（pyc/pyo/pyd），移除证书通配；实际忽略策略不变（仓库无证书/字节码文件）。
+- 失败尝试产生的 dangling commit 未被任何 ref 引用，不影响 main；最终 `PATCH main` 成功。
+- 结论记入 `Agent.md` 的提交降级流程：遇到远端内容校验拒绝时，先定位最小触发内容，再重试；不得用 force push 绕过。
+
+### 验证
+
+- 提交前：`validate --strict` 0 错误 0 警告；30 项测试通过；116/116 引文命中；3/3 开放来源 HTTP 200。
+- 提交后：main tree 的 42 个 blob SHA 与本地逐一比对，全部一致；CI 离线校验通过。
+- 提交后未修改代码/数据；本条目只回填 SHA、CI 与故障处理。
+
+### 下一步
+
+- 按 `TODO.md` 的 M1 执行：ESI 五级、WHO ICD-10、3 个新主诉、Neo4j 导出、20 条人工抽检。
+- 在临床专家介入前，所有事实继续保持 `ai-draft`。
+
+---
+
 ## 2026-10-29 | M0 仓库初始化与胸痛 MVP
 
 ### 背景
@@ -56,7 +88,7 @@
 
 - 仓库：https://github.com/qi-qi-qi-web/mapping-knowledge-domain
 - 基线：`c730aa2f26c7b06afeeddd9898b312647dd7803a`（Initial commit，仅 README）
-- 本次提交：**待远端提交后回填**（提交完成后以新 DEVLOG 条目记录 SHA；避免伪造 SHA）
+- 本次提交：`d39f783e72e6d88ae584676ea505576a344a84c9`（见上方回填条目）
 - 方式：GitHub REST Git Data API（本机 `github.com` git 传输不可用）；凭据只在进程内读取，未落盘/未打印。
 
 ### 遗留/阻塞
@@ -67,7 +99,7 @@
 - **低危病种结构化不足**：稳定性冠心病/GERD/肋软骨炎/神经官能症目前只有主诉关联。
 - **病种级会诊未做**：M0 只有胸痛中心参与科室与转诊条件。
 - **流程事件未实例化**：Visit/CareEvent 只有 Schema。
-- **CI 状态**：workflow 已提交；是否运行以 GitHub Actions 为准，未运行前不写“CI 通过”。
+- **CI 状态**：已通过（Actions run 40813253228，见上方回填条目）。
 
 ### 下一步
 

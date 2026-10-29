@@ -89,6 +89,7 @@ M0 只使用两份**已核验、可访问**的中文急诊共识：
 | 引文审计 | 116/116 命中 |
 | 开放来源核验 | 3/3 HTTP 200 |
 | 单元测试 | 30 项通过 |
+| CI（GitHub Actions） | [通过（run 40813253228）](https://github.com/qi-qi-qi-web/mapping-knowledge-domain/actions/runs/40813253228) |
 | 临床审核 | **未做**（全部 ai-draft） |
 
 ## 路线图

@@ -170,7 +170,7 @@ Agent 只能创建 `ai-draft`/`needs-review`；`clinician-approved` 只能由具
 | 引文审计 | `scripts/audit_quotes.py` | 116/116 通过（2026-10-29） |
 | 来源核验 | `scripts/verify_sources.py` | 3/3 开放来源 HTTP 200 |
 | 测试 | `tests/` | 30 项通过 |
-| CI | `.github/workflows/ci.yml` | 离线校验；运行状态以 Actions 为准 |
+| CI | `.github/workflows/ci.yml` | 已通过（Actions run 40813253228） |
 
 ### 6.3 查询示例
 
