@@ -1,0 +1,27 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate schema and data
+        run: python -m edkg validate --strict
+
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Print graph statistics
+        run: python -m edkg stats

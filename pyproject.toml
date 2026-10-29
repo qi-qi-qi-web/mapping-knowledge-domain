@@ -1,0 +1,15 @@
+[project]
+name = "edkg"
+version = "0.1.0"
+description = "ED-ConsultKG: emergency department full-process consultation knowledge graph (M0)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "qi-qi-qi-web contributors"}]
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/qi-qi-qi-web/mapping-knowledge-domain"
+
+[tool.setuptools]
+packages = ["edkg"]

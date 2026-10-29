@@ -1,0 +1,80 @@
+{"id":"cc.chest_pain","type":"ChiefComplaint","label_zh":"胸痛","label_en":"Chest pain","aliases":["急性胸痛","胸部疼痛"]}
+{"id":"cond.acs","type":"Condition","label_zh":"急性冠状动脉综合征","label_en":"Acute coronary syndrome","aliases":["ACS"],"properties":{"condition_kind":"syndrome","risk":"high"}}
+{"id":"cond.acute_mi","type":"Condition","label_zh":"急性心肌梗死","label_en":"Acute myocardial infarction","aliases":["急性心梗","AMI"],"properties":{"condition_kind":"disease","risk":"high"}}
+{"id":"cond.aad","type":"Condition","label_zh":"急性主动脉夹层","label_en":"Acute aortic dissection","aliases":["主动脉夹层","AAD"],"properties":{"condition_kind":"disease","risk":"high"}}
+{"id":"cond.ape","type":"Condition","label_zh":"急性肺栓塞","label_en":"Acute pulmonary embolism","aliases":["肺栓塞","APE"],"properties":{"condition_kind":"disease","risk":"high"}}
+{"id":"cond.tension_pneumothorax","type":"Condition","label_zh":"张力性气胸","label_en":"Tension pneumothorax","aliases":[],"properties":{"condition_kind":"disease","risk":"high"}}
+{"id":"cond.stable_cad","type":"Condition","label_zh":"稳定性冠心病","label_en":"Stable coronary artery disease","aliases":["稳定性心绞痛"],"properties":{"condition_kind":"disease","risk":"medium"}}
+{"id":"cond.gerd","type":"Condition","label_zh":"胃食管反流病","label_en":"Gastroesophageal reflux disease","aliases":["GERD"],"properties":{"condition_kind":"disease","risk":"low"}}
+{"id":"cond.costochondritis","type":"Condition","label_zh":"急性肋软骨炎","label_en":"Acute costochondritis","aliases":["肋软骨炎"],"properties":{"condition_kind":"disease","risk":"low"}}
+{"id":"cond.neurosis","type":"Condition","label_zh":"神经官能症","label_en":"Neurosis","aliases":[],"properties":{"condition_kind":"symptom_complex","risk":"low"}}
+{"id":"find.chest_pressure","type":"Finding","label_zh":"胸部闷痛、压迫感或憋闷感","label_en":"Chest pressure or tightness","properties":{"finding_kind":"symptom"}}
+{"id":"find.radiating_pain","type":"Finding","label_zh":"放射至上肢、后背部或颈部","label_en":"Radiating pain","properties":{"finding_kind":"symptom"}}
+{"id":"find.tearing_chest_back_pain","type":"Finding","label_zh":"持续撕裂样胸背痛","label_en":"Tearing chest-back pain","properties":{"finding_kind":"symptom","red_flag":true}}
+{"id":"find.bp_asymmetry","type":"Finding","label_zh":"双侧肢体血压差别较大","label_en":"Inter-arm blood pressure difference","properties":{"finding_kind":"sign","red_flag":true}}
+{"id":"find.severe_hypertension","type":"Finding","label_zh":"血压明显升高","label_en":"Severe hypertension","properties":{"finding_kind":"vital_sign"}}
+{"id":"find.dyspnea","type":"Finding","label_zh":"呼吸困难","label_en":"Dyspnea","properties":{"finding_kind":"symptom"}}
+{"id":"find.hemoptysis","type":"Finding","label_zh":"咯血","label_en":"Hemoptysis","properties":{"finding_kind":"symptom"}}
+{"id":"find.hypoxemia","type":"Finding","label_zh":"氧饱和度下降","label_en":"Hypoxemia","properties":{"finding_kind":"sign","red_flag":true}}
+{"id":"find.syncope","type":"Finding","label_zh":"晕厥","label_en":"Syncope","properties":{"finding_kind":"symptom","red_flag":true}}
+{"id":"find.severe_sudden_dyspnea","type":"Finding","label_zh":"突发极度呼吸困难","label_en":"Severe sudden dyspnea","properties":{"finding_kind":"symptom","red_flag":true}}
+{"id":"find.cyanosis","type":"Finding","label_zh":"发绀","label_en":"Cyanosis","properties":{"finding_kind":"sign","red_flag":true}}
+{"id":"find.severe_pain_with_diaphoresis","type":"Finding","label_zh":"不明原因的严重疼痛伴大汗（脐以上）","label_en":"Severe unexplained pain with diaphoresis above the umbilicus","properties":{"finding_kind":"symptom","red_flag":true}}
+{"id":"find.cardiac_like_chest_pain","type":"Finding","label_zh":"类似心脏因素的胸痛","label_en":"Cardiac-like chest pain","properties":{"finding_kind":"symptom","red_flag":true}}
+{"id":"find.moderate_noncardiac_chest_pain","type":"Finding","label_zh":"中等程度的非心源性胸痛","label_en":"Moderate non-cardiac chest pain","properties":{"finding_kind":"symptom"}}
+{"id":"find.ecg_acute_mi","type":"Finding","label_zh":"心电图提示急性心肌梗死","label_en":"ECG suggesting acute myocardial infarction","properties":{"finding_kind":"ecg","red_flag":true}}
+{"id":"find.cardiac_arrest","type":"Finding","label_zh":"心搏/呼吸停止或节律不稳定","label_en":"Cardiac or respiratory arrest","properties":{"finding_kind":"sign","red_flag":true}}
+{"id":"find.shock","type":"Finding","label_zh":"休克","label_en":"Shock","properties":{"finding_kind":"sign","red_flag":true}}
+{"id":"find.spo2_below_80","type":"Finding","label_zh":"SpO2 < 80%且呼吸急促","label_en":"SpO2 below 80% with tachypnea","properties":{"finding_kind":"vital_sign","red_flag":true}}
+{"id":"find.altered_consciousness","type":"Finding","label_zh":"急性意识障碍","label_en":"Acute altered consciousness","properties":{"finding_kind":"sign","red_flag":true}}
+{"id":"find.regional_wall_motion_abnormality","type":"Finding","label_zh":"节段性室壁运动异常","label_en":"Regional wall motion abnormality","properties":{"finding_kind":"imaging"}}
+{"id":"find.intimal_flap","type":"Finding","label_zh":"主动脉内膜片","label_en":"Aortic intimal flap","properties":{"finding_kind":"imaging","red_flag":true}}
+{"id":"find.right_heart_strain","type":"Finding","label_zh":"右心负荷过重","label_en":"Right heart strain","properties":{"finding_kind":"imaging"}}
+{"id":"find.reduced_lung_markings","type":"Finding","label_zh":"患侧肺纹理消失","label_en":"Reduced lung markings","properties":{"finding_kind":"imaging"}}
+{"id":"test.ecg_12lead","type":"Test","label_zh":"十二导联心电图","label_en":"12-lead ECG","properties":{"test_kind":"ecg"}}
+{"id":"test.hs_troponin","type":"Test","label_zh":"高敏心肌肌钙蛋白","label_en":"High-sensitivity cardiac troponin","aliases":["hs-cTn"],"properties":{"test_kind":"lab"}}
+{"id":"test.ck_mb","type":"Test","label_zh":"肌酸激酶同工酶MB","label_en":"CK-MB","properties":{"test_kind":"lab"}}
+{"id":"test.myoglobin","type":"Test","label_zh":"肌红蛋白","label_en":"Myoglobin","properties":{"test_kind":"lab"}}
+{"id":"test.d_dimer","type":"Test","label_zh":"D-二聚体","label_en":"D-dimer","properties":{"test_kind":"lab"}}
+{"id":"test.bnp","type":"Test","label_zh":"脑钠肽/氨基末端脑钠肽前体","label_en":"BNP / NT-proBNP","properties":{"test_kind":"lab"}}
+{"id":"test.arterial_blood_gas","type":"Test","label_zh":"动脉血气分析","label_en":"Arterial blood gas","properties":{"test_kind":"lab"}}
+{"id":"test.chest_xray","type":"Test","label_zh":"胸部X线","label_en":"Chest X-ray","properties":{"test_kind":"imaging"}}
+{"id":"test.cta","type":"Test","label_zh":"CT血管造影","label_en":"CT angiography","aliases":["胸痛三联CTA","主动脉CTA","肺动脉CTA"],"properties":{"test_kind":"imaging"}}
+{"id":"test.bedside_echo","type":"Test","label_zh":"床旁超声心动图","label_en":"Bedside echocardiography","properties":{"test_kind":"bedside_ultrasound"}}
+{"id":"test.wells_score","type":"Test","label_zh":"Wells评分","label_en":"Wells score","properties":{"test_kind":"scoring"}}
+{"id":"test.pesi","type":"Test","label_zh":"PESI分级","label_en":"PESI","properties":{"test_kind":"scoring"}}
+{"id":"int.pci","type":"Intervention","label_zh":"直接经皮冠状动脉介入治疗","label_en":"Primary PCI","aliases":["直接PCI","PPCI"],"properties":{"intervention_kind":"procedure"}}
+{"id":"int.thrombolysis","type":"Intervention","label_zh":"静脉溶栓","label_en":"Intravenous thrombolysis","properties":{"intervention_kind":"drug"}}
+{"id":"int.antiplatelet","type":"Intervention","label_zh":"抗血小板治疗","label_en":"Antiplatelet therapy","properties":{"intervention_kind":"drug"}}
+{"id":"int.anticoagulation","type":"Intervention","label_zh":"抗凝治疗","label_en":"Anticoagulation","properties":{"intervention_kind":"drug"}}
+{"id":"int.beta_blocker","type":"Intervention","label_zh":"β受体阻滞剂","label_en":"Beta-blocker","properties":{"intervention_kind":"drug"}}
+{"id":"int.analgesia","type":"Intervention","label_zh":"有效镇痛","label_en":"Effective analgesia","properties":{"intervention_kind":"drug"}}
+{"id":"int.needle_decompression","type":"Intervention","label_zh":"胸腔穿刺减压","label_en":"Needle thoracostomy decompression","properties":{"intervention_kind":"procedure"}}
+{"id":"int.chest_drain","type":"Intervention","label_zh":"胸腔闭式引流","label_en":"Tube thoracostomy","properties":{"intervention_kind":"procedure"}}
+{"id":"dept.emergency","type":"Department","label_zh":"急诊科","label_en":"Emergency department","properties":{"department_kind":"emergency"}}
+{"id":"dept.cardiology","type":"Department","label_zh":"心内科","label_en":"Cardiology","properties":{"department_kind":"cardiology"}}
+{"id":"dept.prehospital","type":"Department","label_zh":"院前急救","label_en":"Prehospital emergency care","properties":{"department_kind":"prehospital"}}
+{"id":"proc.chest_pain_center","type":"CareProcess","label_zh":"胸痛中心","label_en":"Chest pain center","properties":{"process_kind":"mdt_center"}}
+{"id":"area.resuscitation","type":"CareArea","label_zh":"复苏区","label_en":"Resuscitation area","properties":{"care_area_kind":"resuscitation"}}
+{"id":"area.rescue","type":"CareArea","label_zh":"抢救区","label_en":"Rescue area","properties":{"care_area_kind":"rescue"}}
+{"id":"area.priority","type":"CareArea","label_zh":"优先诊疗区","label_en":"Priority care area","properties":{"care_area_kind":"priority"}}
+{"id":"area.general","type":"CareArea","label_zh":"普通诊疗区","label_en":"General care area","properties":{"care_area_kind":"general"}}
+{"id":"disp.admit","type":"Disposition","label_zh":"住院","label_en":"Admission","properties":{"disposition_kind":"admit"}}
+{"id":"disp.icu","type":"Disposition","label_zh":"重症监护病房","label_en":"Intensive care unit","properties":{"disposition_kind":"icu"}}
+{"id":"disp.transfer","type":"Disposition","label_zh":"转诊至具备能力医院","label_en":"Transfer to a capable facility","properties":{"disposition_kind":"transfer"}}
+{"id":"disp.discharge","type":"Disposition","label_zh":"离院/门诊随访","label_en":"Discharge or outpatient follow-up","properties":{"disposition_kind":"discharge"}}
+{"id":"scale.cn_4level_2018","type":"TriageScale","label_zh":"中国急诊预检分诊四级标准（2018）","label_en":"Chinese 4-level emergency triage standard (2018)","properties":{"scale_id":"cn_4level_2018","level_count":5,"notes":"四主级+非急症；与 ESI 五级分别建模，不互映射。"},"provenance":{"source_id":"src.cn.triage.2018","locator":"§3 急诊预检分诊分级标准","quote":"本分级标准是依据客观和主观两方面，即客观评估指标和人工评级指标而制定","confidence":0.99,"assertion_type":"explicit","review_status":"ai-draft","extracted_by":"manual-curation","extracted_at":"2026-10-29"}}
+{"id":"level.cn4.1","type":"TriageLevel","label_zh":"Ⅰ级 急危","properties":{"scale_id":"cn_4level_2018","level":"1","color":"红色","response_time":"即刻","care_area_id":"area.resuscitation","description":"正在或即将发生的生命威胁或病情恶化，需要立即进行积极干预"},"provenance":{"source_id":"src.cn.triage.2018","locator":"§3.1 预检分诊级别；§3.3 响应时限；表 2","quote":"Ⅰ级为急危患者，需要立即得到救治","confidence":0.99,"assertion_type":"explicit","review_status":"ai-draft","extracted_by":"manual-curation","extracted_at":"2026-10-29"}}
+{"id":"level.cn4.2","type":"TriageLevel","label_zh":"Ⅱ级 急重","properties":{"scale_id":"cn_4level_2018","level":"2","color":"橙色","response_time":"10 min","care_area_id":"area.rescue","description":"病情危重或迅速恶化，如短时间内不能进行治疗则危及生命或造成严重的器官功能衰竭"},"provenance":{"source_id":"src.cn.triage.2018","locator":"§3.1 预检分诊级别；§3.3 响应时限；表 2","quote":"Ⅱ级为急重患者，往往评估与救治同时进行","confidence":0.99,"assertion_type":"explicit","review_status":"ai-draft","extracted_by":"manual-curation","extracted_at":"2026-10-29"}}
+{"id":"level.cn4.3","type":"TriageLevel","label_zh":"Ⅲ级 急症","properties":{"scale_id":"cn_4level_2018","level":"3","color":"黄色","response_time":"30 min","care_area_id":"area.priority","description":"存在潜在的生命威胁，如短时间内不进行干预，病情可进展至威胁生命或产生十分不利的结局"},"provenance":{"source_id":"src.cn.triage.2018","locator":"§3.1 预检分诊级别；§3.3 响应时限；表 2","quote":"Ⅲ级为急症患者，需要在短时间内得到救治","confidence":0.99,"assertion_type":"explicit","review_status":"ai-draft","extracted_by":"manual-curation","extracted_at":"2026-10-29"}}
+{"id":"level.cn4.4","type":"TriageLevel","label_zh":"Ⅳ级 亚急症","properties":{"scale_id":"cn_4level_2018","level":"4","color":"绿色","response_time":"60 min","care_area_id":"area.general","description":"存在潜在的严重性，如患者一定时间内没有给予治疗，患者情况可能会恶化或出现不利的结局"},"provenance":{"source_id":"src.cn.triage.2018","locator":"§3.1 预检分诊级别；§3.3 响应时限；表 2","quote":"Ⅳ级为亚急症或非急症患者","confidence":0.99,"assertion_type":"explicit","review_status":"ai-draft","extracted_by":"manual-curation","extracted_at":"2026-10-29"}}
+{"id":"level.cn4.non_emergency","type":"TriageLevel","label_zh":"非急症","properties":{"scale_id":"cn_4level_2018","level":"non_emergency","color":"none","response_time":"2~4 h","care_area_id":null,"description":"慢性或非常轻微的症状，即便等待一段时间再进行治疗也不会对结局产生大的影响"},"provenance":{"source_id":"src.cn.triage.2018","locator":"§3.1 预检分诊级别；§3.3 响应时限","quote":"非急症患者具有慢性或非常轻微的症状","confidence":0.99,"assertion_type":"explicit","review_status":"ai-draft","extracted_by":"manual-curation","extracted_at":"2026-10-29"}}
+{"id":"risk.hypertension","type":"RiskFactor","label_zh":"高血压","label_en":"Hypertension"}
+{"id":"risk.diabetes","type":"RiskFactor","label_zh":"糖尿病","label_en":"Diabetes mellitus"}
+{"id":"risk.dyslipidemia","type":"RiskFactor","label_zh":"血脂异常","label_en":"Dyslipidemia"}
+{"id":"risk.smoking","type":"RiskFactor","label_zh":"吸烟史","label_en":"Smoking history"}
+{"id":"risk.family_history_chd","type":"RiskFactor","label_zh":"冠心病家族史","label_en":"Family history of coronary heart disease"}
+{"id":"risk.immobilization","type":"RiskFactor","label_zh":"长期卧床/长途旅行/制动","label_en":"Immobilization or long-distance travel"}
+{"id":"risk.previous_vte","type":"RiskFactor","label_zh":"下肢静脉血栓或静脉炎","label_en":"Previous lower-limb venous thrombosis or phlebitis"}
+{"id":"risk.marfan","type":"RiskFactor","label_zh":"马凡综合征","label_en":"Marfan syndrome"}
+{"id":"risk.copd_bulla","type":"RiskFactor","label_zh":"肺大疱/肺结核等慢性肺病","label_en":"Chronic lung disease such as bullae or tuberculosis"}

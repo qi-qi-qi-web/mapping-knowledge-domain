@@ -1,0 +1,416 @@
+{
+  "version": "0.1.0",
+  "name": "ED-ConsultKG",
+  "description": "急诊全流程会诊知识图谱 Schema v0.1：流程事件层 x 临床语义层 x 组织资源层。M0 只实例化胸痛相关部分。",
+  "layers": {
+    "process": "流程事件层：Visit / CareEvent，承载分诊、检查、鉴别、会诊、处置、转归的时序锚点（M0 预留，不实例化）。",
+    "clinical": "临床语义层：ChiefComplaint / Condition / Finding / Test / Intervention / RiskFactor / TriageScale / TriageLevel。",
+    "organization": "组织资源层：Department / Role / CareProcess / CareArea / Disposition。"
+  },
+  "provenance": {
+    "required": [
+      "source_id",
+      "locator",
+      "quote",
+      "confidence",
+      "assertion_type",
+      "review_status",
+      "extracted_by",
+      "extracted_at"
+    ],
+    "optional": [
+      "rationale",
+      "conflict_group",
+      "valid_from",
+      "valid_to",
+      "notes"
+    ],
+    "max_quote_length": 300,
+    "min_quote_length": 4,
+    "assertion_types": ["explicit", "inferred", "design"],
+    "review_statuses": ["ai-draft", "needs-review", "human-reviewed", "clinician-approved", "deprecated"]
+  },
+  "enums": {
+    "process_stage": ["triage", "workup", "differential", "consult", "disposition", "outcome"],
+    "condition_kind": ["disease", "syndrome", "symptom_complex"],
+    "finding_kind": ["symptom", "sign", "ecg", "lab", "imaging", "vital_sign", "other"],
+    "test_kind": ["ecg", "lab", "imaging", "bedside_ultrasound", "scoring", "other"],
+    "intervention_kind": ["drug", "procedure", "surgery", "supportive", "other"],
+    "department_kind": ["emergency", "cardiology", "prehospital", "pulmonary", "surgical", "icu", "other"],
+    "role_kind": ["nurse", "physician", "specialist", "coordinator", "other"],
+    "process_kind": ["mdt_center", "pathway", "other"],
+    "care_area_kind": ["resuscitation", "rescue", "priority", "general"],
+    "disposition_kind": ["admit", "icu", "transfer", "discharge", "observation", "follow_up"],
+    "risk": ["high", "medium", "low"],
+    "scale_id": ["cn_4level_2018", "esi_v4_2005"],
+    "level_value": ["1", "2", "3", "4", "non_emergency"],
+    "triage_color": ["红色", "橙色", "黄色", "绿色", "none"],
+    "timing": ["immediate", "within_10min", "within_30min", "within_2h", "within_24h", "routine", "unspecified"],
+    "priority": ["immediate", "urgent", "routine"],
+    "urgency": ["immediate", "within_10min", "within_30min", "routine", "unspecified"],
+    "consult_type": ["single_specialty", "mdt", "transfer"],
+    "criterion_type": ["objective", "artificial"],
+    "typicality": ["typical", "atypical", "variable", "unspecified"],
+    "strength": ["strong", "moderate", "weak"],
+    "source_status": ["verified", "access_controlled", "candidate", "retired"],
+    "source_access": ["open", "registration", "credentialed", "restricted"],
+    "source_type": ["guideline_consensus", "official_handbook", "registry", "dataset", "software_repository", "classification", "paper"]
+  },
+  "entity_types": {
+    "Visit": {
+      "layer": "process",
+      "id_prefix": "visit",
+      "description": "一次急诊就诊事件，流程时序的根节点；M0 只定义不实例化，避免把患者记录写入公开图谱。",
+      "required": ["label_zh"],
+      "properties": {
+        "visit_id": {"type": "string", "description": "脱敏/合成 ID，不得含真实病案号"},
+        "age_band": {"type": "string"},
+        "sex": {"type": "string", "enum": ["female", "male", "unknown"]},
+        "arrival_mode": {"type": "string"}
+      },
+      "provenance_required": false
+    },
+    "CareEvent": {
+      "layer": "process",
+      "id_prefix": "event",
+      "description": "流程事件：分诊、检查、鉴别、会诊、处置、转归中的一次动作或判断；M0 只定义不实例化。",
+      "required": ["label_zh", "stage"],
+      "properties": {
+        "stage": {"enum_ref": "process_stage"},
+        "event_type": {"type": "string"},
+        "sequence": {"type": "integer", "minimum": 1},
+        "timestamp_rel": {"type": "string", "description": "相对时间，如 T0+10min"},
+        "status": {"type": "string"}
+      },
+      "provenance_required": false
+    },
+    "ChiefComplaint": {
+      "layer": "clinical",
+      "id_prefix": "cc",
+      "description": "主诉，图谱查询入口。",
+      "required": ["label_zh"],
+      "properties": {
+        "label_en": {"type": "string"},
+        "aliases": {"type": "array", "items": "string"}
+      },
+      "provenance_required": false
+    },
+    "Condition": {
+      "layer": "clinical",
+      "id_prefix": "cond",
+      "description": "疾病、综合征或症状复合体。",
+      "required": ["label_zh", "condition_kind"],
+      "properties": {
+        "label_en": {"type": "string"},
+        "aliases": {"type": "array", "items": "string"},
+        "condition_kind": {"enum_ref": "condition_kind"},
+        "risk": {"enum_ref": "risk"},
+        "icd10": {"type": "string", "description": "M0 留空；M1 仅在核验 WHO 来源后填写"}
+      },
+      "provenance_required": false
+    },
+    "Finding": {
+      "layer": "clinical",
+      "id_prefix": "find",
+      "description": "症状、体征、心电图/影像/实验室发现。",
+      "required": ["label_zh", "finding_kind"],
+      "properties": {
+        "label_en": {"type": "string"},
+        "aliases": {"type": "array", "items": "string"},
+        "finding_kind": {"enum_ref": "finding_kind"},
+        "red_flag": {"type": "boolean"}
+      },
+      "provenance_required": false
+    },
+    "Test": {
+      "layer": "clinical",
+      "id_prefix": "test",
+      "description": "检查、检验、评分工具。",
+      "required": ["label_zh", "test_kind"],
+      "properties": {
+        "label_en": {"type": "string"},
+        "aliases": {"type": "array", "items": "string"},
+        "test_kind": {"enum_ref": "test_kind"},
+        "timing_target": {"type": "string"}
+      },
+      "provenance_required": false
+    },
+    "Intervention": {
+      "layer": "clinical",
+      "id_prefix": "int",
+      "description": "药物、操作、手术或支持治疗。",
+      "required": ["label_zh", "intervention_kind"],
+      "properties": {
+        "label_en": {"type": "string"},
+        "aliases": {"type": "array", "items": "string"},
+        "intervention_kind": {"enum_ref": "intervention_kind"}
+      },
+      "provenance_required": false
+    },
+    "Department": {
+      "layer": "organization",
+      "id_prefix": "dept",
+      "description": "临床科室或院前急救单元。",
+      "required": ["label_zh", "department_kind"],
+      "properties": {
+        "label_en": {"type": "string"},
+        "department_kind": {"enum_ref": "department_kind"}
+      },
+      "provenance_required": false
+    },
+    "Role": {
+      "layer": "organization",
+      "id_prefix": "role",
+      "description": "会诊/分诊角色。",
+      "required": ["label_zh", "role_kind"],
+      "properties": {
+        "label_en": {"type": "string"},
+        "role_kind": {"enum_ref": "role_kind"}
+      },
+      "provenance_required": false
+    },
+    "CareProcess": {
+      "layer": "organization",
+      "id_prefix": "proc",
+      "description": "跨科室协作流程/中心，如胸痛中心 MDT。",
+      "required": ["label_zh", "process_kind"],
+      "properties": {
+        "label_en": {"type": "string"},
+        "process_kind": {"enum_ref": "process_kind"},
+        "notes": {"type": "string"}
+      },
+      "provenance_required": false
+    },
+    "CareArea": {
+      "layer": "organization",
+      "id_prefix": "area",
+      "description": "急诊分区：复苏区、抢救区、优先诊疗区、普通诊疗区。",
+      "required": ["label_zh", "care_area_kind"],
+      "properties": {
+        "label_en": {"type": "string"},
+        "care_area_kind": {"enum_ref": "care_area_kind"}
+      },
+      "provenance_required": false
+    },
+    "Disposition": {
+      "layer": "organization",
+      "id_prefix": "disp",
+      "description": "处置去向：住院、ICU、转诊、离院等。",
+      "required": ["label_zh", "disposition_kind"],
+      "properties": {
+        "label_en": {"type": "string"},
+        "disposition_kind": {"enum_ref": "disposition_kind"}
+      },
+      "provenance_required": false
+    },
+    "TriageScale": {
+      "layer": "clinical",
+      "id_prefix": "scale",
+      "description": "分诊量表。M0 只填中国四级标准；ESI v4 留待 M1，禁止两套量表互相映射。",
+      "required": ["label_zh", "scale_id"],
+      "properties": {
+        "label_en": {"type": "string"},
+        "scale_id": {"enum_ref": "scale_id"},
+        "level_count": {"type": "integer", "minimum": 1},
+        "notes": {"type": "string"}
+      },
+      "provenance_required": true
+    },
+    "TriageLevel": {
+      "layer": "clinical",
+      "id_prefix": "level",
+      "description": "某一分诊量表的具体级别；其颜色、响应时限、分区属于来源事实，必须带 provenance。",
+      "required": ["label_zh", "scale_id", "level"],
+      "properties": {
+        "scale_id": {"enum_ref": "scale_id"},
+        "level": {"enum_ref": "level_value"},
+        "color": {"enum_ref": "triage_color"},
+        "response_time": {"type": "string"},
+        "care_area_id": {"type": "string", "description": "可选，引用 CareArea.id"},
+        "description": {"type": "string"}
+      },
+      "provenance_required": true
+    },
+    "RiskFactor": {
+      "layer": "clinical",
+      "id_prefix": "risk",
+      "description": "危险因素。",
+      "required": ["label_zh"],
+      "properties": {
+        "label_en": {"type": "string"},
+        "aliases": {"type": "array", "items": "string"}
+      },
+      "provenance_required": false
+    }
+  },
+  "relation_types": {
+    "MAY_INDICATE": {
+      "domain": ["ChiefComplaint"],
+      "range": ["Condition"],
+      "description": "主诉可能提示的疾病/综合征。",
+      "qualifiers": {
+        "risk": {"enum_ref": "risk", "required": false},
+        "note": {"type": "string"}
+      }
+    },
+    "PRESENTS_WITH": {
+      "domain": ["Condition"],
+      "range": ["Finding"],
+      "description": "疾病的典型表现。",
+      "qualifiers": {
+        "typicality": {"enum_ref": "typicality", "required": false}
+      }
+    },
+    "HAS_RED_FLAG": {
+      "domain": ["Condition"],
+      "range": ["Finding"],
+      "description": "疾病相关的红旗征象。",
+      "qualifiers": {
+        "note": {"type": "string"}
+      }
+    },
+    "SUPPORTS": {
+      "domain": ["Finding"],
+      "range": ["Condition"],
+      "description": "发现支持某疾病（不等于确诊）。",
+      "qualifiers": {
+        "strength": {"enum_ref": "strength", "required": false}
+      }
+    },
+    "IS_A": {
+      "domain": ["Condition"],
+      "range": ["Condition"],
+      "description": "疾病分类从属关系；M0 暂不使用，避免未核验的层级推断。",
+      "qualifiers": {}
+    },
+    "DIFFERENTIATED_FROM": {
+      "domain": ["Condition"],
+      "range": ["Condition"],
+      "description": "需要相互鉴别的疾病；对称关系，一条断言即可。",
+      "symmetric": true,
+      "qualifiers": {
+        "note": {"type": "string"}
+      }
+    },
+    "DISTINGUISHED_BY": {
+      "domain": ["Condition"],
+      "range": ["Finding", "Test"],
+      "description": "用于鉴别的关键特征/检查。",
+      "qualifiers": {
+        "note": {"type": "string"}
+      }
+    },
+    "RECOMMENDED_TEST": {
+      "domain": ["Condition", "ChiefComplaint"],
+      "range": ["Test"],
+      "description": "推荐检查/检验；时限与优先级放在 qualifiers。",
+      "qualifiers": {
+        "timing": {"enum_ref": "timing", "required": false},
+        "priority": {"enum_ref": "priority", "required": false},
+        "context": {"type": "string"}
+      }
+    },
+    "TEST_YIELDS": {
+      "domain": ["Test"],
+      "range": ["Finding"],
+      "description": "检查可发现的征象。",
+      "qualifiers": {}
+    },
+    "TREATS": {
+      "domain": ["Intervention"],
+      "range": ["Condition"],
+      "description": "治疗/干预用于某疾病。",
+      "qualifiers": {
+        "context": {"type": "string"},
+        "urgency": {"enum_ref": "urgency", "required": false}
+      }
+    },
+    "CONSULT": {
+      "domain": ["Condition"],
+      "range": ["Department"],
+      "description": "病种级会诊科室；M0 只在来源明确时使用。",
+      "qualifiers": {
+        "urgency": {"enum_ref": "urgency", "required": false},
+        "consult_type": {"enum_ref": "consult_type", "required": false}
+      }
+    },
+    "TYPICAL_DISPOSITION": {
+      "domain": ["Condition"],
+      "range": ["Disposition"],
+      "description": "典型处置/去向；上下文条件放在 qualifiers。",
+      "qualifiers": {
+        "context": {"type": "string"}
+      }
+    },
+    "HAS_RISK_FACTOR": {
+      "domain": ["Condition"],
+      "range": ["RiskFactor"],
+      "description": "疾病相关危险因素。",
+      "qualifiers": {}
+    },
+    "HAS_LEVEL": {
+      "domain": ["TriageScale"],
+      "range": ["TriageLevel"],
+      "description": "分诊量表包含的级别。",
+      "qualifiers": {}
+    },
+    "LEVEL_CRITERION": {
+      "domain": ["TriageLevel"],
+      "range": ["Condition", "Finding"],
+      "description": "某分诊级别的判定指标（客观或人工）。",
+      "qualifiers": {
+        "criterion_type": {"enum_ref": "criterion_type", "required": true},
+        "note": {"type": "string"}
+      }
+    },
+    "ASSIGNED_TO": {
+      "domain": ["TriageLevel"],
+      "range": ["CareArea"],
+      "description": "分诊级别对应的就诊区域。",
+      "qualifiers": {}
+    },
+    "PARTICIPATED_BY": {
+      "domain": ["CareProcess"],
+      "range": ["Department"],
+      "description": "协作流程的参与科室。",
+      "qualifiers": {
+        "note": {"type": "string"}
+      }
+    },
+    "HAS_EVENT": {
+      "domain": ["Visit"],
+      "range": ["CareEvent"],
+      "description": "就诊事件包含的流程事件（M0 预留）。",
+      "qualifiers": {}
+    },
+    "NEXT_EVENT": {
+      "domain": ["CareEvent"],
+      "range": ["CareEvent"],
+      "description": "流程事件先后顺序（M0 预留）。",
+      "qualifiers": {}
+    },
+    "USES_SCALE": {
+      "domain": ["Visit"],
+      "range": ["TriageScale"],
+      "description": "就诊使用的分诊量表（M0 预留）。",
+      "qualifiers": {}
+    },
+    "HAS_CHIEF_COMPLAINT": {
+      "domain": ["Visit"],
+      "range": ["ChiefComplaint"],
+      "description": "就诊的主诉（M0 预留）。",
+      "qualifiers": {}
+    }
+  },
+  "constraints": {
+    "fact_id_pattern": "^fact\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+    "entity_id_pattern": "^(visit|event|cc|cond|find|test|int|dept|role|proc|area|disp|scale|level|risk)\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+    "no_self_loop": true,
+    "unique_triple": true,
+    "require_verified_source": true,
+    "allowed_fact_source_usage": ["mvp"],
+    "allow_orphan_entities": true,
+    "require_provenance": true,
+    "allow_multiple_facts_same_triple_with_different_qualifiers": false
+  }
+}
