@@ -76,14 +76,15 @@
       "used_in": ["m1"],
       "topics": ["esi_v4", "five_level_triage"],
       "verification": {
-        "checked_at": "2026-10-29",
+        "checked_at": "2026-11-01",
         "method": "http_get",
         "http_status": 200,
         "content_type": "application/pdf",
         "content_length": 463412,
-        "notes": "AHRQ Pub. No. 05-0046-2；GPO 存档 PDF 可下载。M0 只登记，M1 再抽取五级标准。"
+        "sha256": "6CDF2D2C6EBF1F12662920E0AB6A840D615A9D460D1DF4E4CD9C0F405A459017",
+        "notes": "AHRQ Pub. No. 05-0046-2；2026-11-01 重新下载并用 pdftotext -raw 抽取；公有领域。"
       },
-      "notes": "公有领域；M1 用于 ESI 五级标准与算法。"
+      "notes": "公有领域；M1 已用于 ESI 五级标准、资源需求与危险区生命体征；不与中国四级做映射。"
     },
     {
       "id": "src.physionet.mimic_iv_ed.2.2",

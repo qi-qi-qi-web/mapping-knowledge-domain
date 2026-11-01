@@ -1,18 +1,19 @@
 """Audit every fact quote against the live source text.
 
 This is a release gate, not a CI step: it needs network access and source
-availability. It never writes source text to disk (except a temporary PDF for
-pdftotext, which is deleted immediately).
+availability. HTML source text is never written to disk. PDF extraction uses a
+gitignored workspace scratch directory because sandboxed child processes may
+not be able to write to the platform temp directory.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import shutil
 import subprocess
 import sys
-import tempfile
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -45,20 +46,29 @@ def _pdf_to_text(body: bytes) -> str:
     executable = shutil.which("pdftotext")
     if not executable:
         raise RuntimeError("pdftotext not found; cannot audit PDF quotes")
-    with tempfile.TemporaryDirectory(prefix="edkg-audit-") as tmp:
-        path = Path(tmp) / "source.pdf"
-        path.write_bytes(body)
+    # The platform temp directory can be restricted for child processes; use a
+    # workspace-local, gitignored scratch directory (data/raw) and stable file
+    # names. Do not delete the scratch directory from Python: some sandboxed
+    # Windows setups deny directory removal even when file writes are allowed.
+    scratch = ROOT / "data" / "raw" / "quote-audit"
+    scratch.mkdir(parents=True, exist_ok=True)
+    tag = hashlib.sha256(body).hexdigest()[:16]
+    path = scratch / f"{tag}.pdf"
+    output = scratch / f"{tag}.txt"
+    error = scratch / f"{tag}.err"
+    path.write_bytes(body)
+    # Use -raw (reading order) and a file output so no pipe is involved.
+    with error.open("w", encoding="utf-8") as error_file:
         completed = subprocess.run(
-            [executable, "-layout", str(path), "-"],
+            [executable, "-raw", str(path), str(output)],
             check=False,
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
+            stdout=subprocess.DEVNULL,
+            stderr=error_file,
         )
-        if completed.returncode != 0:
-            raise RuntimeError(f"pdftotext failed: {completed.stderr.strip()}")
-        return completed.stdout
+    if completed.returncode != 0:
+        detail = error.read_text(encoding="utf-8", errors="replace").strip()
+        raise RuntimeError(f"pdftotext failed: {detail}")
+    return output.read_text(encoding="utf-8", errors="replace")
 
 
 def main(argv: list[str] | None = None) -> int:

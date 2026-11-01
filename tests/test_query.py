@@ -26,6 +26,36 @@ class QueryTests(unittest.TestCase):
         self.assertIn("level.cn4.2", ids)
         self.assertIn("level.cn4.3", ids)
 
+    def test_esi_scale_and_five_levels_are_present(self) -> None:
+        ids = {item["id"] for item in self.result["triage"]["levels"]}
+        for level in ("level.esi.1", "level.esi.2", "level.esi.3", "level.esi.4", "level.esi.5"):
+            self.assertIn(level, ids)
+        esi = [item for item in self.result["triage"]["levels"] if item["scale_id"] == "esi_v4_2005"]
+        self.assertEqual(len(esi), 5)
+        criteria = {c["id"] for item in esi for c in item["matched_criteria"]}
+        self.assertIn("crit.esi.immediate_lifesaving", criteria)
+        self.assertIn("crit.esi.resources_0", criteria)
+
+    def test_scale_filter_cn_only(self) -> None:
+        result = query_complaint(self.data, "胸痛", scale_id="cn_4level_2018")
+        self.assertEqual({item["scale_id"] for item in result["triage"]["levels"]}, {"cn_4level_2018"})
+        self.assertEqual(result["triage"]["scale_filter"], "cn_4level_2018")
+
+    def test_scale_filter_esi_only(self) -> None:
+        result = query_complaint(self.data, "胸痛", scale_id="esi_v4_2005")
+        self.assertEqual({item["scale_id"] for item in result["triage"]["levels"]}, {"esi_v4_2005"})
+        self.assertEqual(len(result["triage"]["levels"]), 5)
+
+    def test_unknown_scale_raises(self) -> None:
+        with self.assertRaises(QueryError):
+            query_complaint(self.data, "胸痛", scale_id="not_a_scale")
+
+    def test_text_groups_scales_without_mapping(self) -> None:
+        text = render_text(self.result)
+        self.assertIn("中国急诊预检分诊四级标准（2018）", text)
+        self.assertIn("急诊严重度指数（ESI）第4版", text)
+        self.assertIn("不互映射", text)
+
     def test_mdt_is_present(self) -> None:
         ids = {item["id"] for item in self.result["mdt"]}
         self.assertIn("proc.chest_pain_center", ids)

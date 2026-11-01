@@ -1,6 +1,6 @@
 # ED-ConsultKG 构建方案
 
-> 版本：v0.1（M0）｜日期：2026-10-29｜性质：可行性方案 + 已落地的最小可行版本说明
+> 版本：v0.2（M1 进行中）｜日期：2026-11-01｜性质：可行性方案 + 已落地的 M0/M1 增量说明
 > 行为准则见 [`Agent.md`](../Agent.md)；变更记录见 [`DEVLOG.md`](../DEVLOG.md)；待办见 [`TODO.md`](../TODO.md)。
 
 ---
@@ -17,12 +17,12 @@
 
 最终支撑智能体在急诊场景中的：分诊候选指标提示、高危鉴别、检查建议、会诊/转诊路径、处置去向，并保证每条知识可追溯到原文。
 
-### 1.2 非目标（M0）
+### 1.2 非目标（当前阶段）
 
 - 不是临床决策系统；所有输出仅供研究，必须由医生复核。
-- 不做完整 30+ 病种/10 万实体；M0 只做胸痛一个主诉。
-- 不做 ESI 四级/五级映射、不做 ICD 编码批量对齐、不做 MIMIC 数据。
-- 不声称临床验证通过；M0 全部事实为 `ai-draft`。
+- 不做完整 30+ 病种/10 万实体；当前仍只做胸痛一个主诉（M1 增加 ESI 分诊量表）。
+- 不做中国四级/ESI 五级互相映射、不做 ICD 编码批量对齐、不做 MIMIC 数据。
+- 不声称临床验证通过；当前全部事实为 `ai-draft`。
 
 ---
 
@@ -82,23 +82,23 @@ Agent 只能创建 `ai-draft`/`needs-review`；`clinician-approved` 只能由具
 
 ---
 
-## 4. Schema v0.1
+## 4. Schema v0.2
 
 机器可读定义：[`schema/edkg.schema.json`](../schema/edkg.schema.json)。人读说明：[`docs/SCHEMA.md`](SCHEMA.md)。
 
 ### 4.1 三层
 
-| 层 | 实体 | M0 状态 |
+| 层 | 实体 | 当前状态 |
 |---|---|---|
 | 流程事件层 | `Visit`、`CareEvent` | 仅 Schema 预留；不写患者实例 |
-| 临床语义层 | `ChiefComplaint`、`Condition`、`Finding`、`Test`、`Intervention`、`RiskFactor`、`TriageScale`、`TriageLevel` | 用于胸痛种子 |
+| 临床语义层 | `ChiefComplaint`、`Condition`、`Finding`、`Test`、`Intervention`、`RiskFactor`、`TriageScale`、`TriageLevel`、`TriageCriterion` | 胸痛种子 + 两套分诊量表 |
 | 组织资源层 | `Department`、`Role`、`CareProcess`、`CareArea`、`Disposition` | 胸痛中心/分区/去向 |
 
-### 4.2 关系（M0 使用）
+### 4.2 关系（当前使用）
 
 `MAY_INDICATE`、`PRESENTS_WITH`、`HAS_RED_FLAG`、`SUPPORTS`、`DIFFERENTIATED_FROM`、`DISTINGUISHED_BY`、`RECOMMENDED_TEST`、`TEST_YIELDS`、`TREATS`、`TYPICAL_DISPOSITION`、`HAS_RISK_FACTOR`、`CONSULT`、`HAS_LEVEL`、`LEVEL_CRITERION`、`ASSIGNED_TO`、`PARTICIPATED_BY`。
 
-流程关系 `HAS_EVENT`、`NEXT_EVENT`、`USES_SCALE`、`HAS_CHIEF_COMPLAINT` 已定义，M0 不实例化。
+流程关系 `HAS_EVENT`、`NEXT_EVENT`、`USES_SCALE`、`HAS_CHIEF_COMPLAINT` 已定义，当前不实例化。`LEVEL_CRITERION` 的 range 已扩展到 `TriageCriterion`，用于 ESI 的资源/高危/危险区规则。
 
 ### 4.3 provenance
 
@@ -106,27 +106,27 @@ Agent 只能创建 `ai-draft`/`needs-review`；`clinician-approved` 只能由具
 
 - `quote` 建议 ≤200 字，硬上限 300 字；只保留最小支撑片段。
 - `confidence` 是抽取置信度，不是临床概率。
-- M0 只允许 `assertion_type=explicit`。
+- 当前阶段只允许 `assertion_type=explicit`。
 
 ### 4.4 明确不做
 
-- 中国四级 ↔ ESI 五级映射：**不做**；两套量表分别建模。
-- M0 的 ICD-10/ICD-11 编码：**留空**；M1 用已核验 WHO 来源再填。
-- 病种级会诊科室：M0 只写来源明确的胸痛中心参与科室与转诊条件；专科会诊留给 M1。
+- 中国四级 ↔ ESI 五级映射：**不做**；两套量表分别建模、查询分组展示。
+- 当前阶段的 ICD-10/ICD-11 编码：**留空**；待 WHO 官方导出/许可核验后再填。
+- 病种级会诊科室：当前只写来源明确的胸痛中心参与科室与转诊条件；专科会诊留给后续。
 
 ---
 
 ## 5. 数据源策略
 
-### 5.1 已核验、M0 可用的来源
+### 5.1 已核验、当前可用的来源
 
-| ID | 来源 | 访问 | 许可/再分发 | M0 用途 |
+| ID | 来源 | 访问 | 许可/再分发 | 当前用途 |
 |---|---|---|---|---|
 | `src.cn.chest_pain.2019` | 《急性胸痛急诊诊疗专家共识》，中华急诊医学杂志 2019;29(4):413-420，DOI 10.3760/cma.j.issn.1671-0282.2019.04.002 | 开放 HTML，HTTP 200 | 版权归中华医学会；仅短引文，不转载全文 | 胸痛病因、危险分层、检查、治疗、MDT |
 | `src.cn.triage.2018` | 《急诊预检分诊专家共识》，中华急诊医学杂志 2018;27(6):599-604 | 开放 HTML，HTTP 200 | 同上 | 中国四级分诊、响应时限、分区 |
-| `src.us.ahrq.esi.v4.2005` | AHRQ ESI v4 Implementation Handbook，Pub. No. 05-0046-2 | 开放 PDF，HTTP 200，463,412 bytes | 美国政府作品，公有领域 | **M1** 的 ESI 五级；M0 只登记 |
+| `src.us.ahrq.esi.v4.2005` | AHRQ ESI v4 Implementation Handbook，Pub. No. 05-0046-2 | 开放 PDF，HTTP 200，463,412 bytes | 美国政府作品，公有领域 | M1 已抽取 ESI 五级、资源规则、危险区规则 |
 
-### 5.2 仅登记、M0 不用的来源
+### 5.2 仅登记、当前不用的来源
 
 | ID | 来源 | 状态 | 原因 |
 |---|---|---|---|
@@ -134,7 +134,7 @@ Agent 只能创建 `ai-draft`/`needs-review`；`clinician-approved` 只能由具
 | `src.github.ddxplus` | DDXPlus | candidate | 许可证未核验 |
 | `src.github.triageagent` | TriageAgent | candidate | 无许可证文件 |
 | `src.harvard.primekg` | PrimeKG | candidate | 版本/许可未核验 |
-| `src.who.icd10.2019` | ICD-10 v2019 | candidate | M0 不给编码；待官方导出/许可核验 |
+| `src.who.icd10.2019` | ICD-10 v2019 | candidate | 当前不给编码；待官方导出/许可核验 |
 
 ### 5.3 报告的处理
 
@@ -178,9 +178,11 @@ Agent 只能创建 `ai-draft`/`needs-review`；`clinician-approved` 只能由具
 python -m edkg query --complaint 胸痛
 python -m edkg query --complaint 胸痛 --json
 python -m edkg query --complaint 胸痛 --finding 类似心脏因素的胸痛
+python -m edkg query --complaint 胸痛 --scale cn_4level_2018
+python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 ```
 
-输出结构：分诊候选指标（不自动定级）→ 主诉级检查 → 各病种的表现/红旗/鉴别/检查/治疗/处置/危险因素 → 胸痛中心 MDT → 证据列表（source_id + locator + quote）。
+输出结构：分诊候选指标（按量表分组、不自动定级）→ 主诉级检查 → 各病种的表现/红旗/鉴别/检查/治疗/处置/危险因素 → 胸痛中心 MDT → 证据列表（source_id + locator + quote）。
 
 ### 6.4 M0 验收
 
@@ -192,6 +194,27 @@ python -m edkg query --complaint 胸痛 --finding 类似心脏因素的胸痛
 - [x] 未知主诉明确报错；
 - [x] 全部事实 `ai-draft`，未声称临床验证；
 - [x] 远端 commit 与文档记录（见 DEVLOG）。
+
+### 6.5 M1 增量：ESI v4 五级（2026-11-01）
+
+| 项目 | 结果 |
+|---|---|
+| 新增实体 | 14（1 个量表 + 5 个级别 + 8 个 `TriageCriterion`） |
+| 新增事实 | 13（5 条 HAS_LEVEL + 8 条 LEVEL_CRITERION） |
+| 当前总量 | 94 实体 / 129 事实 |
+| 来源 | `src.us.ahrq.esi.v4.2005`（AHRQ 公有领域 PDF，SHA256 已登记） |
+| 覆盖 | 五级定义、高危/意识/疼痛/危险区规则、资源需求 2+/1/0 |
+| 查询 | `--scale esi_v4_2005`；默认与中国四级分组展示，不互映射 |
+| 质量门 | validate 0/0；35 项测试；129/129 引文命中 |
+| 未完成 | 年龄分层危险区阈值（HR/RR/SpO2 表在 PDF 文本抽取中列不完整），列入 M1-01b |
+
+实现要点：
+
+- 新增 `TriageCriterion` 实体，避免把“资源需求”硬塞成症状/体征；
+- `LEVEL_CRITERION` 的 range 扩展为 `Condition|Finding|TriageCriterion`；
+- `criterion_type` 新增 `algorithm`；`level_value` 新增 `5`；
+- 查询对 ESI 显示全部算法指标，对中国四级仍按当前主诉/病种匹配相关指标；
+- 明确不生成中国四级 ↔ ESI 五级的对应关系。
 
 ---
 
@@ -268,8 +291,8 @@ python -m edkg query --complaint 胸痛 --finding 类似心脏因素的胸痛
 
 | 阶段 | 目标 | 规模目标 | 验收 |
 |---|---|---|---|
-| **M0（当前）** | 治理文档 + Schema + 胸痛 MVP + 校验/查询/审计/CI | 80 实体 / 116 事实 | 本页 6.4 全通过 |
-| M1 | ESI 五级、ICD-10 编码、呼吸困难/腹痛/发热 3 主诉；Neo4j 导出；专科会诊（仅明确指南） | 300+ 实体 / 800+ 事实 | 两套量表独立可查；引文 100%；新增测试 |
+| **M0（已完成）** | 治理文档 + Schema + 胸痛 MVP + 校验/查询/审计/CI | 80 实体 / 116 事实 | 本页 6.4 全通过 |
+| **M1（进行中）** | ESI 五级已入库；待办：危险区阈值、ICD-10、3 个新主诉、Neo4j、专科会诊 | 当前 94 / 129；目标 300+ / 800+ | 两套量表独立可查；引文 100%；新增测试 |
 | M2 | 10 主诉、30+ 高危病种；LLM 候选抽取 + HITL 队列；L1/L2 评估 | 2k+ 实体 / 8k+ 事实 | 抽检通过率 ≥90%；无候选来源进入事实 |
 | M3 | 大规模扩展；GraphRAG/路径检索；DDXPlus/MIMIC 评测；论文产出 | 10k+ 实体 / 50k+ 关系 | 可复现实验、DUA/伦理合规、统计方案落地 |
 
@@ -319,8 +342,8 @@ tests/                    单元测试与负例
 
 ## 12. 近期执行顺序
 
-1. 保持 M0 的校验/测试/引文审计为每次提交门禁。
-2. M1-01：核验 ESI v4 PDF 并抽取五级标准（单独量表，不做映射）。
+1. 保持校验/测试/引文审计为每次提交门禁。
+2. M1-01b：核对 ESI Figure 6-1 原表，补年龄分层 HR/RR/SpO2 阈值；不得凭记忆补数字。
 3. M1-02：核验 WHO ICD-10 官方导出，填 `Condition.icd10`。
 4. M1-03：新增呼吸困难/腹痛/发热 3 个主诉，逐病种补来源。
 5. M1-04：Neo4j/Cypher 导出 + 10 个查询用例。

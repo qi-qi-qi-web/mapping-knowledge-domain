@@ -14,7 +14,7 @@ from .validate import validate_repo
 
 
 def _build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="edkg", description="ED-ConsultKG M0 toolchain")
+    parser = argparse.ArgumentParser(prog="edkg", description="ED-ConsultKG M1 toolchain")
     parser.add_argument("--root", type=Path, default=None, help="repository root (default: auto-detect)")
     sub = parser.add_subparsers(dest="command", required=True)
 
@@ -28,6 +28,11 @@ def _build_parser() -> argparse.ArgumentParser:
     query = sub.add_parser("query", help="query a chief complaint pathway")
     query.add_argument("--complaint", required=True, help="chief complaint label or id, e.g. 胸痛")
     query.add_argument("--finding", action="append", default=[], help="additional finding label or id")
+    query.add_argument(
+        "--scale",
+        default=None,
+        help="triage scale id, e.g. cn_4level_2018 or esi_v4_2005 (default: both, shown separately)",
+    )
     query.add_argument("--json", action="store_true", help="print JSON")
     return parser
 
@@ -70,7 +75,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "query":
         try:
-            result = query_complaint(data, args.complaint, args.finding)
+            result = query_complaint(data, args.complaint, args.finding, args.scale)
         except QueryError as exc:
             print(f"ERROR: {exc}", file=sys.stderr)
             return 2

@@ -33,17 +33,18 @@ class RegistryTests(unittest.TestCase):
             if source["status"] == "candidate":
                 self.assertEqual(source["used_in"], [], source["id"])
 
-    def test_all_fact_sources_are_verified_and_used_in_mvp(self) -> None:
+    def test_all_fact_sources_are_verified_and_allowed(self) -> None:
+        allowed = {"mvp", "m1"}
         for fact in self.data.facts:
             source_id = fact["provenance"]["source_id"]
             source = self.sources[source_id]
             self.assertEqual(source["status"], "verified", source_id)
-            self.assertIn("mvp", source["used_in"], source_id)
+            self.assertTrue(allowed & set(source["used_in"]), source_id)
 
     def test_every_active_source_is_cited(self) -> None:
         cited = {fact["provenance"]["source_id"] for fact in self.data.facts}
         for source in self.data.sources["sources"]:
-            if "mvp" in source["used_in"] and source["status"] == "verified":
+            if source["status"] == "verified" and {"mvp", "m1"} & set(source["used_in"]):
                 self.assertIn(source["id"], cited)
 
 

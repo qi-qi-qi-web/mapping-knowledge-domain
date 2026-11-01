@@ -134,11 +134,20 @@ def query_complaint(
     data: RepoData,
     complaint_text: str,
     finding_texts: Iterable[str] | None = None,
+    scale_id: str | None = None,
 ) -> dict[str, Any]:
     graph = Graph(data)
     book = EvidenceBook()
     complaint = graph.resolve(complaint_text, allowed_types=["ChiefComplaint"])
     complaint_id = str(complaint["id"])
+
+    selected_scale: str | None = None
+    if scale_id:
+        raw = scale_id.strip()
+        scale_entity = graph.entity(raw) or graph.entity(f"scale.{raw}")
+        if scale_entity is None or scale_entity.get("type") != "TriageScale":
+            raise QueryError(f"未知分诊量表: {scale_id!r}")
+        selected_scale = str((scale_entity.get("properties") or {}).get("scale_id"))
 
     finding_ids: list[str] = []
     for finding_text in finding_texts or []:
@@ -220,6 +229,12 @@ def query_complaint(
     level_entities = [
         entity for entity in graph.entities.values() if entity.get("type") == "TriageLevel"
     ]
+    if selected_scale:
+        level_entities = [
+            entity
+            for entity in level_entities
+            if (entity.get("properties") or {}).get("scale_id") == selected_scale
+        ]
     level_entities.sort(
         key=lambda item: (
             str((item.get("properties") or {}).get("scale_id", "")),
@@ -231,17 +246,26 @@ def query_complaint(
     for level in level_entities:
         level_id = str(level["id"])
         criteria_facts = graph.outgoing(level_id, "LEVEL_CRITERION")
-        matched = [
-            fact for fact in criteria_facts if str(fact.get("object")) in relevant_ids
-        ]
+        properties = level.get("properties") or {}
+        level_scale = str(properties.get("scale_id", ""))
+        # ESI criteria are generic algorithm rules and apply to every patient;
+        # CN criteria are matched against the current complaint/condition set.
+        if level_scale == "esi_v4_2005":
+            matched = criteria_facts
+        else:
+            matched = [
+                fact for fact in criteria_facts if str(fact.get("object")) in relevant_ids
+            ]
         if not matched:
             continue
-        properties = level.get("properties") or {}
+        scale_entity = graph.entity(f"scale.{level_scale}") if level_scale else None
         assigned = graph.outgoing(level_id, "ASSIGNED_TO")
         triage_levels.append(
             {
                 "id": level_id,
                 "label": graph.label(level_id),
+                "scale_id": level_scale,
+                "scale_label": graph.label(str(scale_entity["id"])) if scale_entity else level_scale,
                 "color": properties.get("color"),
                 "response_time": properties.get("response_time"),
                 "description": properties.get("description"),
@@ -254,6 +278,9 @@ def query_complaint(
                         "id": str(fact.get("object")),
                         "label": graph.label(str(fact.get("object"))),
                         "criterion_type": (fact.get("qualifiers") or {}).get("criterion_type"),
+                        "criterion_kind": (
+                            (graph.entity(str(fact.get("object"))) or {}).get("properties") or {}
+                        ).get("criterion_kind"),
                         "evidence": _evidence_ids([fact], book),
                     }
                     for fact in matched
@@ -299,13 +326,17 @@ def query_complaint(
         "chief_complaint_tests": chief_tests,
         "triage": {
             "levels": triage_levels,
-            "caveat": "分诊级别必须由分诊人员结合生命体征与动态变化判定；此处只列出与本次查询相关的候选指标，不自动定级。",
+            "scale_filter": selected_scale,
+            "caveat": (
+                "中国四级标准与 ESI v4 五级标准分别建模，不互映射；"
+                "分诊级别必须由分诊人员结合生命体征与动态变化判定，此处只列候选指标，不自动定级。"
+            ),
         },
         "mdt": mdt,
         "evidence": book.items,
         "review_statuses": review_statuses,
         "disclaimer": (
-            "ED-ConsultKG M0 为研究用知识图谱，全部事实为 ai-draft，未经过临床专家审核；"
+            "ED-ConsultKG 研究用知识图谱（M1），全部事实为 ai-draft，未经过临床专家审核；"
             "不得用于真实患者诊疗。"
         ),
     }
@@ -315,31 +346,39 @@ def query_complaint(
 def render_text(result: dict[str, Any]) -> str:
     lines: list[str] = []
     query = result["query"]
-    lines.append(f"# {query['complaint']} — ED-ConsultKG M0 检索结果")
+    lines.append(f"# {query['complaint']} — ED-ConsultKG M1 检索结果")
     lines.append("")
     lines.append(f"> {result['disclaimer']}")
     if query.get("findings"):
         lines.append(f"> 已输入发现: {', '.join(query['findings'])}")
     lines.append("")
 
-    lines.append("## 分诊候选指标")
+    lines.append("## 分诊候选指标（两套量表独立，不互映射）")
     if not result["triage"]["levels"]:
         lines.append("- 当前图谱没有与该主诉匹配的分诊指标。")
+    by_scale: dict[str, list[dict[str, Any]]] = {}
     for level in result["triage"]["levels"]:
-        area = "、".join(item["label"] for item in level.get("care_area") or []) or "未指定"
-        parts = [level["label"]]
-        if level.get("color") and level["color"] != "none":
-            parts.append(f"颜色 {level['color']}")
-        if level.get("response_time"):
-            parts.append(f"响应 {level['response_time']}")
-        parts.append(f"区域 {area}")
-        lines.append(f"- {'；'.join(parts)}")
-        for criterion in level["matched_criteria"]:
-            kind = criterion.get("criterion_type") or "未标注"
-            lines.append(
-                f"  - 指标: {criterion['label']}（{kind}）"
-                f" [{', '.join(criterion['evidence'])}]"
-            )
+        by_scale.setdefault(level.get("scale_label") or "未标注量表", []).append(level)
+    for scale_label, levels in by_scale.items():
+        lines.append(f"### {scale_label}")
+        for level in levels:
+            parts = [level["label"]]
+            if level.get("color") and level["color"] != "none":
+                parts.append(f"颜色 {level['color']}")
+            if level.get("response_time"):
+                parts.append(f"响应 {level['response_time']}")
+            if level.get("care_area"):
+                area = "、".join(item["label"] for item in level["care_area"])
+                parts.append(f"区域 {area}")
+            lines.append(f"- {'；'.join(parts)}")
+            for criterion in level["matched_criteria"]:
+                kind = criterion.get("criterion_type") or "未标注"
+                criterion_kind = criterion.get("criterion_kind")
+                kind_text = f"{kind}/{criterion_kind}" if criterion_kind else kind
+                lines.append(
+                    f"  - 指标: {criterion['label']}（{kind_text}）"
+                    f" [{', '.join(criterion['evidence'])}]"
+                )
     lines.append(f"> {result['triage']['caveat']}")
     lines.append("")
 

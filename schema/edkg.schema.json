@@ -1,10 +1,10 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "name": "ED-ConsultKG",
-  "description": "急诊全流程会诊知识图谱 Schema v0.1：流程事件层 x 临床语义层 x 组织资源层。M0 只实例化胸痛相关部分。",
+  "description": "急诊全流程会诊知识图谱 Schema v0.2：流程事件层 x 临床语义层 x 组织资源层。M0 胸痛 + M1 ESI v4 分诊标准。",
   "layers": {
     "process": "流程事件层：Visit / CareEvent，承载分诊、检查、鉴别、会诊、处置、转归的时序锚点（M0 预留，不实例化）。",
-    "clinical": "临床语义层：ChiefComplaint / Condition / Finding / Test / Intervention / RiskFactor / TriageScale / TriageLevel。",
+    "clinical": "临床语义层：ChiefComplaint / Condition / Finding / Test / Intervention / RiskFactor / TriageScale / TriageLevel / TriageCriterion。",
     "organization": "组织资源层：Department / Role / CareProcess / CareArea / Disposition。"
   },
   "provenance": {
@@ -43,13 +43,14 @@
     "disposition_kind": ["admit", "icu", "transfer", "discharge", "observation", "follow_up"],
     "risk": ["high", "medium", "low"],
     "scale_id": ["cn_4level_2018", "esi_v4_2005"],
-    "level_value": ["1", "2", "3", "4", "non_emergency"],
+    "level_value": ["1", "2", "3", "4", "5", "non_emergency"],
     "triage_color": ["红色", "橙色", "黄色", "绿色", "none"],
     "timing": ["immediate", "within_10min", "within_30min", "within_2h", "within_24h", "routine", "unspecified"],
     "priority": ["immediate", "urgent", "routine"],
     "urgency": ["immediate", "within_10min", "within_30min", "routine", "unspecified"],
     "consult_type": ["single_specialty", "mdt", "transfer"],
-    "criterion_type": ["objective", "artificial"],
+    "criterion_type": ["objective", "artificial", "algorithm"],
+    "criterion_kind": ["acuity", "mental_status", "pain", "resource", "vital_sign", "other"],
     "typicality": ["typical", "atypical", "variable", "unspecified"],
     "strength": ["strong", "moderate", "weak"],
     "source_status": ["verified", "access_controlled", "candidate", "retired"],
@@ -231,6 +232,18 @@
       },
       "provenance_required": true
     },
+    "TriageCriterion": {
+      "layer": "clinical",
+      "id_prefix": "crit",
+      "description": "分诊量表的判定标准（高危、意识状态、疼痛、资源需求、危险区生命体征等）；与具体疾病/发现解耦，便于跨病种复用。",
+      "required": ["label_zh", "criterion_kind"],
+      "properties": {
+        "label_en": {"type": "string"},
+        "criterion_kind": {"enum_ref": "criterion_kind"},
+        "description": {"type": "string"}
+      },
+      "provenance_required": true
+    },
     "RiskFactor": {
       "layer": "clinical",
       "id_prefix": "risk",
@@ -356,7 +369,7 @@
     },
     "LEVEL_CRITERION": {
       "domain": ["TriageLevel"],
-      "range": ["Condition", "Finding"],
+      "range": ["Condition", "Finding", "TriageCriterion"],
       "description": "某分诊级别的判定指标（客观或人工）。",
       "qualifiers": {
         "criterion_type": {"enum_ref": "criterion_type", "required": true},
@@ -404,11 +417,11 @@
   },
   "constraints": {
     "fact_id_pattern": "^fact\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
-    "entity_id_pattern": "^(visit|event|cc|cond|find|test|int|dept|role|proc|area|disp|scale|level|risk)\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+    "entity_id_pattern": "^(visit|event|cc|cond|find|test|int|dept|role|proc|area|disp|scale|level|crit|risk)\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
     "no_self_loop": true,
     "unique_triple": true,
     "require_verified_source": true,
-    "allowed_fact_source_usage": ["mvp"],
+    "allowed_fact_source_usage": ["mvp", "m1"],
     "allow_orphan_entities": true,
     "require_provenance": true,
     "allow_multiple_facts_same_triple_with_different_qualifiers": false

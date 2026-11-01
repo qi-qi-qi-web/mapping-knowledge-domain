@@ -5,6 +5,69 @@
 
 ---
 
+## 2026-11-01 | M1-01：ESI v4 五级分诊标准
+
+### 背景
+
+- M0 已完成胸痛种子图谱与中国四级分诊（80 实体 / 116 事实）。
+- 按 `TODO.md` 的 M1-01，使用已登记的 AHRQ ESI v4 公有领域 PDF，增加第二套独立分诊量表。
+- 目标：五级定义 + 判定指标 + 资源规则；**不与中国四级做映射**。
+
+### 完成
+
+- [x] Schema v0.2：新增 `TriageCriterion` 实体；`level_value` 增加 `5`；`criterion_type` 增加 `algorithm`；`LEVEL_CRITERION` range 扩展到 `TriageCriterion`。
+- [x] 来源：`src.us.ahrq.esi.v4.2005` 更新核验记录（2026-11-01，PDF SHA256 `6cdf2d2c…`），`used_in=m1`。
+- [x] 实体：`scale.esi_v4_2005`、`level.esi.1`–`level.esi.5`、8 个 `crit.esi.*`，共 14 个。
+- [x] 事实：5 条 `HAS_LEVEL` + 8 条 `LEVEL_CRITERION`，共 13 条。
+- [x] 查询：`--scale cn_4level_2018|esi_v4_2005`；默认按量表分组展示；两套量表不互映射。
+- [x] 引文审计：PDF 改为 `pdftotext -raw`，工作区 scratch 文件，129/129 命中。
+- [x] 测试：35 项（新增 ESI 量表/过滤/未知量表/分组测试）。
+- [x] 文档：Agent/PLAN/SCHEMA/MVP/README/TODO/NOTICE 同步。
+
+### 决策
+
+| 编号 | 决策 | 理由 |
+|---|---|---|
+| D-013 | 新增 `TriageCriterion` 实体，不把资源需求硬塞成 Finding | ESI 的“≥2 项资源”是算法规则，不是症状/体征 |
+| D-014 | 中国四级与 ESI 五级分别建模、查询分组，不生成 crosswalk | 无可靠映射；混用会导致错误分级 |
+| D-015 | ESI 事实使用 `used_in=m1`，Schema 允许 `mvp/m1` | 保持 M0/M1 来源使用边界 |
+| D-016 | 查询对 ESI 显示全部算法指标，对中国四级只显示与当前主诉相关的指标 | ESI 1/2 规则对任意患者都适用；中国四级指标是具体病种/发现 |
+| D-017 | PDF 审计用 `-raw` + 工作区 scratch，不删除 scratch 目录 | 多栏 PDF 的 reading order 更稳定；沙箱对临时目录删除有限制 |
+| D-018 | 年龄分层危险区阈值暂不填数字 | PDF 表格列在文本抽取中不完整；不凭记忆补数字，列 M1-01b |
+
+### 验证
+
+- `python -m edkg validate --strict`：**0 错误 / 0 警告**。
+- `python -m unittest discover -s tests -v`：**35 项通过**。
+- `python scripts/audit_quotes.py`：**129/129 引文命中**（含 AHRQ PDF）。
+- `python -m edkg stats`：94 实体 / 129 事实 / provenance 100% / 重复三元组 0。
+- 查询：`python -m edkg query --complaint 胸痛 --scale esi_v4_2005` 返回 5 个级别与 8 条算法指标；中国四级查询仍正常。
+- 来源核验：`python scripts/verify_sources.py` **3/3 HTTP 200**（含 AHRQ PDF 463,412 bytes）。
+
+### 提交
+
+- 基线 main：`795d9319c4fd3e4c4375064bfe239f348549263e`（M0 最新）。
+- M1 提交 SHA：以 GitHub main 历史为准（DEVLOG 不记录自身 SHA，避免递归）。
+- 方式：GitHub REST Git Data API；未 force push；凭据不落盘。
+- CI：推送后由 Actions 运行，结果以 run 页面为准。
+
+### 遗留/阻塞
+
+- **未临床审核**：全部 `ai-draft`；不能用于真实患者。
+- **M1-01b**：ESI 年龄分层危险区 HR/RR/SpO2 阈值待核对 Figure 6-1 原表；当前只有“超过危险区考虑上调 ESI 2”的规则，没有具体阈值。
+- **ICD 编码**：仍全部留空。
+- **病种级会诊/低危结构化**：仍未做。
+- **流程事件**：Visit/CareEvent 仍只有 Schema。
+
+### 下一步
+
+- M1-01b：核对 ESI 危险区阈值表，逐年龄段补事实。
+- M1-02：WHO ICD-10 编码核验。
+- M1-03：呼吸困难/腹痛/发热。
+- M1-04：Neo4j/Cypher 导出。
+
+---
+
 ## 2026-10-29 | M0 远端提交回填与验证
 
 ### 提交
