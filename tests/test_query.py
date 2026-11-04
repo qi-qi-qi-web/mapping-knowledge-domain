@@ -36,6 +36,20 @@ class QueryTests(unittest.TestCase):
         self.assertIn("crit.esi.immediate_lifesaving", criteria)
         self.assertIn("crit.esi.resources_0", criteria)
 
+    def test_esi_danger_zone_age_thresholds_are_present(self) -> None:
+        esi2 = next(item for item in self.result["triage"]["levels"] if item["id"] == "level.esi.2")
+        criteria = {c["id"]: c["label"] for c in esi2["matched_criteria"]}
+        for criterion in (
+            "crit.esi.danger_vitals_infant",
+            "crit.esi.danger_vitals_3m_3y",
+            "crit.esi.danger_vitals_3_8y",
+            "crit.esi.danger_vitals_over8y",
+        ):
+            self.assertIn(criterion, criteria)
+            self.assertIn("SaO2<92%", criteria[criterion])
+        self.assertIn("HR>180", criteria["crit.esi.danger_vitals_infant"])
+        self.assertIn("RR>20", criteria["crit.esi.danger_vitals_over8y"])
+
     def test_scale_filter_cn_only(self) -> None:
         result = query_complaint(self.data, "胸痛", scale_id="cn_4level_2018")
         self.assertEqual({item["scale_id"] for item in result["triage"]["levels"]}, {"cn_4level_2018"})

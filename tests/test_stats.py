@@ -15,8 +15,8 @@ class StatsTests(unittest.TestCase):
         cls.stats = compute_stats(load_repo(ROOT))
 
     def test_minimum_m1_size(self) -> None:
-        self.assertGreaterEqual(self.stats["entity_count"], 94)
-        self.assertGreaterEqual(self.stats["fact_count"], 129)
+        self.assertGreaterEqual(self.stats["entity_count"], 98)
+        self.assertGreaterEqual(self.stats["fact_count"], 133)
 
     def test_provenance_is_complete(self) -> None:
         self.assertEqual(self.stats["provenance_coverage"], 1.0)

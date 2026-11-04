@@ -15,11 +15,11 @@
 | 主诉 | 胸痛 |
 | 高危病种 | 急性冠脉综合征、急性心肌梗死、急性主动脉夹层、急性肺栓塞、张力性气胸 |
 | 中低危示例 | 稳定性冠心病、胃食管反流病、急性肋软骨炎、神经官能症 |
-| 分诊 | 中国四级标准（Ⅰ–Ⅳ + 非急症）+ ESI v4 五级；两套独立，不互映射 |
+| 分诊 | 中国四级标准（Ⅰ–Ⅳ + 非急症）+ ESI v4 五级（含 4 个年龄分层危险区阈值）；两套独立，不互映射 |
 | 检查 | 心电图、hs-cTn、CK-MB、肌红蛋白、D-二聚体、BNP、血气、胸片、CTA、床旁超声、Wells、PESI |
 | 治疗 | PCI、溶栓、抗血小板、抗凝、β受体阻滞剂、镇痛、胸腔穿刺减压、胸腔闭式引流 |
 | 组织 | 胸痛中心（院前急救/急诊科/心内科）；不具备 PCI/大血管手术/引流能力时转诊 |
-| 规模 | 94 实体、129 事实（M0 80/116 + M1 ESI 14/13） |
+| 规模 | 98 实体、133 事实（M0 80/116 + M1 ESI 18/17） |
 
 ## 3. 来源与定位
 
@@ -30,7 +30,7 @@
 | `src.us.ahrq.esi.v4.2005` | ESI 五级定义；Decision Point A/B；资源需求；危险区规则（Figure 3-1/6-1） |
 
 未使用：ICD 编码（M1-02）、MIMIC/DDXPlus（后评测）、CMeKG/PrimeKG（候选）。
-未完成：ESI 年龄分层危险区阈值（PDF 表格列抽取不完整，M1-01b）。
+危险区阈值：HR/RR 有文本引文；SaO2<92% 为 Figure 6-1 图像目视转录（裁剪图见 `docs/research/figures/esi_fig6_1_danger_zone.png`）。
 
 ## 4. 查询
 
@@ -75,8 +75,8 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
   - 指标: 新发意识混乱/嗜睡/定向障碍（algorithm/mental_status） [ev68]
   - 指标: 严重疼痛/痛苦（≥7/10）（algorithm/pain） [ev69]
   - 指标: 危险区生命体征（考虑上调至 ESI 2）（algorithm/vital_sign） [ev70]
-- ESI 3级 需≥2项资源
-  - 指标: 预计需要≥2项资源（algorithm/resource） [ev71]
+  - 指标: 危险区生命体征：<3月（HR>180、RR>50、SaO2<92%）（algorithm/vital_sign） [ev71]
+  - 指标: 危险区生命体征：3月–3岁（HR>160、RR>40、SaO2<92%）（algorithm/vital_sign） [ev72]
 ...
 ```
 
@@ -85,8 +85,8 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 ## 6. 质量门
 
 - `python -m edkg validate --strict`：0 错误 0 警告；
-- `python -m unittest discover -s tests -v`：35 项通过；
-- `python scripts/audit_quotes.py`：129/129 引文命中（2026-11-01）；
+- `python -m unittest discover -s tests -v`：36 项通过；
+- `python scripts/audit_quotes.py`：133/133 引文命中（2026-11-04）；
 - `python scripts/verify_sources.py`：3/3 开放来源 HTTP 200；
 - 事实引用 3 个 `verified` 来源；0 重复三元组；provenance 100%。
 
@@ -94,13 +94,13 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 
 - **未临床审核**：全部 `ai-draft`；不能用于真实患者。
 - **两套量表不互映射**：中国四级与 ESI 五级分别建模；未做、也不做未经专家论证的交叉映射。
-- **ESI 危险区阈值未完成**：年龄分层 HR/RR/SpO2 表在 PDF 文本抽取中列不完整，未凭记忆补数字（M1-01b）。
+- **ESI 危险区阈值**：HR/RR 有 `pdftotext -raw` 文本引文；SaO2<92% 为 Figure 6-1 图像目视转录（旋转文本未被 pdftotext 完整抽取），已附公有领域裁剪图；不是凭记忆补的数字。
 - **无 ICD 编码**：`Condition.icd10` 全部留空。
 - **会诊较薄**：只写胸痛中心参与科室与转诊条件，未写病种级专科会诊。
 - **低危病种结构化不足**：稳定性冠心病/胃食管反流病/肋软骨炎/神经官能症目前只有“主诉可能提示”一条事实，表现/检查待补。
 - **流程层未实例化**：Visit/CareEvent 只有 Schema，没有患者事件。
-- **规模小**：94/129，不是“大规模”；规模目标见 `docs/PLAN.md`。
+- **规模小**：98/133，不是“大规模”；规模目标见 `docs/PLAN.md`。
 
 ## 8. 下一步
 
-见 `TODO.md` 的 M1：M1-01b 危险区阈值、ICD 编码、呼吸困难/腹痛/发热、Neo4j 导出、专科会诊、20 条人工抽检。
+见 `TODO.md` 的 M1：ICD 编码、呼吸困难/腹痛/发热、Neo4j 导出、专科会诊、20 条人工抽检。

@@ -29,14 +29,14 @@
 
 ## M1：第二层扩展（下一步）
 
-- [~] **M1-01** ESI v4 五级标准抽取（部分完成：五级/8 条指标/资源规则已入库；年龄分层危险区阈值待核）
+- [x] **M1-01** ESI v4 五级标准抽取
   - 来源：`src.us.ahrq.esi.v4.2005`（已核验 PDF，公有领域）。
   - 已完成：`scale.esi_v4_2005` + 5 个级别 + 8 个 `TriageCriterion` + 13 条事实；查询支持 `--scale esi_v4_2005`，两套量表分组展示。
-  - 验收：**不与四级映射**；129/129 引文命中；`validate --strict` 通过。
-  - 未完成：Figure 6-1 的年龄分层心率/呼吸频率/SpO2 阈值表在 PDF 文本抽取中列不完整，未凭记忆补数字。
-- [ ] **M1-01b** ESI 危险区生命体征年龄分层阈值
-  - 需核对 Figure 6-1 原表/PDF 版面，逐项记录 HR/RR/SpO2 阈值；不得用二手描述补数字。
-  - 验收：每个年龄段有来源 + 页码/图表定位；通过 `audit_quotes`。
+  - 验收：**不与四级映射**；`validate --strict` 通过。
+- [x] **M1-01b** ESI 危险区生命体征年龄分层阈值
+  - 已完成：4 个年龄段的 `crit.esi.danger_vitals_*` + 4 条 `LEVEL_CRITERION`；HR/RR 有 `pdftotext -raw` 文本引文；SaO2<92% 为 Figure 6-1 图像目视转录（旋转文本未被 pdftotext 抽取）。
+  - 证据：Figure 6-1 裁剪图 `docs/research/figures/esi_fig6_1_danger_zone.png`（AHRQ 公有领域）。
+  - 验收：每个年龄段有来源 + 图表定位；HR/RR 引文通过 `audit_quotes`；当前 133/133。
 - [ ] **M1-02** WHO ICD-10 编码核验与填充
   - 来源：WHO 官方导出/许可；先核验版本与使用条款。
   - 范围：M0 的 9 个 Condition 至少 6 个有编码；编码必须可回溯。

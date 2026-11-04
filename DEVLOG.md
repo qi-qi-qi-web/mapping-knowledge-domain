@@ -5,6 +5,60 @@
 
 ---
 
+## 2026-11-04 | M1-01b：ESI 危险区年龄分层阈值
+
+### 背景
+
+- M1-01 已入库 ESI 五级、8 条算法指标与资源规则；剩余 Figure 6-1 的年龄分层 HR/RR/SaO2 阈值。
+- 目标：按 `<3月 / 3月–3岁 / 3–8岁 />8岁` 四层补阈值，保留来源与图表定位，不凭记忆补数字。
+
+### 完成
+
+- [x] 新增 4 个 `TriageCriterion`：`crit.esi.danger_vitals_infant`、`crit.esi.danger_vitals_3m_3y`、`crit.esi.danger_vitals_3_8y`、`crit.esi.danger_vitals_over8y`。
+- [x] 新增 4 条 `level.esi.2 LEVEL_CRITERION` 事实（criterion_type=algorithm）。
+- [x] 阈值：HR >180/>160/>140/>100；RR >50/>40/>30/>20；SaO2<92%。
+- [x] 新增 Figure 6-1 裁剪图 `docs/research/figures/esi_fig6_1_danger_zone.png`（AHRQ 公有领域，SHA256 `a2463956…`）。
+- [x] 更新 TODO/Agent/PLAN/SCHEMA/MVP/README/NOTICE 的计数与说明。
+- [x] 新增 1 项测试（年龄分层阈值），共 36 项。
+
+### 决策
+
+| 编号 | 决策 | 理由 |
+|---|---|---|
+| D-019 | 用 4 个年龄分层 `TriageCriterion`，不把阈值写成自由文本 | 便于查询/审计；每个年龄段独立来源与定位 |
+| D-020 | HR/RR 引文取 `pdftotext -raw` 的图表行；SaO2<92% 用 Figure 6-1 图像目视转录 | SaO2 是旋转文本，pdftotext 未完整抽取；不伪造文本引文，改用可复核裁剪图 |
+| D-021 | 保留通用 `crit.esi.danger_zone_vitals` 作为上调规则，年龄分层指标作为具体阈值 | 规则与阈值分离；查询同时显示 |
+
+### 验证
+
+- `python -m edkg validate --strict`：**0 错误 / 0 警告**（98 实体 / 133 事实）。
+- `python -m unittest discover -s tests -v`：**36 项通过**。
+- `python scripts/audit_quotes.py`：**133/133 引文命中**；4 条年龄分层 HR/RR 引文均命中。
+- `python -m edkg stats`：provenance 100%、重复三元组 0。
+- 查询：`--scale esi_v4_2005` 的 ESI 2级下显示 4 个年龄分层危险区指标 + 通用上调规则。
+
+### 提交
+
+- 基线 main：`bad6ca08e5f26963d218c0faeafd54b543f5a953`（M1-01）。
+- M1-01b 提交 SHA：以 GitHub main 历史为准（DEVLOG 不记录自身 SHA，避免递归）。
+- 方式：GitHub REST Git Data API；未 force push；凭据不落盘。
+- CI：推送后由 Actions 运行，结果以 run 页面为准。
+
+### 遗留/阻塞
+
+- **未临床审核**：全部 `ai-draft`；不能用于真实患者。
+- **SaO2 证据形态**：为图像目视转录，不是 `pdftotext` 文本引文；已在 TODO/Agent/NOTICE 说明，裁剪图可复核。
+- **ICD 编码/新主诉/Neo4j/专科会诊**：仍未做。
+- **流程事件**：Visit/CareEvent 仍只有 Schema。
+
+### 下一步
+
+- M1-02：WHO ICD-10 官方导出/许可核验与编码填充。
+- M1-03：呼吸困难/腹痛/发热。
+- M1-04：Neo4j/Cypher 导出。
+
+---
+
 ## 2026-11-01 | M1-01：ESI v4 五级分诊标准
 
 ### 背景

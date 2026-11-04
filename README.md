@@ -2,7 +2,7 @@
 
 **急诊全流程会诊知识图谱**（Emergency Department full-process Consultation Knowledge Graph）。
 
-当前状态：**M1 进行中 / 胸痛单主诉 + ESI v4 五级**。94 实体、129 事实，全部 `ai-draft`，未经临床专家审核；只用于研究与智能体检索实验，**不得用于真实患者诊疗**。
+当前状态：**M1 进行中 / 胸痛单主诉 + ESI v4 五级**。98 实体、133 事实，全部 `ai-draft`，未经临床专家审核；只用于研究与智能体检索实验，**不得用于真实患者诊疗**。
 
 ## 这是什么
 
@@ -59,11 +59,11 @@ docs/MVP.md                 胸痛 MVP 说明
 docs/research/              原始研究报告 + 图（设计输入，非数据源目录）
 schema/edkg.schema.json     Schema v0.2
 data/registry/sources.json  来源登记与核验记录
-data/kg/entities.jsonl      实体（94）
-data/kg/facts.jsonl         事实（129，带 provenance）
+data/kg/entities.jsonl      实体（98）
+data/kg/facts.jsonl         事实（133，带 provenance）
 edkg/                       校验/查询/统计 CLI
 scripts/                    来源核验、引文审计
-tests/                      35 项单元测试
+tests/                      36 项单元测试
 .github/workflows/ci.yml    离线 CI
 ```
 
@@ -80,7 +80,7 @@ tests/                      35 项单元测试
 - 只保存**短引文 + 章节定位**，不转载全文/PDF（AHRQ 公有领域，但仍只存抽取事实）；
 - `candidate` 来源（MIMIC-IV-ED、DDXPlus、TriageAgent、PrimeKG、ICD-10）只登记、**不进入事实**；
 - 报告中的 arXiv/数据集引用未逐条核验，不作为数据源；见 [`docs/research/README.md`](docs/research/README.md)；
-- 事实只能引用 `verified` 来源；`python scripts/audit_quotes.py` 逐条回查原文（当前：129/129 通过）。
+- 事实只能引用 `verified` 来源；`python scripts/audit_quotes.py` 逐条回查原文（当前：133/133 通过）。
 - **中国四级与 ESI 五级分别建模，不互映射**；查询默认分组展示，也可用 `--scale` 只看一套。
 
 ## 当前质量指标
@@ -88,18 +88,18 @@ tests/                      35 项单元测试
 | 指标 | 结果 |
 |---|---|
 | Schema 校验（strict） | 0 错误 / 0 警告 |
-| 实体 / 事实 | 94 / 129 |
+| 实体 / 事实 | 98 / 133 |
 | provenance 完整率 | 100% |
 | 重复三元组 | 0 |
-| 引文审计 | 129/129 命中 |
+| 引文审计 | 133/133 命中 |
 | 开放来源核验 | 3/3 HTTP 200 |
-| 单元测试 | 35 项通过 |
+| 单元测试 | 36 项通过 |
 | CI（GitHub Actions） | [见 Actions](https://github.com/qi-qi-qi-web/mapping-knowledge-domain/actions) |
 | 临床审核 | **未做**（全部 ai-draft） |
 
 ## 路线图
 
-- **M1（进行中）**：ESI 五级已完成（5 级/8 指标/资源规则）；待办：危险区年龄分层阈值、ICD-10 编码、呼吸困难/腹痛/发热、Neo4j 导出、专科会诊、20 条抽检；
+- **M1（进行中）**：ESI 五级已完成（5 级 / 12 项指标 / 资源规则 / 年龄分层危险区阈值）；待办：ICD-10 编码、呼吸困难/腹痛/发热、Neo4j 导出、专科会诊、20 条抽检；
 - **M2**：10 主诉、30+ 高危病种、LLM 候选抽取 + HITL、L1/L2 评估；
 - **M3**：大规模扩展、GraphRAG/路径检索、DDXPlus/MIMIC 评测、论文产出。
 
