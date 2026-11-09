@@ -51,6 +51,7 @@
     "consult_type": ["single_specialty", "mdt", "transfer"],
     "criterion_type": ["objective", "artificial", "algorithm"],
     "criterion_kind": ["acuity", "mental_status", "pain", "resource", "vital_sign", "other"],
+    "icd10_match_type": ["exact", "inclusion", "broader", "narrower", "no_single_code"],
     "typicality": ["typical", "atypical", "variable", "unspecified"],
     "strength": ["strong", "moderate", "weak"],
     "source_status": ["verified", "access_controlled", "candidate", "retired"],
@@ -106,7 +107,7 @@
         "aliases": {"type": "array", "items": "string"},
         "condition_kind": {"enum_ref": "condition_kind"},
         "risk": {"enum_ref": "risk"},
-        "icd10": {"type": "string", "description": "M0 留空；M1 仅在核验 WHO 来源后填写"}
+        "icd10": {"type": "string", "description": "M0 留空；M1 仅填已核验 WHO registry 条目；无单一码时留空"}
       },
       "provenance_required": false
     },
@@ -424,6 +425,7 @@
     "allowed_fact_source_usage": ["mvp", "m1"],
     "allow_orphan_entities": true,
     "require_provenance": true,
-    "allow_multiple_facts_same_triple_with_different_qualifiers": false
+    "allow_multiple_facts_same_triple_with_different_qualifiers": false,
+    "min_coded_conditions": 6
   }
 }

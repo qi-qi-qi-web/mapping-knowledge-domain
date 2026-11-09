@@ -3,13 +3,14 @@
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Iterable
 
 
 SCHEMA_PATH = Path("schema") / "edkg.schema.json"
 SOURCES_PATH = Path("data") / "registry" / "sources.json"
+ICD10_PATH = Path("data") / "registry" / "icd10.json"
 ENTITIES_PATH = Path("data") / "kg" / "entities.jsonl"
 FACTS_PATH = Path("data") / "kg" / "facts.jsonl"
 
@@ -69,6 +70,7 @@ class RepoData:
     sources: dict[str, Any]
     entities: list[dict[str, Any]]
     facts: list[dict[str, Any]]
+    icd10: dict[str, Any] = field(default_factory=dict)
 
     @property
     def source_by_id(self) -> dict[str, dict[str, Any]]:
@@ -85,7 +87,9 @@ def load_repo(root: Path | None = None) -> RepoData:
     sources = load_json(repo_root / SOURCES_PATH)
     entities = load_jsonl(repo_root / ENTITIES_PATH)
     facts = load_jsonl(repo_root / FACTS_PATH)
-    return RepoData(repo_root, schema, sources, entities, facts)
+    icd10_path = repo_root / ICD10_PATH
+    icd10 = load_json(icd10_path) if icd10_path.is_file() else {}
+    return RepoData(repo_root, schema, sources, entities, facts, icd10=icd10)
 
 
 def iter_source_records(data: RepoData) -> Iterable[dict[str, Any]]:

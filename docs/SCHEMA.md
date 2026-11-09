@@ -90,23 +90,27 @@ ID 规则：`<prefix>.<slug>`，只允许小写字母、数字、下划线、点
 - 禁止自环；domain/range 必须匹配。
 - 事实只能引用 `status=verified` 且 `used_in` 含 `mvp`/`m1` 的来源。
 - 候选来源不得出现在任何事实中。
+- `Condition.icd10` 仅当 `data/registry/icd10.json` 有对应 entry 时填写；entry 的 `code` 必须与实体一致。
+- ICD-10 entry 必须引用 `src.who.icd10.2019`，`concept_url` 必须为 `https://icd.who.int/browse10/2019/en/GetConcept?ConceptId=<code>`，`quote` 为官方页面短引文；`no_single_code` 的 condition 不得填 `Condition.icd10`。
 - 允许孤立实体（为后续扩展保留），但新增时应尽量挂接关系。
 
 ## 6. 当前覆盖（M1 进行中）
 
-- **98 实体、133 事实**；使用三份已核验来源（2 份中文共识 + AHRQ ESI v4）。
+- **98 实体、133 事实**；4 份已核验来源：3 份进入事实（2 份中文共识 + AHRQ ESI v4），WHO ICD-10 仅用于编码映射。
 - M0 基线：80 实体、116 事实；中国四级分诊 + 胸痛高危/中低危 + 胸痛中心。
 - M1 增量：ESI v4 五级、12 个 `TriageCriterion`（立即救生、高危、意识、疼痛、危险区、资源 2+/1/0、4 个年龄分层危险区阈值）、17 条事实。
+- ICD-10：`data/registry/icd10.json` 9 条 entry；8 个 `Condition.icd10`，ACS 为 `no_single_code`；每条有 `concept_url`、`locator`、`quote`、`match`、`source_id`。
 - 分诊：中国四级 + ESI v4；两套量表分别建模，查询分组展示，**不互映射**。
 - 危险区阈值：HR/RR 有文本引文；SaO2<92% 为 Figure 6-1 图像目视转录，裁剪图见 `docs/research/figures/esi_fig6_1_danger_zone.png`。
 - 会诊：胸痛中心参与科室（院前/急诊/心内科）与转诊条件。
-- 未做：ICD 编码、病种级专科会诊、流程事件实例。
+- 未做：ICD-11/批量编码、病种级专科会诊、流程事件实例。
 
 ## 7. 如何新增
 
 1. 先确认来源已 `verified`；
 2. 新增实体（唯一 ID、必填属性）；
 3. 新增事实（domain/range 正确、qualifier 在 Schema 内、provenance 完整）；
-4. `python -m edkg validate --strict`；
-5. `python scripts/audit_quotes.py`；
-6. 更新 `DEVLOG.md`/`TODO.md`。
+4. 如需填 `Condition.icd10`，先在 `data/registry/icd10.json` 登记并保证 code/quote/URL 一致；
+5. `python -m edkg validate --strict`；
+6. `python scripts/audit_quotes.py`；
+7. 更新 `DEVLOG.md`/`TODO.md`。

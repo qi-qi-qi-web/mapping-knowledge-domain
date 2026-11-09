@@ -37,10 +37,10 @@
   - 已完成：4 个年龄段的 `crit.esi.danger_vitals_*` + 4 条 `LEVEL_CRITERION`；HR/RR 有 `pdftotext -raw` 文本引文；SaO2<92% 为 Figure 6-1 图像目视转录（旋转文本未被 pdftotext 抽取）。
   - 证据：Figure 6-1 裁剪图 `docs/research/figures/esi_fig6_1_danger_zone.png`（AHRQ 公有领域）。
   - 验收：每个年龄段有来源 + 图表定位；HR/RR 引文通过 `audit_quotes`；当前 133/133。
-- [ ] **M1-02** WHO ICD-10 编码核验与填充
-  - 来源：WHO 官方导出/许可；先核验版本与使用条款。
-  - 范围：M0 的 9 个 Condition 至少 6 个有编码；编码必须可回溯。
-  - 验收：`Condition.icd10` 填值；`sources.json` 新增 verified 来源；无凭记忆写码。
+- [x] **M1-02** WHO ICD-10 编码核验与填充
+  - 来源：WHO ICD-10-WHO Version for 2019 (COVID-19 expanded)，`src.who.icd10.2019` 已 verified/used_in m1；仅短引文，不批量复制。
+  - 已完成：`data/registry/icd10.json` 9 条逐病种映射；8 个 `Condition.icd10`（I21.9/I71.0/I26.9/J93.0/I25.1/K21.9/M94.0/F48.9），ACS 为 `no_single_code`。
+  - 验收：9/9 映射可回溯（每条含 `concept_url`、`quote`、`locator`、`match`、`source_id`）；`validate --strict` 0/0；ICD 9/9 引文命中；无凭记忆写码。
 - [ ] **M1-03** 新增 3 个主诉：呼吸困难、腹痛、发热
   - 每个主诉 ≥2 个高危病种、≥1 个中低危、≥5 条检查/处置事实。
   - 验收：查询 CLI 支持；每个病种有来源 + 引文；测试覆盖。
@@ -82,7 +82,7 @@
 - [!] **B-01 临床专家审核**：需要急诊/心内科专家双人盲评；在此之前所有事实保持 `ai-draft`。
 - [!] **B-02 MIMIC-IV-ED**：CITI 培训 + PhysioNet DUA；未完成前不使用、不提交任何记录级数据。
 - [!] **B-03 第三方许可证**：DDXPlus、TriageAgent、PrimeKG、CMeKG 的许可证/版本需逐个核验；未核验前保持 `candidate`。
-- [!] **B-04 WHO ICD 导出**：需确认官方导出方式与许可；M0 不给编码。
+- [x] **B-04 WHO ICD 编码**：已完成 9 条逐病种核验（8 个编码 + ACS 无单一码）；不做全量/批量导出；映射待临床编码员复核。
 - [x] **B-05 GitHub git 传输**：本机不可用；已用 GitHub API 提交（见 DEVLOG）。其他环境优先 git。
 
 ## 维护性待办
@@ -91,3 +91,4 @@
 - [ ] 每次指南更新后检查旧事实，标 `deprecated`/`valid_to`。
 - [ ] 补充 `docs/SCHEMA.md` 与 Schema 的自动一致性检查（M1）。
 - [ ] 为 `edkg` 增加 `export --format cypher`（M1）。
+- [ ] 请临床编码员复核 8 条 `Condition.icd10` 与 1 条 `no_single_code`（M1-02 遗留）。

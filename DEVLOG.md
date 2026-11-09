@@ -5,6 +5,65 @@
 
 ---
 
+## 2026-11-09 | M1-02：WHO ICD-10 编码核验与填充
+
+### 背景
+
+- M1-01b 完成后为 98 实体 / 133 事实；9 个 Condition 均未填 `icd10`。
+- `src.who.icd10.2019` 原为 candidate，需先核验版本、访问与许可，不能凭记忆写码。
+- 目标：9 个病种逐条映射，至少 6 个有编码；每条能回溯到 WHO 官方页面。
+
+### 完成
+
+- [x] WHO 来源核验：`src.who.icd10.2019` 改为 verified、`used_in=["m1"]`、HTTP 200、21,878 bytes；版本头为 *ICD-10-WHO Version for 2019 (COVID-19 expanded)*。
+- [x] 新增 `data/registry/icd10.json`：9 条 entry，每条含 `condition_id`、`code`、`title_en`、`concept_url`、`locator`、`quote`、`match`、`source_id`、`checked_at`、`note_zh`。
+- [x] 8 个 `Condition.icd10`：I21.9、I71.0、I26.9、J93.0、I25.1、K21.9、M94.0、F48.9；`cond.acs` 不填单一码。
+- [x] Schema 增加 `icd10_match_type` 枚举与 `min_coded_conditions=6`；版本仍为 0.2.0。
+- [x] 校验器新增 `_validate_icd10`：跨 registry/实体/来源检查 code 一致、格式、URL、quote、match、来源状态与最少编码数。
+- [x] 查询 JSON/文本展示编码、匹配类型、来源与“不用于临床编码/计费”提示；stats 输出 9/8/1。
+- [x] 引文审计支持 per-entry `concept_url`、`--icd10`、`--cafile`；来源核验支持 `--cafile`。
+- [x] 新增 9 项测试（validate 6 + query 2 + stats 1），共 45 项。
+- [x] 同步 README/Agent/PLAN/SCHEMA/MVP/NOTICE/TODO。
+
+### 决策
+
+| 编号 | 决策 | 理由 |
+|---|---|---|
+| D-022 | 使用独立 `data/registry/icd10.json`，`Condition.icd10` 仍为 string | 不改图谱计数与关系模型；逐条来源/引文/URL 放在 registry，实体只保留查询值 |
+| D-023 | 9 个病种全部登记；8 个编码，ACS 为 `no_single_code` | ICD-10 无 ACS 单一类目，I24.9 不等同 ACS；避免强行合并 |
+| D-024 | `match` 区分 exact/inclusion/broader/narrower/no_single_code | 明确部分匹配与反证，不把“可用码”说成“精确等价” |
+| D-025 | WHO 只用于编码 registry，不进入事实；仅短引文，不批量复制 | 遵守 WHO 条款，保持“事实只引三份来源”的既有边界 |
+| D-026 | 审计按 `concept_url` 逐条回查；本机用临时 CA bundle `--cafile` | WHO 链的 GoDaddy 根不在本机 Windows 根库；不关闭证书校验、不提交证书 |
+
+### 验证
+
+- `python -m edkg validate --strict`：**PASS，98 实体 / 133 事实 / 9 条 ICD-10，0 错误 0 警告**。
+- `python -m unittest discover -s tests -v`：**45 项通过**。
+- `python scripts/audit_quotes.py --cafile <临时公共 CA bundle>`：**事实 133/133 + ICD-10 9/9 命中**。
+- `python scripts/verify_sources.py --cafile <临时公共 CA bundle>`：**4/4 开放来源 HTTP 200**（含 WHO）；其余 1 access_controlled + 3 candidate 按策略跳过。
+- `python -m edkg stats`：provenance 100%、重复三元组 0、来源 4 verified / 1 access_controlled / 3 candidate。
+- 查询：`--scale esi_v4_2005` 下 ACS 显示“无单一编码”，其余 8 个病种显示 code + 匹配类型。
+
+### 提交
+
+- 基线 main：`80e9cbc59e000033e60006d264102bb0fd630f93`（M1-01b）。
+- 提交信息：`M1-02: add verified WHO ICD-10 mappings for chest pain conditions`。
+- 未 force push；推送结果与远端校验以 GitHub main 历史为准；若网络失败，本条将补充“未能推送”。
+
+### 遗留/阻塞
+
+- **未经临床编码员审核**：8 条映射与 1 条 `no_single_code` 均为研究性登记。
+- **不用于临床编码/计费**：仅用于知识检索与来源追溯。
+- **不做 ICD-11/批量编码**：只覆盖当前 9 个胸痛病种。
+- **本机 TLS 根不完整**：WHO 链根不在 Windows 根库；审计使用临时 `--cafile`，证书未提交、未关闭校验。
+
+### 下一步
+
+- M1-03：呼吸困难/腹痛/发热 3 个主诉。
+- 临床编码员复核 8 条映射（维护性 TODO）。
+
+---
+
 ## 2026-11-04 | M1-01b：ESI 危险区年龄分层阈值
 
 ### 背景

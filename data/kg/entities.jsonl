@@ -1,13 +1,13 @@
 {"id":"cc.chest_pain","type":"ChiefComplaint","label_zh":"胸痛","label_en":"Chest pain","aliases":["急性胸痛","胸部疼痛"]}
 {"id":"cond.acs","type":"Condition","label_zh":"急性冠状动脉综合征","label_en":"Acute coronary syndrome","aliases":["ACS"],"properties":{"condition_kind":"syndrome","risk":"high"}}
-{"id":"cond.acute_mi","type":"Condition","label_zh":"急性心肌梗死","label_en":"Acute myocardial infarction","aliases":["急性心梗","AMI"],"properties":{"condition_kind":"disease","risk":"high"}}
-{"id":"cond.aad","type":"Condition","label_zh":"急性主动脉夹层","label_en":"Acute aortic dissection","aliases":["主动脉夹层","AAD"],"properties":{"condition_kind":"disease","risk":"high"}}
-{"id":"cond.ape","type":"Condition","label_zh":"急性肺栓塞","label_en":"Acute pulmonary embolism","aliases":["肺栓塞","APE"],"properties":{"condition_kind":"disease","risk":"high"}}
-{"id":"cond.tension_pneumothorax","type":"Condition","label_zh":"张力性气胸","label_en":"Tension pneumothorax","aliases":[],"properties":{"condition_kind":"disease","risk":"high"}}
-{"id":"cond.stable_cad","type":"Condition","label_zh":"稳定性冠心病","label_en":"Stable coronary artery disease","aliases":["稳定性心绞痛"],"properties":{"condition_kind":"disease","risk":"medium"}}
-{"id":"cond.gerd","type":"Condition","label_zh":"胃食管反流病","label_en":"Gastroesophageal reflux disease","aliases":["GERD"],"properties":{"condition_kind":"disease","risk":"low"}}
-{"id":"cond.costochondritis","type":"Condition","label_zh":"急性肋软骨炎","label_en":"Acute costochondritis","aliases":["肋软骨炎"],"properties":{"condition_kind":"disease","risk":"low"}}
-{"id":"cond.neurosis","type":"Condition","label_zh":"神经官能症","label_en":"Neurosis","aliases":[],"properties":{"condition_kind":"symptom_complex","risk":"low"}}
+{"id":"cond.acute_mi","type":"Condition","label_zh":"急性心肌梗死","label_en":"Acute myocardial infarction","aliases":["急性心梗","AMI"],"properties":{"condition_kind":"disease","risk":"high","icd10":"I21.9"}}
+{"id":"cond.aad","type":"Condition","label_zh":"急性主动脉夹层","label_en":"Acute aortic dissection","aliases":["主动脉夹层","AAD"],"properties":{"condition_kind":"disease","risk":"high","icd10":"I71.0"}}
+{"id":"cond.ape","type":"Condition","label_zh":"急性肺栓塞","label_en":"Acute pulmonary embolism","aliases":["肺栓塞","APE"],"properties":{"condition_kind":"disease","risk":"high","icd10":"I26.9"}}
+{"id":"cond.tension_pneumothorax","type":"Condition","label_zh":"张力性气胸","label_en":"Tension pneumothorax","aliases":[],"properties":{"condition_kind":"disease","risk":"high","icd10":"J93.0"}}
+{"id":"cond.stable_cad","type":"Condition","label_zh":"稳定性冠心病","label_en":"Stable coronary artery disease","aliases":["稳定性心绞痛"],"properties":{"condition_kind":"disease","risk":"medium","icd10":"I25.1"}}
+{"id":"cond.gerd","type":"Condition","label_zh":"胃食管反流病","label_en":"Gastroesophageal reflux disease","aliases":["GERD"],"properties":{"condition_kind":"disease","risk":"low","icd10":"K21.9"}}
+{"id":"cond.costochondritis","type":"Condition","label_zh":"急性肋软骨炎","label_en":"Acute costochondritis","aliases":["肋软骨炎"],"properties":{"condition_kind":"disease","risk":"low","icd10":"M94.0"}}
+{"id":"cond.neurosis","type":"Condition","label_zh":"神经官能症","label_en":"Neurosis","aliases":[],"properties":{"condition_kind":"symptom_complex","risk":"low","icd10":"F48.9"}}
 {"id":"find.chest_pressure","type":"Finding","label_zh":"胸部闷痛、压迫感或憋闷感","label_en":"Chest pressure or tightness","properties":{"finding_kind":"symptom"}}
 {"id":"find.radiating_pain","type":"Finding","label_zh":"放射至上肢、后背部或颈部","label_en":"Radiating pain","properties":{"finding_kind":"symptom"}}
 {"id":"find.tearing_chest_back_pain","type":"Finding","label_zh":"持续撕裂样胸背痛","label_en":"Tearing chest-back pain","properties":{"finding_kind":"symptom","red_flag":true}}

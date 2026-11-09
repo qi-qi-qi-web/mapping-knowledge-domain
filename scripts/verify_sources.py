@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import ssl
 import sys
 import urllib.error
 import urllib.request
@@ -22,10 +23,10 @@ from edkg.loader import load_repo  # noqa: E402
 USER_AGENT = "ED-ConsultKG-source-check/0.1 (research; contact repository owner)"
 
 
-def fetch(url: str) -> dict:
+def fetch(url: str, context: ssl.SSLContext | None = None) -> dict:
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     try:
-        with urllib.request.urlopen(request, timeout=30) as response:
+        with urllib.request.urlopen(request, timeout=30, context=context) as response:
             body = response.read()
             content_type = response.headers.get("Content-Type", "")
             return {
@@ -48,8 +49,17 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="check open source URLs in the registry")
     parser.add_argument("--root", type=Path, default=None)
     parser.add_argument("--include-candidates", action="store_true")
+    parser.add_argument("--cafile", type=Path, default=None, help="PEM CA bundle for TLS verification")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args(argv)
+
+    context: ssl.SSLContext | None = None
+    if args.cafile:
+        try:
+            context = ssl.create_default_context(cafile=str(args.cafile))
+        except (OSError, ssl.SSLError) as exc:
+            print(f"ERROR: cannot load CA bundle {args.cafile}: {exc}", file=sys.stderr)
+            return 2
 
     data = load_repo(args.root or ROOT)
     results = []
@@ -65,7 +75,7 @@ def main(argv: list[str] | None = None) -> int:
         if not (source.get("url") or "").startswith(("http://", "https://")):
             results.append({"id": source.get("id"), "skipped": "no-url"})
             continue
-        result = fetch(str(source["url"]))
+        result = fetch(str(source["url"]), context=context)
         result["id"] = source.get("id")
         result["title"] = source.get("title")
         result["registered_content_length"] = (source.get("verification") or {}).get("content_length")

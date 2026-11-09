@@ -42,7 +42,7 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 # 测试
 python -m unittest discover -s tests -v
 
-# 联网核验来源与引文（发布前）
+# 联网核验来源与引文（发布前；企业 TLS 根不完整时可加 --cafile <PEM>）
 python scripts/verify_sources.py
 python scripts/audit_quotes.py
 ```
@@ -59,28 +59,30 @@ docs/MVP.md                 胸痛 MVP 说明
 docs/research/              原始研究报告 + 图（设计输入，非数据源目录）
 schema/edkg.schema.json     Schema v0.2
 data/registry/sources.json  来源登记与核验记录
+data/registry/icd10.json    WHO ICD-10 逐病种编码映射（9 条）
 data/kg/entities.jsonl      实体（98）
 data/kg/facts.jsonl         事实（133，带 provenance）
 edkg/                       校验/查询/统计 CLI
 scripts/                    来源核验、引文审计
-tests/                      36 项单元测试
+tests/                      45 项单元测试
 .github/workflows/ci.yml    离线 CI
 ```
 
 ## 数据真实性
 
-当前使用三份**已核验、可访问**的来源：
+当前登记四份**已核验、可访问**的来源：三份进入事实，WHO ICD-10 仅用于编码映射：
 
 | 来源 | 链接 | 用途 |
 |---|---|---|
 | 急性胸痛急诊诊疗专家共识（2019） | http://mc.cem.org.cn/rhtml/20190402/index.htm | 胸痛病因、危险分层、检查、治疗、胸痛中心 |
 | 急诊预检分诊专家共识（2018） | http://mc.cem.org.cn/rhtml/20180606/index.htm | 中国四级分诊、响应时限、分区 |
 | AHRQ ESI v4 Implementation Handbook（2005，公有领域） | https://permanent.access.gpo.gov/lps46616/lps46616/www.ahrq.gov/research/esi/esihandbk.pdf | ESI 五级、资源需求、危险区规则 |
+| WHO ICD-10-WHO Version for 2019 (COVID-19 expanded) | https://icd.who.int/browse10/2019/en | 9 个胸痛病种的逐条编码映射；仅短引文 + GetConcept 链接 |
 
 - 只保存**短引文 + 章节定位**，不转载全文/PDF（AHRQ 公有领域，但仍只存抽取事实）；
-- `candidate` 来源（MIMIC-IV-ED、DDXPlus、TriageAgent、PrimeKG、ICD-10）只登记、**不进入事实**；
+- `candidate` 来源（MIMIC-IV-ED、DDXPlus、TriageAgent、PrimeKG）只登记、**不进入事实**；WHO ICD-10 已核验，仅用于编码映射、不进入事实；
 - 报告中的 arXiv/数据集引用未逐条核验，不作为数据源；见 [`docs/research/README.md`](docs/research/README.md)；
-- 事实只能引用 `verified` 来源；`python scripts/audit_quotes.py` 逐条回查原文（当前：133/133 通过）。
+- 事实只能引用 `verified` 来源；`python scripts/audit_quotes.py` 逐条回查原文（当前：事实 133/133 + ICD-10 9/9 通过）。
 - **中国四级与 ESI 五级分别建模，不互映射**；查询默认分组展示，也可用 `--scale` 只看一套。
 
 ## 当前质量指标
@@ -91,15 +93,15 @@ tests/                      36 项单元测试
 | 实体 / 事实 | 98 / 133 |
 | provenance 完整率 | 100% |
 | 重复三元组 | 0 |
-| 引文审计 | 133/133 命中 |
-| 开放来源核验 | 3/3 HTTP 200 |
-| 单元测试 | 36 项通过 |
+| 引文审计 | 事实 133/133 + ICD-10 9/9 命中 |
+| 开放来源核验 | 4/4 HTTP 200 |
+| 单元测试 | 45 项通过 |
 | CI（GitHub Actions） | [见 Actions](https://github.com/qi-qi-qi-web/mapping-knowledge-domain/actions) |
 | 临床审核 | **未做**（全部 ai-draft） |
 
 ## 路线图
 
-- **M1（进行中）**：ESI 五级已完成（5 级 / 12 项指标 / 资源规则 / 年龄分层危险区阈值）；待办：ICD-10 编码、呼吸困难/腹痛/发热、Neo4j 导出、专科会诊、20 条抽检；
+- **M1（进行中）**：ESI 五级已完成（5 级 / 12 项指标 / 资源规则 / 年龄分层危险区阈值）；WHO ICD-10 已完成 9 个病种逐条映射（8 个编码，ACS 无单一码）；待办：呼吸困难/腹痛/发热、Neo4j 导出、专科会诊、20 条抽检；
 - **M2**：10 主诉、30+ 高危病种、LLM 候选抽取 + HITL、L1/L2 评估；
 - **M3**：大规模扩展、GraphRAG/路径检索、DDXPlus/MIMIC 评测、论文产出。
 

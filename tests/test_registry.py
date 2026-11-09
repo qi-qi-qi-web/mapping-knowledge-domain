@@ -41,11 +41,16 @@ class RegistryTests(unittest.TestCase):
             self.assertEqual(source["status"], "verified", source_id)
             self.assertTrue(allowed & set(source["used_in"]), source_id)
 
-    def test_every_active_source_is_cited(self) -> None:
+    def test_every_active_source_is_cited_or_mapped(self) -> None:
         cited = {fact["provenance"]["source_id"] for fact in self.data.facts}
+        mapped = {
+            entry.get("source_id")
+            for entry in self.data.icd10.get("entries", [])
+            if isinstance(entry, dict)
+        }
         for source in self.data.sources["sources"]:
             if source["status"] == "verified" and {"mvp", "m1"} & set(source["used_in"]):
-                self.assertIn(source["id"], cited)
+                self.assertIn(source["id"], cited | mapped)
 
 
 if __name__ == "__main__":

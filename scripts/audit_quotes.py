@@ -12,6 +12,7 @@ import argparse
 import hashlib
 import json
 import shutil
+import ssl
 import subprocess
 import sys
 import urllib.error
@@ -27,10 +28,9 @@ from edkg.normalize import quote_in_text, strip_html  # noqa: E402
 USER_AGENT = "ED-ConsultKG-quote-audit/0.1 (research; contact repository owner)"
 
 
-def fetch_text(source: dict) -> str:
-    url = str(source.get("url"))
+def fetch_text(url: str, context: ssl.SSLContext | None = None) -> str:
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(request, timeout=30) as response:
+    with urllib.request.urlopen(request, timeout=30, context=context) as response:
         content_type = (response.headers.get("Content-Type") or "").lower()
         body = response.read()
         charset = response.headers.get_content_charset() or "utf-8"
@@ -72,12 +72,25 @@ def _pdf_to_text(body: bytes) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="verify every fact quote appears in its source")
+    parser = argparse.ArgumentParser(description="verify every fact and ICD-10 quote appears in its source")
     parser.add_argument("--root", type=Path, default=None)
     parser.add_argument("--source", help="only audit facts citing this source id")
     parser.add_argument("--fact", help="only audit this fact id")
+    parser.add_argument("--icd10", action="store_true", help="only audit ICD-10 registry quotes")
+    parser.add_argument("--cafile", type=Path, default=None, help="PEM CA bundle for TLS verification")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args(argv)
+
+    if args.icd10 and (args.source or args.fact):
+        parser.error("--icd10 cannot be combined with --source or --fact")
+
+    context: ssl.SSLContext | None = None
+    if args.cafile:
+        try:
+            context = ssl.create_default_context(cafile=str(args.cafile))
+        except (OSError, ssl.SSLError) as exc:
+            print(f"ERROR: cannot load CA bundle {args.cafile}: {exc}", file=sys.stderr)
+            return 2
 
     data = load_repo(args.root or ROOT)
     sources = data.source_by_id
@@ -85,48 +98,130 @@ def main(argv: list[str] | None = None) -> int:
     cache_error: dict[str, str] = {}
     failures: list[dict] = []
     checked = 0
+    icd10_checked = 0
 
-    for fact in data.facts:
-        fact_id = str(fact.get("id"))
-        provenance = fact.get("provenance") or {}
-        source_id = str(provenance.get("source_id"))
-        if args.source and source_id != args.source:
-            continue
-        if args.fact and fact_id != args.fact:
-            continue
-        source = sources.get(source_id)
-        if not source:
-            failures.append({"fact": fact_id, "source": source_id, "error": "source not registered"})
-            continue
-        if source_id not in cache and source_id not in cache_error:
+    def get_text(url: str) -> str | None:
+        if url not in cache and url not in cache_error:
             try:
-                cache[source_id] = fetch_text(source)
+                cache[url] = fetch_text(url, context)
             except Exception as exc:  # noqa: BLE001 - report, do not crash the audit
-                cache_error[source_id] = f"{type(exc).__name__}: {exc}"
-        if source_id in cache_error:
-            failures.append({"fact": fact_id, "source": source_id, "error": cache_error[source_id]})
-            continue
-        quote = str(provenance.get("quote") or "")
-        checked += 1
-        if not quote_in_text(quote, cache[source_id]):
-            failures.append(
-                {
-                    "fact": fact_id,
-                    "source": source_id,
-                    "locator": provenance.get("locator"),
-                    "quote": quote,
-                    "error": "quote not found in fetched source text",
-                }
-            )
+                cache_error[url] = f"{type(exc).__name__}: {exc}"
+        if url in cache_error:
+            return None
+        return cache.get(url)
 
+    do_facts = not args.icd10
+    do_icd10 = not (args.source or args.fact)
+
+    if do_facts:
+        for fact in data.facts:
+            fact_id = str(fact.get("id"))
+            provenance = fact.get("provenance") or {}
+            source_id = str(provenance.get("source_id"))
+            if args.source and source_id != args.source:
+                continue
+            if args.fact and fact_id != args.fact:
+                continue
+            source = sources.get(source_id)
+            if not source:
+                failures.append({"fact": fact_id, "source": source_id, "error": "source not registered"})
+                continue
+            url = str(source.get("url") or "")
+            if not url:
+                failures.append({"fact": fact_id, "source": source_id, "error": "source has no URL"})
+                continue
+            text = get_text(url)
+            if text is None:
+                failures.append(
+                    {"fact": fact_id, "source": source_id, "error": cache_error.get(url, "fetch failed")}
+                )
+                continue
+            quote = str(provenance.get("quote") or "")
+            checked += 1
+            if not quote_in_text(quote, text):
+                failures.append(
+                    {
+                        "fact": fact_id,
+                        "source": source_id,
+                        "locator": provenance.get("locator"),
+                        "quote": quote,
+                        "error": "quote not found in fetched source text",
+                    }
+                )
+
+    if do_icd10:
+        registry = data.icd10 if isinstance(data.icd10, dict) else {}
+        entries = registry.get("entries", [])
+        if not entries:
+            failures.append({"kind": "icd10", "error": "no ICD-10 registry entries"})
+        for index, entry in enumerate(entries):
+            if not isinstance(entry, dict):
+                failures.append({"kind": "icd10", "entry": index, "error": "entry is not an object"})
+                continue
+            condition_id = str(entry.get("condition_id") or "")
+            url = str(entry.get("concept_url") or "")
+            quote = str(entry.get("quote") or "")
+            if not url:
+                failures.append(
+                    {
+                        "kind": "icd10",
+                        "condition_id": condition_id,
+                        "code": entry.get("code"),
+                        "error": "entry has no concept_url",
+                    }
+                )
+                continue
+            text = get_text(url)
+            if text is None:
+                failures.append(
+                    {
+                        "kind": "icd10",
+                        "condition_id": condition_id,
+                        "code": entry.get("code"),
+                        "url": url,
+                        "error": cache_error.get(url, "fetch failed"),
+                    }
+                )
+                continue
+            icd10_checked += 1
+            if not quote_in_text(quote, text):
+                failures.append(
+                    {
+                        "kind": "icd10",
+                        "condition_id": condition_id,
+                        "code": entry.get("code"),
+                        "source_id": entry.get("source_id"),
+                        "url": url,
+                        "locator": entry.get("locator"),
+                        "quote": quote,
+                        "error": "quote not found in fetched ICD-10 concept page",
+                    }
+                )
+
+    fact_failures = [item for item in failures if item.get("kind") != "icd10"]
+    icd10_failures = [item for item in failures if item.get("kind") == "icd10"]
     if args.json:
-        print(json.dumps({"checked": checked, "failures": failures}, ensure_ascii=False, indent=2))
+        print(
+            json.dumps(
+                {"checked": checked, "icd10_checked": icd10_checked, "failures": failures},
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
     else:
         for failure in failures:
-            print(f"FAIL {failure.get('fact')} [{failure.get('source')}]: {failure.get('error')}")
+            label = (
+                failure.get("fact")
+                or failure.get("condition_id")
+                or f"entry[{failure.get('entry')}]"
+                or "?"
+            )
+            source = failure.get("source") or failure.get("source_id") or failure.get("url") or "-"
+            print(f"FAIL {label} [{source}]: {failure.get('error')}")
             if failure.get("quote"):
                 print(f"     quote={failure['quote']}")
-        print(f"\nquotes checked: {checked}, failures: {len(failures)}")
+        print(f"\nfacts checked: {checked}, failures: {len(fact_failures)}")
+        print(f"ICD-10 quotes checked: {icd10_checked}, failures: {len(icd10_failures)}")
     return 1 if failures else 0
 
 

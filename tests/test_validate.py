@@ -11,14 +11,21 @@ from edkg.validate import validate_repo
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def _mutated(mutator: Callable[[dict, dict, list, list], None]) -> RepoData:
+def _mutated(
+    mutator: Callable[[dict, dict, list, list], None] | None = None,
+    registry_mutator: Callable[[dict], None] | None = None,
+) -> RepoData:
     data = load_repo(ROOT)
     schema = copy.deepcopy(data.schema)
     sources = copy.deepcopy(data.sources)
     entities = copy.deepcopy(data.entities)
     facts = copy.deepcopy(data.facts)
-    mutator(schema, sources, entities, facts)
-    return RepoData(ROOT, schema, sources, entities, facts)
+    icd10 = copy.deepcopy(data.icd10)
+    if mutator is not None:
+        mutator(schema, sources, entities, facts)
+    if registry_mutator is not None:
+        registry_mutator(icd10)
+    return RepoData(ROOT, schema, sources, entities, facts, icd10=icd10)
 
 
 def _codes(report) -> set[str]:
@@ -100,6 +107,70 @@ class ValidateTests(unittest.TestCase):
 
         report = validate_repo(_mutated(mutate))
         self.assertIn("provenance.quote_long", _codes(report))
+
+    def test_coded_condition_requires_registry_entry(self) -> None:
+        def drop_entry(registry):
+            registry["entries"] = [
+                entry
+                for entry in registry["entries"]
+                if entry["condition_id"] != "cond.acute_mi"
+            ]
+
+        report = validate_repo(_mutated(registry_mutator=drop_entry))
+        self.assertIn("icd10.missing", _codes(report))
+
+    def test_condition_code_must_match_registry(self) -> None:
+        def change_code(registry):
+            entry = next(
+                item for item in registry["entries"] if item["condition_id"] == "cond.acute_mi"
+            )
+            entry["code"] = "I21.4"
+
+        report = validate_repo(_mutated(registry_mutator=change_code))
+        self.assertIn("icd10.code_mismatch", _codes(report))
+
+    def test_icd10_source_must_be_verified_and_used(self) -> None:
+        def candidate(schema, sources, entities, facts):
+            source = next(
+                item for item in sources["sources"] if item["id"] == "src.who.icd10.2019"
+            )
+            source["status"] = "candidate"
+            source["used_in"] = ["m1"]
+
+        report = validate_repo(_mutated(candidate))
+        self.assertIn("icd10.source_status", _codes(report))
+
+        def unused(schema, sources, entities, facts):
+            source = next(
+                item for item in sources["sources"] if item["id"] == "src.who.icd10.2019"
+            )
+            source["used_in"] = []
+
+        report = validate_repo(_mutated(unused))
+        self.assertIn("icd10.source_usage", _codes(report))
+
+    def test_no_single_code_condition_must_not_have_code(self) -> None:
+        def mutate(schema, sources, entities, facts):
+            condition = next(item for item in entities if item["id"] == "cond.acs")
+            condition["properties"]["icd10"] = "I24.9"
+
+        report = validate_repo(_mutated(mutate))
+        self.assertIn("icd10.no_single_code", _codes(report))
+
+    def test_minimum_coded_conditions_is_enforced(self) -> None:
+        def raise_minimum(schema, sources, entities, facts):
+            schema["constraints"]["min_coded_conditions"] = 9
+
+        report = validate_repo(_mutated(raise_minimum))
+        self.assertIn("icd10.minimum", _codes(report))
+
+    def test_condition_icd10_format_is_checked(self) -> None:
+        def mutate(schema, sources, entities, facts):
+            condition = next(item for item in entities if item["id"] == "cond.acute_mi")
+            condition["properties"]["icd10"] = "I219"
+
+        report = validate_repo(_mutated(mutate))
+        self.assertIn("icd10.code_format", _codes(report))
 
 
 if __name__ == "__main__":

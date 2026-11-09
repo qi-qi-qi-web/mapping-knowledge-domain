@@ -179,7 +179,10 @@
 
 ### 5.4 编码
 
-- M0/M1 的 `Condition.icd10` 全部留空；M1 只有在核验 WHO ICD 官方导出/许可后才可填。
+- `Condition.icd10` 只在 `data/registry/icd10.json` 有逐条核验记录时填写；每个 entry 必须有 `condition_id`、`code`、`title_en`、`concept_url`、`quote`、`match`、`source_id`。
+- 只允许引用 `src.who.icd10.2019`（WHO ICD-10-WHO Version for 2019 / COVID-19 expanded）的官方 `GetConcept` 页；不得凭记忆写码，不得批量导入全文。
+- `match` 区分 `exact` / `inclusion` / `broader` / `narrower` / `no_single_code`；ICD-10 没有 ACS 单一类目，`cond.acs` 必须为 `no_single_code` 且不填 `Condition.icd10`。
+- 编码仅用于知识检索与来源追溯，不用于临床编码/计费；映射未经临床编码员审核。
 
 ### 5.5 查询
 
@@ -292,10 +295,10 @@
 
 ---
 
-## 11. 当前状态与下一步（M1 进行中，2026-11-04）
+## 11. 当前状态与下一步（M1 进行中，2026-11-09）
 
-- 已完成：Schema v0.2、8 个来源登记（3 verified / 1 access_controlled / 4 candidate）、胸痛种子图谱 98 实体 / 133 事实、中国四级 + ESI v4 两套分诊量表、校验器、scale-aware 查询 CLI、36 项测试、CI。
-- M1 增量：ESI v4 五级、12 个 `TriageCriterion`（含 4 个年龄分层危险区阈值）、资源需求规则、危险区上调规则；查询支持 `--scale` 分组展示。
-- 全部事实 `ai-draft`，引用三份来源（2 份中文共识 + AHRQ ESI v4）；**未做临床审核**。
-- 未做：ICD 编码、更多主诉、Neo4j、LLM 抽取、MIMIC/DDXPlus 评测、临床专家审核。
+- 已完成：Schema v0.2、8 个来源登记（4 verified / 1 access_controlled / 3 candidate）、胸痛种子图谱 98 实体 / 133 事实、中国四级 + ESI v4 两套分诊量表、WHO ICD-10 9 条逐病种映射（8 个编码，ACS 无单一码）、校验器、scale-aware 查询 CLI、45 项测试、CI。
+- M1 增量：ESI v4 五级、12 个 `TriageCriterion`（含 4 个年龄分层危险区阈值）、资源需求规则、危险区上调规则；WHO ICD-10 编码映射（`data/registry/icd10.json`，查询 JSON/文本展示）。
+- 全部事实 `ai-draft`，引用三份来源（2 份中文共识 + AHRQ ESI v4）；WHO ICD-10 仅用于编码映射；**未做临床审核/临床编码员审核**。
+- 未做：ICD-11/批量编码、更多主诉、Neo4j、LLM 抽取、MIMIC/DDXPlus 评测、临床专家审核。
 - 下一步见 `TODO.md` 的 M1；任何扩展先补来源核验与引文，再谈规模。

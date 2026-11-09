@@ -1,10 +1,10 @@
 {
   "version": "0.1.0",
-  "checked_at": "2026-10-29",
+  "checked_at": "2026-11-09",
   "policy": {
     "active_status": "verified",
     "candidate_use": "forbidden-in-facts",
-    "note": "只有 status=verified 且 used_in 含 mvp 的来源可被 M0 事实引用。候选来源只登记、不使用；核验记录必须可复核。"
+    "note": "只有 status=verified 且 used_in 含 mvp 或 m1 的来源可被事实或编码注册表引用。候选来源只登记、不使用；核验记录必须可复核。"
   },
   "sources": [
     {
@@ -193,7 +193,7 @@
     {
       "id": "src.who.icd10.2019",
       "type": "classification",
-      "title": "ICD-10 Version 2019",
+      "title": "ICD-10-WHO Version for 2019 (COVID-19 expanded)",
       "authors": ["World Health Organization"],
       "publisher": "WHO",
       "year": 2019,
@@ -201,20 +201,20 @@
       "url": "https://icd.who.int/browse10/2019/en",
       "doi": null,
       "access": "open",
-      "license": "WHO-terms-unverified",
-      "redistribution": "unknown",
-      "status": "candidate",
-      "used_in": [],
-      "topics": ["icd10", "terminology"],
+      "license": "WHO terms of use; short excerpts for research with attribution; no bulk reproduction",
+      "redistribution": "quotes-only",
+      "status": "verified",
+      "used_in": ["m1"],
+      "topics": ["icd10", "terminology", "coding"],
       "verification": {
-        "checked_at": "2026-10-29",
-        "method": "not_checked",
-        "http_status": null,
-        "content_type": null,
-        "content_length": null,
-        "notes": "M0 不给 ICD 编码；待 M1 用官方导出/许可核验后再填。"
+        "checked_at": "2026-11-09",
+        "method": "http_get",
+        "http_status": 200,
+        "content_type": "text/html; charset=utf-8",
+        "content_length": 21878,
+        "notes": "官方浏览器版本 ICD-10-WHO；页面版本头为 'International Statistical Classification of Diseases and Related Health Problems 10th Revision (ICD-10)-WHO Version for ;2019-covid-expanded'。许可参考 https://www.who.int/about/policies/publishing/copyright 与 https://www.who.int/about/policies/terms-of-use；仅保存短引文与 GetConcept 链接，不保存全文/PDF，不做批量导出。"
       },
-      "notes": "编码对齐候选；M0 的 Condition.icd10 全部留空。"
+      "notes": "M1-02 编码来源：9 个胸痛 Condition 的逐条映射登记在 data/registry/icd10.json；WHO 仅用于编码注册表，不用于事实引文。"
     }
   ]
 }

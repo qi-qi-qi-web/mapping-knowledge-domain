@@ -21,7 +21,7 @@
 
 - 不是临床决策系统；所有输出仅供研究，必须由医生复核。
 - 不做完整 30+ 病种/10 万实体；当前仍只做胸痛一个主诉（M1 增加 ESI 分诊量表）。
-- 不做中国四级/ESI 五级互相映射、不做 ICD 编码批量对齐、不做 MIMIC 数据。
+- 不做中国四级/ESI 五级互相映射、不做 ICD 编码批量对齐（M1-02 仅对 9 个病种逐条映射）、不做 MIMIC 数据。
 - 不声称临床验证通过；当前全部事实为 `ai-draft`。
 
 ---
@@ -111,7 +111,8 @@ Agent 只能创建 `ai-draft`/`needs-review`；`clinician-approved` 只能由具
 ### 4.4 明确不做
 
 - 中国四级 ↔ ESI 五级映射：**不做**；两套量表分别建模、查询分组展示。
-- 当前阶段的 ICD-10/ICD-11 编码：**留空**；待 WHO 官方导出/许可核验后再填。
+- 当前阶段只对 M0 的 9 个胸痛 Condition 做逐条 ICD-10 核验（M1-02：8 个编码 + ACS 无单一码）；不做全量/批量对齐，不做 ICD-11。
+- ICD-10 映射只用于知识检索与来源追溯，不用于临床编码/计费；映射未经临床编码员审核。
 - 病种级会诊科室：当前只写来源明确的胸痛中心参与科室与转诊条件；专科会诊留给后续。
 
 ---
@@ -125,6 +126,7 @@ Agent 只能创建 `ai-draft`/`needs-review`；`clinician-approved` 只能由具
 | `src.cn.chest_pain.2019` | 《急性胸痛急诊诊疗专家共识》，中华急诊医学杂志 2019;29(4):413-420，DOI 10.3760/cma.j.issn.1671-0282.2019.04.002 | 开放 HTML，HTTP 200 | 版权归中华医学会；仅短引文，不转载全文 | 胸痛病因、危险分层、检查、治疗、MDT |
 | `src.cn.triage.2018` | 《急诊预检分诊专家共识》，中华急诊医学杂志 2018;27(6):599-604 | 开放 HTML，HTTP 200 | 同上 | 中国四级分诊、响应时限、分区 |
 | `src.us.ahrq.esi.v4.2005` | AHRQ ESI v4 Implementation Handbook，Pub. No. 05-0046-2 | 开放 PDF，HTTP 200，463,412 bytes | 美国政府作品，公有领域 | M1 已抽取 ESI 五级、资源规则、危险区规则 |
+| `src.who.icd10.2019` | ICD-10-WHO Version for 2019 (COVID-19 expanded) | 开放 HTML，HTTP 200，21,878 bytes | WHO 条款；仅短引文 + GetConcept 链接，不批量复制 | M1-02 的 9 条胸痛病种编码映射（8 个编码，ACS 无单一码） |
 
 ### 5.2 仅登记、当前不用的来源
 
@@ -134,7 +136,6 @@ Agent 只能创建 `ai-draft`/`needs-review`；`clinician-approved` 只能由具
 | `src.github.ddxplus` | DDXPlus | candidate | 许可证未核验 |
 | `src.github.triageagent` | TriageAgent | candidate | 无许可证文件 |
 | `src.harvard.primekg` | PrimeKG | candidate | 版本/许可未核验 |
-| `src.who.icd10.2019` | ICD-10 v2019 | candidate | 当前不给编码；待官方导出/许可核验 |
 
 ### 5.3 报告的处理
 
@@ -162,14 +163,14 @@ Agent 只能创建 `ai-draft`/`needs-review`；`clinician-approved` 只能由具
 | 项目 | 位置 | 状态 |
 |---|---|---|
 | Schema v0.1 | `schema/edkg.schema.json` | 完成，校验通过 |
-| 来源登记 | `data/registry/sources.json` | 3 verified / 1 access_controlled / 4 candidate |
+| 来源登记 | `data/registry/sources.json` | 3 verified / 1 access_controlled / 4 candidate（M0 时点） |
 | 实体 | `data/kg/entities.jsonl` | 80 |
 | 事实 | `data/kg/facts.jsonl` | 116，全部 `ai-draft`，provenance 100% |
 | 校验器 | `edkg/validate.py`、`python -m edkg validate` | 0 错误 0 警告 |
 | 查询 CLI | `edkg/query.py`、`python -m edkg query --complaint 胸痛` | 可返回分诊指标、高危鉴别、检查、处置、MDT、证据 |
 | 引文审计 | `scripts/audit_quotes.py` | 116/116 通过（2026-10-29） |
-| 来源核验 | `scripts/verify_sources.py` | 3/3 开放来源 HTTP 200 |
-| 测试 | `tests/` | 30 项通过 |
+| 来源核验 | `scripts/verify_sources.py` | 3/3 开放来源 HTTP 200（M0 时点） |
+| 测试 | `tests/` | 30 项通过（M0 时点） |
 | CI | `.github/workflows/ci.yml` | 已通过（Actions run 40813253228） |
 
 ### 6.3 查询示例
@@ -205,7 +206,7 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 | 来源 | `src.us.ahrq.esi.v4.2005`（AHRQ 公有领域 PDF，SHA256 已登记） |
 | 覆盖 | 五级定义、高危/意识/疼痛/资源规则、4 个年龄分层危险区阈值（HR/RR/SaO2<92%） |
 | 查询 | `--scale esi_v4_2005`；默认与中国四级分组展示，不互映射 |
-| 质量门 | validate 0/0；36 项测试；133/133 引文命中 |
+| 质量门 | validate 0/0；45 项测试；事实 133/133 + ICD 9/9 引文命中 |
 | 证据说明 | HR/RR 有 `pdftotext -raw` 文本引文；SaO2<92% 为 Figure 6-1 图像目视转录，裁剪图见 `docs/research/figures/esi_fig6_1_danger_zone.png` |
 
 年龄分层阈值（Figure 6-1, p. 41）：
@@ -224,6 +225,18 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 - `criterion_type` 新增 `algorithm`；`level_value` 新增 `5`；
 - 查询对 ESI 显示全部算法指标，对中国四级仍按当前主诉/病种匹配相关指标；
 - 明确不生成中国四级 ↔ ESI 五级的对应关系。
+
+### 6.6 M1-02：WHO ICD-10 编码映射（2026-11-09）
+
+| 项目 | 结果 |
+|---|---|
+| 来源 | `src.who.icd10.2019`，WHO ICD-10-WHO Version for 2019 (COVID-19 expanded)，HTTP 200 |
+| 登记 | `data/registry/icd10.json`，9 条 entry；8 个 `Condition.icd10`，ACS 无单一码 |
+| 匹配 | `exact` 1、`inclusion` 2、`broader` 2、`narrower` 3、`no_single_code` 1 |
+| 追溯 | 每条 entry 含 `concept_url`（GetConcept?ConceptId=…）、`quote`、`locator`、`source_id`、`checked_at` |
+| 查询 | JSON 的 condition 增加 `icd10`；文本输出显示编码、匹配类型与来源，并提示不用于临床编码/计费 |
+| 质量门 | `validate --strict` 0/0；45 项测试；ICD-10 9/9 引文命中；4/4 来源 HTTP 200 |
+| 边界 | 不做 ICD-11、不做全量/批量编码；未经临床编码员审核 |
 
 ---
 
@@ -301,7 +314,7 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 | 阶段 | 目标 | 规模目标 | 验收 |
 |---|---|---|---|
 | **M0（已完成）** | 治理文档 + Schema + 胸痛 MVP + 校验/查询/审计/CI | 80 实体 / 116 事实 | 本页 6.4 全通过 |
-| **M1（进行中）** | ESI 五级 + 危险区阈值已完成；待办：ICD-10、3 个新主诉、Neo4j、专科会诊 | 当前 98 / 133；目标 300+ / 800+ | 两套量表独立可查；引文 100%；新增测试 |
+| **M1（进行中）** | ESI 五级 + 危险区阈值、WHO ICD-10 9 条映射已完成；待办：3 个新主诉、Neo4j、专科会诊 | 当前 98 / 133；目标 300+ / 800+ | 两套量表独立可查；ICD 映射可回溯；引文 100%；新增测试 |
 | M2 | 10 主诉、30+ 高危病种；LLM 候选抽取 + HITL 队列；L1/L2 评估 | 2k+ 实体 / 8k+ 事实 | 抽检通过率 ≥90%；无候选来源进入事实 |
 | M3 | 大规模扩展；GraphRAG/路径检索；DDXPlus/MIMIC 评测；论文产出 | 10k+ 实体 / 50k+ 关系 | 可复现实验、DUA/伦理合规、统计方案落地 |
 
@@ -324,6 +337,7 @@ docs/
   research/               原始报告 + 图 + 引用警示
 schema/edkg.schema.json   机器可读 Schema
 data/registry/sources.json  来源登记
+data/registry/icd10.json    WHO ICD-10 逐病种编码映射
 data/kg/entities.jsonl    实体
 data/kg/facts.jsonl       事实
 edkg/                     零依赖工具链（loader/validate/query/stats/CLI）
@@ -352,7 +366,7 @@ tests/                    单元测试与负例
 ## 12. 近期执行顺序
 
 1. 保持校验/测试/引文审计为每次提交门禁。
-2. M1-02：核验 WHO ICD-10 官方导出，填 `Condition.icd10`。
+2. M1-02（已完成）：WHO ICD-10 核验，9 个胸痛病种逐条映射，8 个编码，ACS 无单一码。
 3. M1-03：新增呼吸困难/腹痛/发热 3 个主诉，逐病种补来源。
 4. M1-04：Neo4j/Cypher 导出 + 10 个查询用例。
 5. M1-05：M1 质量评估（20 条抽检 + 引文 100%）。

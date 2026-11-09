@@ -21,6 +21,23 @@ class QueryTests(unittest.TestCase):
         for expected in ("cond.acs", "cond.aad", "cond.ape", "cond.tension_pneumothorax"):
             self.assertIn(expected, ids)
 
+    def test_icd10_mappings_are_exposed(self) -> None:
+        conditions = {item["id"]: item for item in self.result["conditions"]}
+        acute_mi = conditions["cond.acute_mi"]["icd10"]
+        self.assertEqual(acute_mi["code"], "I21.9")
+        self.assertEqual(acute_mi["match"], "exact")
+        self.assertEqual(acute_mi["match_label"], "精确")
+        acs = conditions["cond.acs"]["icd10"]
+        self.assertIsNone(acs["code"])
+        self.assertEqual(acs["match"], "no_single_code")
+        self.assertIn("I24.9", acs["note_zh"])
+
+    def test_render_text_includes_icd10_caveat(self) -> None:
+        text = render_text(self.result)
+        self.assertIn("ICD-10", text)
+        self.assertIn("无单一编码", text)
+        self.assertIn("不用于临床编码", text)
+
     def test_chest_pain_triage_levels_are_present(self) -> None:
         ids = {item["id"] for item in self.result["triage"]["levels"]}
         self.assertIn("level.cn4.2", ids)

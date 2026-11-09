@@ -9,6 +9,8 @@ from typing import Any
 from .loader import RepoData
 
 _DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+_ICD10_CODE = re.compile(r"^[A-Z][0-9]{2}(\.[0-9A-Z]{1,4})?$")
+_ICD10_URL_PREFIX = "https://icd.who.int/browse10/2019/en/GetConcept?ConceptId="
 
 
 @dataclass
@@ -220,6 +222,217 @@ def _validate_provenance(
         report.error("provenance.extracted_by", f"{context}: extracted_by is required", record_id)
 
 
+def _validate_icd10(
+    registry: Any,
+    entities: dict[str, dict[str, Any]],
+    sources: dict[str, dict[str, Any]],
+    schema: dict[str, Any],
+    report: ValidationReport,
+) -> None:
+    """Validate the M1 ICD-10 registry and its links to Condition entities."""
+    report.counts["icd10_entries"] = 0
+    if not isinstance(registry, dict):
+        report.error("icd10.registry", "data/registry/icd10.json must be an object")
+        return
+
+    if registry.get("system") != "ICD-10":
+        report.error("icd10.system", "ICD-10 registry system must be 'ICD-10'")
+    if not _nonempty_str(registry.get("version")):
+        report.error("icd10.version", "ICD-10 registry version is required")
+
+    source_id = registry.get("source_id")
+    source = sources.get(str(source_id)) if source_id else None
+    if source is None:
+        report.error("icd10.source", f"ICD-10 registry source {source_id!r} is not registered")
+    else:
+        if source.get("status") != "verified":
+            report.error(
+                "icd10.source_status",
+                f"ICD-10 registry source {source_id} is not verified",
+                str(source_id),
+            )
+        allowed_usage = _as_list(schema.get("constraints", {}).get("allowed_fact_source_usage"))
+        if allowed_usage and not set(allowed_usage) & set(_as_list(source.get("used_in"))):
+            report.error(
+                "icd10.source_usage",
+                f"ICD-10 registry source {source_id} is not marked used_in any of {allowed_usage}",
+                str(source_id),
+            )
+
+    checked_at = registry.get("checked_at")
+    if not isinstance(checked_at, str) or not _DATE.match(checked_at):
+        report.error("icd10.checked_at", "ICD-10 registry checked_at must be YYYY-MM-DD")
+
+    entries = registry.get("entries")
+    if not isinstance(entries, list) or not entries:
+        report.error("icd10.entries", "ICD-10 registry entries must be a non-empty list")
+        return
+
+    report.counts["icd10_entries"] = len(entries)
+    match_types = set(_as_list(schema.get("enums", {}).get("icd10_match_type")))
+    try:
+        minimum = int(schema.get("constraints", {}).get("min_coded_conditions", 6))
+    except (TypeError, ValueError):
+        minimum = 6
+
+    seen_conditions: set[str] = set()
+    seen_codes: set[str] = set()
+    coded = 0
+    for index, entry in enumerate(entries):
+        fallback_id = f"icd10[{index}]"
+        if not isinstance(entry, dict):
+            report.error("icd10.entry", f"{fallback_id}: entry must be an object", fallback_id)
+            continue
+        condition_id = entry.get("condition_id")
+        if not _nonempty_str(condition_id):
+            report.error("icd10.entry", f"{fallback_id}: condition_id is required", fallback_id)
+            continue
+        condition_id = str(condition_id)
+        record_id = condition_id
+
+        for key in (
+            "title_en",
+            "concept_url",
+            "locator",
+            "quote",
+            "match",
+            "source_id",
+            "checked_at",
+            "note_zh",
+        ):
+            if not _nonempty_str(entry.get(key)):
+                report.error("icd10.entry", f"{record_id}: missing {key}", record_id)
+
+        condition = entities.get(condition_id)
+        if condition is None or condition.get("type") != "Condition":
+            report.error("icd10.condition", f"{record_id}: condition is not registered", record_id)
+            continue
+        if condition_id in seen_conditions:
+            report.error("icd10.duplicate_condition", f"duplicate ICD-10 condition {condition_id}", record_id)
+        seen_conditions.add(condition_id)
+
+        if entry.get("source_id") != source_id:
+            report.error(
+                "icd10.source",
+                f"{record_id}: entry source_id {entry.get('source_id')!r} != registry source {source_id!r}",
+                record_id,
+            )
+        match = entry.get("match")
+        if match not in match_types:
+            report.error("icd10.match", f"{record_id}: invalid match type {match!r}", record_id)
+
+        code = entry.get("code")
+        if not (code is None or isinstance(code, str)):
+            report.error("icd10.code_format", f"{record_id}: code must be a string or null", record_id)
+            code = None
+        elif isinstance(code, str) and not code.strip():
+            report.error("icd10.code_format", f"{record_id}: code must not be an empty string", record_id)
+            code = None
+        valid_code = isinstance(code, str) and bool(_ICD10_CODE.fullmatch(code))
+        if code is not None and not valid_code:
+            report.error("icd10.code_format", f"{record_id}: invalid ICD-10 code {code!r}", record_id)
+
+        properties = condition.get("properties")
+        if not isinstance(properties, dict):
+            properties = {}
+        condition_code = properties.get("icd10")
+
+        if code is None:
+            if match != "no_single_code":
+                report.error(
+                    "icd10.no_single_code",
+                    f"{record_id}: code is empty but match is {match!r}",
+                    record_id,
+                )
+            if "icd10" in properties and condition_code is not None:
+                report.error(
+                    "icd10.no_single_code",
+                    f"{record_id}: no_single_code condition must not have condition.icd10",
+                    record_id,
+                )
+        else:
+            if match == "no_single_code":
+                report.error(
+                    "icd10.no_single_code",
+                    f"{record_id}: code {code!r} cannot use no_single_code",
+                    record_id,
+                )
+            if valid_code:
+                coded += 1
+                if code in seen_codes:
+                    report.error("icd10.duplicate_code", f"duplicate ICD-10 code {code}", record_id)
+                else:
+                    seen_codes.add(code)
+            if not _nonempty_str(condition_code):
+                report.error(
+                    "icd10.property_missing",
+                    f"{record_id}: coded condition is missing properties.icd10",
+                    record_id,
+                )
+            elif condition_code != code:
+                report.error(
+                    "icd10.code_mismatch",
+                    f"{record_id}: condition.icd10={condition_code!r} != registry code {code!r}",
+                    record_id,
+                )
+
+        concept_url = entry.get("concept_url")
+        if not isinstance(concept_url, str) or not concept_url.startswith(_ICD10_URL_PREFIX):
+            report.error(
+                "icd10.url",
+                f"{record_id}: concept_url must start with {_ICD10_URL_PREFIX!r}",
+                record_id,
+            )
+        elif code is not None and f"ConceptId={code}" not in concept_url:
+            report.error(
+                "icd10.url",
+                f"{record_id}: concept_url does not reference ConceptId={code}",
+                record_id,
+            )
+
+        quote = entry.get("quote")
+        if not isinstance(quote, str) or not quote.strip():
+            report.error("icd10.quote", f"{record_id}: quote is required", record_id)
+        elif not 4 <= len(quote) <= 300:
+            report.error("icd10.quote", f"{record_id}: quote must be 4-300 chars", record_id)
+
+        entry_checked_at = entry.get("checked_at")
+        if not isinstance(entry_checked_at, str) or not _DATE.match(entry_checked_at):
+            report.error(
+                "icd10.checked_at",
+                f"{record_id}: checked_at must be YYYY-MM-DD",
+                record_id,
+            )
+
+    for entity_id, entity in entities.items():
+        if entity.get("type") != "Condition":
+            continue
+        properties = entity.get("properties")
+        if not isinstance(properties, dict):
+            properties = {}
+        code = properties.get("icd10")
+        if code is None or code == "":
+            continue
+        if not isinstance(code, str) or not _ICD10_CODE.fullmatch(code):
+            report.error(
+                "icd10.code_format",
+                f"{entity_id}: properties.icd10 {code!r} is not a valid ICD-10 code",
+                entity_id,
+            )
+        if entity_id not in seen_conditions:
+            report.error(
+                "icd10.missing",
+                f"{entity_id}: coded Condition has no registry entry",
+                entity_id,
+            )
+
+    if coded < minimum:
+        report.error(
+            "icd10.minimum",
+            f"ICD-10 registry has {coded} coded conditions, minimum is {minimum}",
+        )
+
+
 def validate_repo(data: RepoData, strict: bool = False) -> ValidationReport:
     report = ValidationReport()
     schema = data.schema
@@ -231,6 +444,7 @@ def validate_repo(data: RepoData, strict: bool = False) -> ValidationReport:
         "sources": len(data.sources.get("sources", [])),
         "entities": len(data.entities),
         "facts": len(data.facts),
+        "icd10_entries": 0,
     }
 
     # --- schema ---------------------------------------------------------
@@ -399,6 +613,9 @@ def validate_repo(data: RepoData, strict: bool = False) -> ValidationReport:
                         f"triage level {entity_id} references unknown care area {care_area_id}",
                         entity_id,
                     )
+
+    # --- ICD-10 registry ------------------------------------------------
+    _validate_icd10(data.icd10, entities, sources, schema, report)
 
     # --- facts ----------------------------------------------------------
     for fact in data.facts:

@@ -39,6 +39,12 @@ def compute_stats(data: RepoData) -> dict[str, Any]:
         for item in data.entities
         if item.get("type") == "Condition"
     )
+    registry = data.icd10 if isinstance(data.icd10, dict) else {}
+    icd10_entries = [
+        entry for entry in registry.get("entries", []) if isinstance(entry, dict)
+    ]
+    icd10_match_types = Counter(str(entry.get("match")) for entry in icd10_entries)
+    icd10_coded = sum(1 for entry in icd10_entries if entry.get("code"))
     return {
         "schema_version": data.schema.get("version"),
         "source_count": len(data.sources.get("sources", [])),
@@ -57,6 +63,12 @@ def compute_stats(data: RepoData) -> dict[str, Any]:
         else 0.0,
         "duplicate_triples": len(triples) - len(set(triples)),
         "condition_risk": dict(sorted(risk_counts.items())),
+        "icd10": {
+            "entries": len(icd10_entries),
+            "coded": icd10_coded,
+            "no_single_code": len(icd10_entries) - icd10_coded,
+            "match_types": dict(sorted(icd10_match_types.items())),
+        },
     }
 
 
@@ -66,6 +78,11 @@ def render_stats_text(stats: dict[str, Any]) -> str:
         f"实体: {stats['entity_count']}  事实: {stats['fact_count']}  来源: {stats['source_count']}",
         f"provenance 完整率: {stats['provenance_coverage']:.1%}",
         f"重复三元组: {stats['duplicate_triples']}",
+        (
+            f"ICD-10: {stats['icd10']['entries']} 条"
+            f"（{stats['icd10']['coded']} 个编码 / "
+            f"{stats['icd10']['no_single_code']} 个无单一编码）"
+        ),
         "",
         "实体类型:",
     ]

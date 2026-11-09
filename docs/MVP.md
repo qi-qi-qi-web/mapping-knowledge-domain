@@ -6,7 +6,7 @@
 
 - 急诊最常见、时间依赖性最强的主诉之一；
 - 高危鉴别（ACS/AAD/APE/张力性气胸）明确，适合验证“流程感知 + 鉴别”；
-- 已核验的三份来源（两份中文共识 + AHRQ ESI v4）提供了分诊、危险分层、检查、治疗、MDT 与五级分诊的完整段落，可在 M0/M1 做端到端闭环。
+- 已核验的三份事实来源（两份中文共识 + AHRQ ESI v4）提供了分诊、危险分层、检查、治疗、MDT 与五级分诊的完整段落；WHO ICD-10 另用于 9 个病种的编码映射，不进入事实。
 
 ## 2. 范围
 
@@ -19,6 +19,7 @@
 | 检查 | 心电图、hs-cTn、CK-MB、肌红蛋白、D-二聚体、BNP、血气、胸片、CTA、床旁超声、Wells、PESI |
 | 治疗 | PCI、溶栓、抗血小板、抗凝、β受体阻滞剂、镇痛、胸腔穿刺减压、胸腔闭式引流 |
 | 组织 | 胸痛中心（院前急救/急诊科/心内科）；不具备 PCI/大血管手术/引流能力时转诊 |
+| 编码 | WHO ICD-10：9 个胸痛病种（8 个编码，ACS 无单一码）；仅检索/追溯，不用于临床编码/计费 |
 | 规模 | 98 实体、133 事实（M0 80/116 + M1 ESI 18/17） |
 
 ## 3. 来源与定位
@@ -28,8 +29,10 @@
 | `src.cn.chest_pain.2019` | §1 病因；§3.1 分诊策略；§3.2 危险分层（病史/症状/查体/辅助检查）；§3.3.3 非心源性鉴别；§4.1–4.5 检查；§5.1–5.4 治疗；§6 胸痛中心 |
 | `src.cn.triage.2018` | §3/表 1 四级标准与响应时限；§4/表 2 分区；§3.1 级别定义 |
 | `src.us.ahrq.esi.v4.2005` | ESI 五级定义；Decision Point A/B；资源需求；危险区规则（Figure 3-1/6-1） |
+| `src.who.icd10.2019` | 9 个病种的 `GetConcept?ConceptId=…` 页面（编码 registry，不进入事实） |
 
-未使用：ICD 编码（M1-02）、MIMIC/DDXPlus（后评测）、CMeKG/PrimeKG（候选）。
+已用于编码映射：WHO ICD-10（9 个病种 / 8 个编码，ACS 无单一码，见 `data/registry/icd10.json`）。
+未使用：MIMIC/DDXPlus（后评测）、CMeKG/PrimeKG（候选）。
 危险区阈值：HR/RR 有文本引文；SaO2<92% 为 Figure 6-1 图像目视转录（裁剪图见 `docs/research/figures/esi_fig6_1_danger_zone.png`）。
 
 ## 4. 查询
@@ -85,17 +88,17 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 ## 6. 质量门
 
 - `python -m edkg validate --strict`：0 错误 0 警告；
-- `python -m unittest discover -s tests -v`：36 项通过；
-- `python scripts/audit_quotes.py`：133/133 引文命中（2026-11-04）；
-- `python scripts/verify_sources.py`：3/3 开放来源 HTTP 200；
-- 事实引用 3 个 `verified` 来源；0 重复三元组；provenance 100%。
+- `python -m unittest discover -s tests -v`：45 项通过；
+- `python scripts/audit_quotes.py`：事实 133/133 + ICD-10 9/9 引文命中（2026-11-09）；
+- `python scripts/verify_sources.py`：4/4 开放来源 HTTP 200；
+- 事实引用 3 个 `verified` 来源；WHO ICD-10 仅用于编码映射；0 重复三元组；provenance 100%。
 
 ## 7. 已知限制
 
 - **未临床审核**：全部 `ai-draft`；不能用于真实患者。
 - **两套量表不互映射**：中国四级与 ESI 五级分别建模；未做、也不做未经专家论证的交叉映射。
 - **ESI 危险区阈值**：HR/RR 有 `pdftotext -raw` 文本引文；SaO2<92% 为 Figure 6-1 图像目视转录（旋转文本未被 pdftotext 完整抽取），已附公有领域裁剪图；不是凭记忆补的数字。
-- **无 ICD 编码**：`Condition.icd10` 全部留空。
+- **ICD-10 仅覆盖 9 个胸痛病种**：8 个编码，ACS 为 `no_single_code`；只用于知识检索/来源追溯，不用于临床编码/计费，且未经临床编码员审核。
 - **会诊较薄**：只写胸痛中心参与科室与转诊条件，未写病种级专科会诊。
 - **低危病种结构化不足**：稳定性冠心病/胃食管反流病/肋软骨炎/神经官能症目前只有“主诉可能提示”一条事实，表现/检查待补。
 - **流程层未实例化**：Visit/CareEvent 只有 Schema，没有患者事件。
@@ -103,4 +106,4 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 
 ## 8. 下一步
 
-见 `TODO.md` 的 M1：ICD 编码、呼吸困难/腹痛/发热、Neo4j 导出、专科会诊、20 条人工抽检。
+见 `TODO.md` 的 M1：呼吸困难/腹痛/发热、Neo4j 导出、专科会诊、20 条人工抽检。

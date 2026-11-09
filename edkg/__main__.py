@@ -63,6 +63,7 @@ def main(argv: list[str] | None = None) -> int:
             print(
                 f"\n检查完成: {report.counts.get('entities', 0)} 实体, "
                 f"{report.counts.get('facts', 0)} 事实, "
+                f"{report.counts.get('icd10_entries', 0)} 条 ICD-10 映射, "
                 f"{len(report.errors)} 错误, {len(report.warnings)} 警告"
             )
             print("结果:", "PASS" if report.ok(strict=args.strict) else "FAIL")

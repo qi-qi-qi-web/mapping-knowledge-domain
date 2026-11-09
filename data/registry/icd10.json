@@ -1,0 +1,116 @@
+{
+  "system": "ICD-10",
+  "version": "WHO Version for 2019 (COVID-19 expanded)",
+  "source_id": "src.who.icd10.2019",
+  "checked_at": "2026-11-09",
+  "entries": [
+    {
+      "condition_id": "cond.acs",
+      "code": null,
+      "title_en": "Acute ischaemic heart disease, unspecified",
+      "concept_url": "https://icd.who.int/browse10/2019/en/GetConcept?ConceptId=I24.9",
+      "locator": "ICD-10-WHO 2019, I24.9 (counter-example)",
+      "quote": "Acute ischaemic heart disease, unspecified",
+      "match": "no_single_code",
+      "source_id": "src.who.icd10.2019",
+      "checked_at": "2026-11-09",
+      "note_zh": "ICD-10 无 ACS 单一类目；I24.9 是急性缺血性心脏病未特指，不等同 ACS；不稳定心绞痛、NSTEMI、STEMI 分别编码。"
+    },
+    {
+      "condition_id": "cond.acute_mi",
+      "code": "I21.9",
+      "title_en": "Acute myocardial infarction, unspecified",
+      "concept_url": "https://icd.who.int/browse10/2019/en/GetConcept?ConceptId=I21.9",
+      "locator": "ICD-10-WHO 2019, I21.9",
+      "quote": "Acute myocardial infarction, unspecified",
+      "match": "exact",
+      "source_id": "src.who.icd10.2019",
+      "checked_at": "2026-11-09",
+      "note_zh": "ICD-10 页面 Incl. 含 Myocardial infarction (acute) NOS；作为急性心肌梗死未特指的精确映射。"
+    },
+    {
+      "condition_id": "cond.aad",
+      "code": "I71.0",
+      "title_en": "Dissection of aorta [any part]",
+      "concept_url": "https://icd.who.int/browse10/2019/en/GetConcept?ConceptId=I71.0",
+      "locator": "ICD-10-WHO 2019, I71.0",
+      "quote": "Dissection of aorta [any part]",
+      "match": "broader",
+      "source_id": "src.who.icd10.2019",
+      "checked_at": "2026-11-09",
+      "note_zh": "I71.0 不区分急性/慢性；急性主动脉夹层使用该码时需在本地注释保留急性语义。"
+    },
+    {
+      "condition_id": "cond.ape",
+      "code": "I26.9",
+      "title_en": "Pulmonary embolism without mention of acute cor pulmonale",
+      "concept_url": "https://icd.who.int/browse10/2019/en/GetConcept?ConceptId=I26.9",
+      "locator": "ICD-10-WHO 2019, I26.9",
+      "quote": "Pulmonary embolism without mention of acute cor pulmonale",
+      "match": "narrower",
+      "source_id": "src.who.icd10.2019",
+      "checked_at": "2026-11-09",
+      "note_zh": "I26.9 明确为不伴急性肺源性心脏病；伴急性肺源性心脏病者另码，故较窄。"
+    },
+    {
+      "condition_id": "cond.tension_pneumothorax",
+      "code": "J93.0",
+      "title_en": "Spontaneous tension pneumothorax",
+      "concept_url": "https://icd.who.int/browse10/2019/en/GetConcept?ConceptId=J93.0",
+      "locator": "ICD-10-WHO 2019, J93.0",
+      "quote": "Spontaneous tension pneumothorax",
+      "match": "narrower",
+      "source_id": "src.who.icd10.2019",
+      "checked_at": "2026-11-09",
+      "note_zh": "J93.0 仅自发性张力性气胸；创伤性气胸另码，故较窄。"
+    },
+    {
+      "condition_id": "cond.stable_cad",
+      "code": "I25.1",
+      "title_en": "Atherosclerotic heart disease",
+      "concept_url": "https://icd.who.int/browse10/2019/en/GetConcept?ConceptId=I25.1",
+      "locator": "ICD-10-WHO 2019, I25.1",
+      "quote": "Atherosclerotic heart disease",
+      "match": "broader",
+      "source_id": "src.who.icd10.2019",
+      "checked_at": "2026-11-09",
+      "note_zh": "I25.1 为动脉粥样硬化性心脏病，不特指稳定型；稳定型心绞痛另码。"
+    },
+    {
+      "condition_id": "cond.gerd",
+      "code": "K21.9",
+      "title_en": "Gastro-oesophageal reflux disease without oesophagitis",
+      "concept_url": "https://icd.who.int/browse10/2019/en/GetConcept?ConceptId=K21.9",
+      "locator": "ICD-10-WHO 2019, K21.9",
+      "quote": "Gastro-oesophageal reflux disease without oesophagitis",
+      "match": "narrower",
+      "source_id": "src.who.icd10.2019",
+      "checked_at": "2026-11-09",
+      "note_zh": "K21.9 为不伴食管炎的 GERD；伴食管炎另码，故较窄。"
+    },
+    {
+      "condition_id": "cond.costochondritis",
+      "code": "M94.0",
+      "title_en": "Chondrocostal junction syndrome [Tietze]",
+      "concept_url": "https://icd.who.int/browse10/2019/en/GetConcept?ConceptId=M94.0",
+      "locator": "ICD-10-WHO 2019, M94.0",
+      "quote": "Costochondritis",
+      "match": "inclusion",
+      "source_id": "src.who.icd10.2019",
+      "checked_at": "2026-11-09",
+      "note_zh": "M94.0 的收录词含 Costochondritis；Tietze 同码。"
+    },
+    {
+      "condition_id": "cond.neurosis",
+      "code": "F48.9",
+      "title_en": "Neurotic disorder, unspecified",
+      "concept_url": "https://icd.who.int/browse10/2019/en/GetConcept?ConceptId=F48.9",
+      "locator": "ICD-10-WHO 2019, F48.9",
+      "quote": "Neurosis NOS",
+      "match": "inclusion",
+      "source_id": "src.who.icd10.2019",
+      "checked_at": "2026-11-09",
+      "note_zh": "F48.9 的收录词含 Neurosis NOS。"
+    }
+  ]
+}

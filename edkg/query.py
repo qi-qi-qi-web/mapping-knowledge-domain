@@ -12,6 +12,15 @@ class QueryError(ValueError):
     """Raised when a query cannot be answered from the current graph."""
 
 
+_ICD10_MATCH_LABELS = {
+    "exact": "精确",
+    "inclusion": "包含词",
+    "broader": "较宽",
+    "narrower": "较窄",
+    "no_single_code": "无单一编码",
+}
+
+
 def _norm(value: str) -> str:
     return (value or "").strip().casefold()
 
@@ -130,6 +139,21 @@ def _relation_items(
     return items
 
 
+def _icd10_view(entry: dict[str, Any] | None) -> dict[str, Any] | None:
+    if not entry:
+        return None
+    match = entry.get("match")
+    return {
+        "code": entry.get("code"),
+        "title_en": entry.get("title_en"),
+        "match": match,
+        "match_label": _ICD10_MATCH_LABELS.get(str(match), str(match or "未标注")),
+        "source_id": entry.get("source_id"),
+        "concept_url": entry.get("concept_url"),
+        "note_zh": entry.get("note_zh"),
+    }
+
+
 def query_complaint(
     data: RepoData,
     complaint_text: str,
@@ -158,6 +182,13 @@ def query_complaint(
     if not condition_facts:
         raise QueryError(f"主诉 {graph.label(complaint_id)} 尚未关联任何疾病")
 
+    registry = data.icd10 if isinstance(data.icd10, dict) else {}
+    icd10_by_condition = {
+        str(entry.get("condition_id")): entry
+        for entry in registry.get("entries", [])
+        if isinstance(entry, dict) and entry.get("condition_id")
+    }
+
     conditions: list[dict[str, Any]] = []
     all_finding_ids = set(finding_ids)
     for condition_fact in condition_facts:
@@ -182,6 +213,7 @@ def query_complaint(
                 "id": condition_id,
                 "label": graph.label(condition_id),
                 "risk": (condition.get("properties") or {}).get("risk"),
+                "icd10": _icd10_view(icd10_by_condition.get(condition_id)),
                 "may_indicate": {
                     "risk": (condition_fact.get("qualifiers") or {}).get("risk"),
                     "evidence": _evidence_ids([condition_fact], book),
@@ -400,6 +432,18 @@ def render_text(result: dict[str, Any]) -> str:
                 f"{condition['may_indicate'].get('risk') or '未标注风险'}"
                 f" [{', '.join(condition['may_indicate']['evidence'])}]"
             )
+        icd10 = condition.get("icd10")
+        if icd10:
+            code = icd10.get("code")
+            if code:
+                detail = f"- ICD-10: {code}（{icd10.get('match_label')}）[{icd10.get('source_id')}]"
+                if icd10.get("match") != "exact" and icd10.get("note_zh"):
+                    detail += f"；{icd10['note_zh']}"
+            else:
+                detail = f"- ICD-10: 无单一编码 [{icd10.get('source_id')}]"
+                if icd10.get("note_zh"):
+                    detail += f"；{icd10['note_zh']}"
+            lines.append(detail)
         has_structured = any(
             condition.get(key)
             for key in (
@@ -486,6 +530,12 @@ def render_text(result: dict[str, Any]) -> str:
                 )
             )
         lines.append("")
+
+    lines.append(
+        "> ICD-10 编码仅用于知识检索与来源追溯，不用于临床编码/计费；"
+        "映射未经临床编码员审核。"
+    )
+    lines.append("")
 
     if result.get("mdt"):
         lines.append("## 多学科协作/会诊流程")

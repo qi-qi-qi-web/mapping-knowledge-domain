@@ -6,17 +6,18 @@
 - **原创文档、Schema、数据编排**（`README.md`、`Agent.md`、`docs/`、`schema/`、`data/kg/` 中由本项目创作的部分）：CC BY-NC 4.0。
 - **第三方内容**：以下来源的原文/摘录仍归原权利人，受其条款约束；本项目只保存支撑事实的**短引文与定位**，不转载全文。
 
-## 2. M0 使用的第三方来源
+## 2. 已使用的第三方来源
 
 | 来源 | 权利人/出版方 | 使用方式 | 备注 |
 |---|---|---|---|
 | 《急性胸痛急诊诊疗专家共识》，中华急诊医学杂志 2019;29(4):413-420，DOI 10.3760/cma.j.issn.1671-0282.2019.04.002 | 中华医学会急诊医学分会等 / 中华急诊医学杂志 | 短引文 + 章节定位，用于研究性知识抽取 | 不转载全文/PDF；引用请遵循原刊要求 |
 | 《急诊预检分诊专家共识》，中华急诊医学杂志 2018;27(6):599-604 | 急诊预检分诊专家共识组 / 中华急诊医学杂志 | 短引文 + 章节定位 | 同上 |
 | *Emergency Severity Index, Version 4: Implementation Handbook*，AHRQ Pub. No. 05-0046-2 | AHRQ（美国政府作品） | 短引文 + 章节定位，M1 已用于 ESI 五级/资源/危险区规则；含 Figure 6-1 裁剪图 `docs/research/figures/esi_fig6_1_danger_zone.png` | 公有领域；不转载整本 PDF |
+| *ICD-10-WHO Version for 2019 (COVID-19 expanded)* | WHO | 仅 9 条病种映射的短标题/收录词 + `GetConcept?ConceptId=…` 链接，用于 M1-02 编码登记 | 依 WHO 使用条款；不转载全文、不做批量导出；不用于临床编码/计费 |
 
 ## 3. 仅登记、未使用的来源
 
-`data/registry/sources.json` 中 `status=candidate` 或 `access_controlled` 的来源（MIMIC-IV-ED、DDXPlus、TriageAgent、PrimeKG、ICD-10）**未进入任何事实**。其许可证、版本与访问条件未完成核验；使用前必须单独核验并更新登记。
+`data/registry/sources.json` 中 `status=candidate` 或 `access_controlled` 的来源（MIMIC-IV-ED、DDXPlus、TriageAgent、PrimeKG）**未进入任何事实**。其许可证、版本与访问条件未完成核验；使用前必须单独核验并更新登记。WHO ICD-10 已核验，但仅用于 `data/registry/icd10.json` 的编码映射，**未进入事实**。
 
 ## 4. 无患者数据
 

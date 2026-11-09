@@ -37,6 +37,23 @@ class StatsTests(unittest.TestCase):
         )
         self.assertIn("TriageCriterion", self.stats["entity_types"])
 
+    def test_icd10_mapping_counts(self) -> None:
+        self.assertEqual(
+            self.stats["icd10"],
+            {
+                "entries": 9,
+                "coded": 8,
+                "no_single_code": 1,
+                "match_types": {
+                    "exact": 1,
+                    "inclusion": 2,
+                    "broader": 2,
+                    "narrower": 3,
+                    "no_single_code": 1,
+                },
+            },
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
