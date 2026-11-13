@@ -15,8 +15,8 @@ class StatsTests(unittest.TestCase):
         cls.stats = compute_stats(load_repo(ROOT))
 
     def test_minimum_m1_size(self) -> None:
-        self.assertGreaterEqual(self.stats["entity_count"], 98)
-        self.assertGreaterEqual(self.stats["fact_count"], 133)
+        self.assertGreaterEqual(self.stats["entity_count"], 135)
+        self.assertGreaterEqual(self.stats["fact_count"], 192)
 
     def test_provenance_is_complete(self) -> None:
         self.assertEqual(self.stats["provenance_coverage"], 1.0)
@@ -26,13 +26,16 @@ class StatsTests(unittest.TestCase):
         self.assertEqual(self.stats["review_statuses"], {"ai-draft": self.stats["fact_count"]})
         self.assertEqual(self.stats["assertion_types"], {"explicit": self.stats["fact_count"]})
 
-    def test_three_active_sources_are_cited(self) -> None:
+    def test_all_active_sources_are_cited(self) -> None:
         self.assertEqual(
             set(self.stats["cited_sources"]),
             {
                 "src.cn.chest_pain.2019",
                 "src.cn.triage.2018",
                 "src.us.ahrq.esi.v4.2005",
+                "src.msd.dyspnea.2025",
+                "src.msd.acute_abdominal_pain.2024",
+                "src.msd.fever.2026",
             },
         )
         self.assertIn("TriageCriterion", self.stats["entity_types"])

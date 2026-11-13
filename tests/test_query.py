@@ -116,6 +116,50 @@ class QueryTests(unittest.TestCase):
         result = query_complaint(self.data, "胸痛", ["类似心脏因素的胸痛"])
         self.assertIn("类似心脏因素的胸痛", result["query"]["findings"])
 
+    def test_dyspnea_complaint_is_supported(self) -> None:
+        result = query_complaint(self.data, "呼吸困难")
+        self._assert_complaint_coverage(result)
+        risks = [condition["risk"] for condition in result["conditions"]]
+        self.assertGreaterEqual(risks.count("high"), 2)
+        self.assertGreaterEqual(risks.count("medium") + risks.count("low"), 1)
+        self.assertGreaterEqual(len(result["chief_complaint_tests"]), 5)
+        self.assertIn("呼吸困难", render_text(result))
+
+    def test_abdominal_pain_complaint_is_supported(self) -> None:
+        result = query_complaint(self.data, "腹痛")
+        self._assert_complaint_coverage(result)
+        risks = [condition["risk"] for condition in result["conditions"]]
+        self.assertGreaterEqual(risks.count("high"), 2)
+        self.assertGreaterEqual(risks.count("medium") + risks.count("low"), 1)
+        self.assertGreaterEqual(len(result["chief_complaint_tests"]), 5)
+        self.assertIn("腹痛", render_text(result))
+
+    def test_fever_complaint_is_supported(self) -> None:
+        result = query_complaint(self.data, "发热")
+        self._assert_complaint_coverage(result)
+        risks = [condition["risk"] for condition in result["conditions"]]
+        self.assertGreaterEqual(risks.count("high"), 2)
+        self.assertGreaterEqual(risks.count("medium") + risks.count("low"), 1)
+        self.assertGreaterEqual(len(result["chief_complaint_tests"]), 5)
+        self.assertIn("发热", render_text(result))
+
+    def test_new_complaints_do_not_inherit_chest_pain_triage(self) -> None:
+        for complaint in ("腹痛", "发热"):
+            result = query_complaint(self.data, complaint)
+            for level in result["triage"]["levels"]:
+                if level["scale_id"] != "cn_4level_2018":
+                    continue
+                criteria = {item["id"] for item in level["matched_criteria"]}
+                self.assertNotIn("find.cardiac_like_chest_pain", criteria)
+
+    def _assert_complaint_coverage(self, result: dict) -> None:
+        self.assertGreaterEqual(len(result["conditions"]), 3)
+        for condition in result["conditions"]:
+            self.assertTrue(condition["may_indicate"]["evidence"], condition["id"])
+            for key in ("recommended_tests", "treatments", "presentations", "red_flags"):
+                for item in condition[key]:
+                    self.assertTrue(item["evidence"], f"{condition['id']} {key}")
+
     def test_unknown_complaint_raises(self) -> None:
         with self.assertRaises(QueryError):
             query_complaint(self.data, "不存在的胸痛主诉")

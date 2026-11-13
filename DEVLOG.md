@@ -5,6 +5,64 @@
 
 ---
 
+## 2026-11-13 | M1-03：呼吸困难、腹痛、发热 3 个主诉
+
+### 背景
+
+- M1-02 完成后为 98 实体 / 133 事实；只有胸痛 1 个主诉，呼吸困难、腹痛、发热尚无主诉实体。
+- 原三份事实来源不足以支撑腹痛/发热的病种、检查、处置；必须新增真实、可访问、可逐条引文审计的来源，不能凭记忆写。
+- 目标：3 个主诉各 ≥2 个高危病种、≥1 个中低危、≥5 条检查/处置事实；查询 CLI 与测试覆盖。
+
+### 完成
+
+- [x] 新增 3 份 MSD 诊疗手册专业版中文来源：`src.msd.dyspnea.2025`、`src.msd.acute_abdominal_pain.2024`、`src.msd.fever.2026`；均 verified、`used_in=["m1"]`、HTTP 200、quotes-only、记录版本号与评审日期。
+- [x] 新增 3 个 `ChiefComplaint`：`cc.dyspnea`、`cc.abdominal_pain`、`cc.fever`。
+- [x] 新增 9 个 Condition：急性心力衰竭、肺炎、哮喘急性发作、急性胰腺炎、急性阑尾炎、急性胆囊炎、脓毒症、脑膜炎、病毒性上呼吸道感染。
+- [x] 新增 14 个 Finding、10 个 Test、1 个 Intervention（`int.antibiotics`）；59 条事实，全部 `ai-draft` / `explicit` / `manual-curation`。
+- [x] 查询支持三主诉；每个主诉有 5–6 条主诉级检查；新增 4 项查询测试，总计 49 项。
+- [x] 修复 `edkg/query.py`：中国四级胸痛指标只对 `cc.chest_pain` 生效，避免腹痛/发热继承胸痛分诊标准。
+- [x] 同步 README/Agent/PLAN/SCHEMA/MVP/NOTICE/TODO 的计数、来源与 M1-03 边界。
+
+### 决策
+
+| 编号 | 决策 | 理由 |
+|---|---|---|
+| D-027 | 用 3 份 MSD 诊疗手册专业版中文页作为 M1-03 来源 | 真实可访问、有版本/评审日期、页面内可逐条定位；比指南全文更适合按病种摘取 |
+| D-028 | 新 Condition 不填 ICD-10 | ICD-10 映射只对 M1-02 的 9 个胸痛病种逐条核验；新病种未做编码核验，不能顺手补码 |
+| D-029 | 每主诉只写来源明确的主诉级检查/处置，不推断专科会诊 | 保持“无来源不写”；病种级会诊留给 M1-06 |
+| D-030 | 中国四级胸痛指标按 `complaint_id == "cc.chest_pain"` 限定 | 原逻辑把所有含“胸痛”标签的 Finding 加入所有查询，导致腹痛/发热误显示胸痛分诊标准 |
+| D-031 | MSD 仅短引文 + 章节定位，quotes-only，不批量复制 | 页面为版权内容；只保留支撑事实的短引文与来源链接 |
+
+### 验证
+
+- `python -m edkg validate --strict`：**PASS，135 实体 / 192 事实 / 9 条 ICD-10，0 错误 0 警告**。
+- `python -m unittest discover -s tests -v`：**49 项通过**。
+- `python scripts/audit_quotes.py --cafile <临时公共 CA bundle>`：**事实 192/192 + ICD-10 9/9 命中**。
+- `python scripts/verify_sources.py --cafile <临时公共 CA bundle>`：**7/7 开放来源 HTTP 200**（2 中文共识、AHRQ ESI、WHO、3 份 MSD）；1 access_controlled + 3 candidate 跳过。
+- `python -m edkg stats`：provenance 100%、重复三元组 0、来源 7 verified / 1 access_controlled / 3 candidate。
+- 查询：呼吸困难 4 high + 1 medium、腹痛 2 high + 1 medium、发热 3 high + 1 low；各主诉 5–6 条主诉级检查。
+
+### 提交
+
+- 基线 main：`bb8c989f93c20219275720b176bf41065a0054c1`（M1-02）。
+- 提交信息：`M1-03: add dyspnea, abdominal pain, and fever complaints`。
+- 未 force push；提交 SHA 以 GitHub main 历史为准；网络失败时本条将补充“未能推送”。
+
+### 遗留/阻塞
+
+- **未临床审核**：全部事实 `ai-draft`，包括新增 9 个病种。
+- **新病种无 ICD-10**：未做编码核验，不声称已编码。
+- **分诊未扩展**：新主诉没有新增中国四级/ESI 病种级指标，只保留通用算法指标；中国四级指标对非胸痛主诉为空。
+- **专科会诊未做**：M1-03 不写病种级 `CONSULT`。
+- **MSD 版权**：仅短引文，不转载全文；正式再分发前需再次核对使用条款。
+
+### 下一步
+
+- M1-04：Neo4j/Cypher 导出 + 10 个查询用例。
+- 维护项：临床编码员复核 8 条 ICD 映射；新增病种后续补编码需先核验来源。
+
+---
+
 ## 2026-11-09 | M1-02：WHO ICD-10 编码核验与填充
 
 ### 背景

@@ -2,19 +2,19 @@
 
 **急诊全流程会诊知识图谱**（Emergency Department full-process Consultation Knowledge Graph）。
 
-当前状态：**M1 进行中 / 胸痛单主诉 + ESI v4 五级**。98 实体、133 事实，全部 `ai-draft`，未经临床专家审核；只用于研究与智能体检索实验，**不得用于真实患者诊疗**。
+当前状态：**M1 进行中 / 4 个主诉（胸痛、呼吸困难、腹痛、发热）+ ESI v4 五级**。135 实体、192 事实，全部 `ai-draft`，未经临床专家审核；只用于研究与智能体检索实验，**不得用于真实患者诊疗**。
 
 ## 这是什么
 
 - 一个**流程感知**的急诊知识图谱 Schema：分诊 → 检查 → 鉴别 → 多学科会诊 → 处置 → 转归；
-- 一个**来源可审计**的胸痛种子图谱：每条事实带来源、章节定位、原文短引文、审核状态；
+- 一个**来源可审计**的胸痛/呼吸困难/腹痛/发热种子图谱：每条事实带来源、章节定位、原文短引文、审核状态；
 - 一个**零第三方依赖**的工具链：Schema/数据校验、引文审计、来源核验、查询 CLI、单元测试、CI；
 - 一份**可持续构建**的治理文档：[`Agent.md`](Agent.md)、[`docs/PLAN.md`](docs/PLAN.md)、[`DEVLOG.md`](DEVLOG.md)、[`TODO.md`](TODO.md)。
 
 ## 不是什么
 
 - 不是临床决策系统，不提供诊断/治疗建议；
-- 不是“大规模”图谱：当前只有胸痛一个主诉 + 两套分诊量表；
+- 不是“大规模”图谱：当前只有 4 个主诉 + 两套分诊量表；
 - 不是 LLM 自动抽取产物：当前为人工按来源抽取，逐条引文审计；
 - 不包含 MIMIC/患者数据、不包含指南全文、**不做中国四级与 ESI 五级的互相映射**。
 
@@ -32,8 +32,11 @@ python -m edkg validate --strict
 # 查看规模与质量指标
 python -m edkg stats
 
-# 查询胸痛路径（文本 / JSON）
+# 查询主诉路径（文本 / JSON）
 python -m edkg query --complaint 胸痛
+python -m edkg query --complaint 呼吸困难
+python -m edkg query --complaint 腹痛
+python -m edkg query --complaint 发热
 python -m edkg query --complaint 胸痛 --json
 # 只看法定量表之一（两套量表独立，不互映射）
 python -m edkg query --complaint 胸痛 --scale cn_4level_2018
@@ -60,17 +63,17 @@ docs/research/              原始研究报告 + 图（设计输入，非数据�
 schema/edkg.schema.json     Schema v0.2
 data/registry/sources.json  来源登记与核验记录
 data/registry/icd10.json    WHO ICD-10 逐病种编码映射（9 条）
-data/kg/entities.jsonl      实体（98）
-data/kg/facts.jsonl         事实（133，带 provenance）
+data/kg/entities.jsonl      实体（135）
+data/kg/facts.jsonl         事实（192，带 provenance）
 edkg/                       校验/查询/统计 CLI
 scripts/                    来源核验、引文审计
-tests/                      45 项单元测试
+tests/                      49 项单元测试
 .github/workflows/ci.yml    离线 CI
 ```
 
 ## 数据真实性
 
-当前登记四份**已核验、可访问**的来源：三份进入事实，WHO ICD-10 仅用于编码映射：
+当前登记七份**已核验、可访问**的来源：六份进入事实（三份中文/ESI + 三份 MSD），WHO ICD-10 仅用于编码映射：
 
 | 来源 | 链接 | 用途 |
 |---|---|---|
@@ -78,11 +81,14 @@ tests/                      45 项单元测试
 | 急诊预检分诊专家共识（2018） | http://mc.cem.org.cn/rhtml/20180606/index.htm | 中国四级分诊、响应时限、分区 |
 | AHRQ ESI v4 Implementation Handbook（2005，公有领域） | https://permanent.access.gpo.gov/lps46616/lps46616/www.ahrq.gov/research/esi/esihandbk.pdf | ESI 五级、资源需求、危险区规则 |
 | WHO ICD-10-WHO Version for 2019 (COVID-19 expanded) | https://icd.who.int/browse10/2019/en | 9 个胸痛病种的逐条编码映射；仅短引文 + GetConcept 链接 |
+| MSD 诊疗手册专业版：呼吸困难 | https://www.msdmanuals.cn/professional/pulmonary-disorders/symptoms-of-pulmonary-disorders/dyspnea | 呼吸困难病种、表现、检查 |
+| MSD 诊疗手册专业版：急性腹痛 | https://www.msdmanuals.cn/professional/gastrointestinal-disorders/acute-abdomen-and-surgical-gastroenterology/acute-abdominal-pain | 腹痛病种、表现、检查、处置 |
+| MSD 诊疗手册专业版：发热 | https://www.msdmanuals.cn/professional/infectious-diseases/biology-of-infectious-disease/fever | 发热病种、表现、检查、经验性治疗 |
 
-- 只保存**短引文 + 章节定位**，不转载全文/PDF（AHRQ 公有领域，但仍只存抽取事实）；
+- 只保存**短引文 + 章节定位**，不转载全文/PDF（AHRQ 公有领域，但仍只存抽取事实）；MSD 页面为版权内容，仅保存支撑事实的短引文并注明来源，不转载全文；
 - `candidate` 来源（MIMIC-IV-ED、DDXPlus、TriageAgent、PrimeKG）只登记、**不进入事实**；WHO ICD-10 已核验，仅用于编码映射、不进入事实；
 - 报告中的 arXiv/数据集引用未逐条核验，不作为数据源；见 [`docs/research/README.md`](docs/research/README.md)；
-- 事实只能引用 `verified` 来源；`python scripts/audit_quotes.py` 逐条回查原文（当前：事实 133/133 + ICD-10 9/9 通过）。
+- 事实只能引用 `verified` 来源；`python scripts/audit_quotes.py` 逐条回查原文（当前：事实 192/192 + ICD-10 9/9 通过）。
 - **中国四级与 ESI 五级分别建模，不互映射**；查询默认分组展示，也可用 `--scale` 只看一套。
 
 ## 当前质量指标
@@ -90,18 +96,18 @@ tests/                      45 项单元测试
 | 指标 | 结果 |
 |---|---|
 | Schema 校验（strict） | 0 错误 / 0 警告 |
-| 实体 / 事实 | 98 / 133 |
+| 实体 / 事实 | 135 / 192 |
 | provenance 完整率 | 100% |
 | 重复三元组 | 0 |
-| 引文审计 | 事实 133/133 + ICD-10 9/9 命中 |
-| 开放来源核验 | 4/4 HTTP 200 |
-| 单元测试 | 45 项通过 |
+| 引文审计 | 事实 192/192 + ICD-10 9/9 命中 |
+| 开放来源核验 | 7/7 HTTP 200 |
+| 单元测试 | 49 项通过 |
 | CI（GitHub Actions） | [见 Actions](https://github.com/qi-qi-qi-web/mapping-knowledge-domain/actions) |
 | 临床审核 | **未做**（全部 ai-draft） |
 
 ## 路线图
 
-- **M1（进行中）**：ESI 五级已完成（5 级 / 12 项指标 / 资源规则 / 年龄分层危险区阈值）；WHO ICD-10 已完成 9 个病种逐条映射（8 个编码，ACS 无单一码）；待办：呼吸困难/腹痛/发热、Neo4j 导出、专科会诊、20 条抽检；
+- **M1（进行中）**：ESI 五级已完成（5 级 / 12 项指标 / 资源规则 / 年龄分层危险区阈值）；WHO ICD-10 已完成 9 个病种逐条映射（8 个编码，ACS 无单一码）；呼吸困难/腹痛/发热 3 个主诉已完成；待办：Neo4j 导出、专科会诊、20 条抽检；
 - **M2**：10 主诉、30+ 高危病种、LLM 候选抽取 + HITL、L1/L2 评估；
 - **M3**：大规模扩展、GraphRAG/路径检索、DDXPlus/MIMIC 评测、论文产出。
 

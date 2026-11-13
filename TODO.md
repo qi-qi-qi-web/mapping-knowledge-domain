@@ -27,7 +27,7 @@
   - 验收：远端 commit/tree/关键文件可验证；DEVLOG 记录 SHA（第二次提交回填）。
   - 结果：main `d39f783e72e6d88ae584676ea505576a344a84c9`；42/42 blob 校验一致；CI run `40813253228` success。
 
-## M1：第二层扩展（下一步）
+## M1：第二层扩展（进行中）
 
 - [x] **M1-01** ESI v4 五级标准抽取
   - 来源：`src.us.ahrq.esi.v4.2005`（已核验 PDF，公有领域）。
@@ -41,9 +41,10 @@
   - 来源：WHO ICD-10-WHO Version for 2019 (COVID-19 expanded)，`src.who.icd10.2019` 已 verified/used_in m1；仅短引文，不批量复制。
   - 已完成：`data/registry/icd10.json` 9 条逐病种映射；8 个 `Condition.icd10`（I21.9/I71.0/I26.9/J93.0/I25.1/K21.9/M94.0/F48.9），ACS 为 `no_single_code`。
   - 验收：9/9 映射可回溯（每条含 `concept_url`、`quote`、`locator`、`match`、`source_id`）；`validate --strict` 0/0；ICD 9/9 引文命中；无凭记忆写码。
-- [ ] **M1-03** 新增 3 个主诉：呼吸困难、腹痛、发热
-  - 每个主诉 ≥2 个高危病种、≥1 个中低危、≥5 条检查/处置事实。
-  - 验收：查询 CLI 支持；每个病种有来源 + 引文；测试覆盖。
+- [x] **M1-03** 新增 3 个主诉：呼吸困难、腹痛、发热
+  - 已完成：3 个 `ChiefComplaint` + 9 个 Condition + 14 个 Finding + 10 个 Test + 1 个 Intervention；59 条事实；来源为 `src.msd.dyspnea.2025`、`src.msd.acute_abdominal_pain.2024`、`src.msd.fever.2026`（均 verified/m1、短引文）。
+  - 覆盖：呼吸困难 4 high + 1 medium；腹痛 2 high + 1 medium；发热 3 high + 1 low；每个主诉 5–6 条主诉级检查。
+  - 验收：查询 CLI 支持三主诉；每个病种有来源 + 引文；新增 4 项查询测试；总计 49 项测试；事实 192 条。
 - [ ] **M1-04** Neo4j/Cypher 导出 + 10 个查询用例
   - 导出 `entities`/`facts` 为 Cypher 或 CSV；提供 `queries/*.cypher`。
   - 验收：导入脚本可复现；10 个用例结果与 JSONL 查询一致。

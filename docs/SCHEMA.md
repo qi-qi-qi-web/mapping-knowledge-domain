@@ -96,9 +96,10 @@ ID 规则：`<prefix>.<slug>`，只允许小写字母、数字、下划线、点
 
 ## 6. 当前覆盖（M1 进行中）
 
-- **98 实体、133 事实**；4 份已核验来源：3 份进入事实（2 份中文共识 + AHRQ ESI v4），WHO ICD-10 仅用于编码映射。
+- **135 实体、192 事实**；7 份已核验来源：6 份进入事实（2 份中文共识 + AHRQ ESI v4 + 3 份 MSD），WHO ICD-10 仅用于编码映射。
 - M0 基线：80 实体、116 事实；中国四级分诊 + 胸痛高危/中低危 + 胸痛中心。
 - M1 增量：ESI v4 五级、12 个 `TriageCriterion`（立即救生、高危、意识、疼痛、危险区、资源 2+/1/0、4 个年龄分层危险区阈值）、17 条事实。
+- M1-03：新增呼吸困难、腹痛、发热 3 个主诉，9 个 Condition、14 个 Finding、10 个 Test、1 个 Intervention；59 条事实；新 Condition 不填 ICD-10。
 - ICD-10：`data/registry/icd10.json` 9 条 entry；8 个 `Condition.icd10`，ACS 为 `no_single_code`；每条有 `concept_url`、`locator`、`quote`、`match`、`source_id`。
 - 分诊：中国四级 + ESI v4；两套量表分别建模，查询分组展示，**不互映射**。
 - 危险区阈值：HR/RR 有文本引文；SaO2<92% 为 Figure 6-1 图像目视转录，裁剪图见 `docs/research/figures/esi_fig6_1_danger_zone.png`。

@@ -20,7 +20,7 @@
 ### 1.2 非目标（当前阶段）
 
 - 不是临床决策系统；所有输出仅供研究，必须由医生复核。
-- 不做完整 30+ 病种/10 万实体；当前仍只做胸痛一个主诉（M1 增加 ESI 分诊量表）。
+- 不做完整 30+ 病种/10 万实体；当前为 4 个主诉（胸痛、呼吸困难、腹痛、发热）+ ESI 分诊量表。
 - 不做中国四级/ESI 五级互相映射、不做 ICD 编码批量对齐（M1-02 仅对 9 个病种逐条映射）、不做 MIMIC 数据。
 - 不声称临床验证通过；当前全部事实为 `ai-draft`。
 
@@ -127,6 +127,9 @@ Agent 只能创建 `ai-draft`/`needs-review`；`clinician-approved` 只能由具
 | `src.cn.triage.2018` | 《急诊预检分诊专家共识》，中华急诊医学杂志 2018;27(6):599-604 | 开放 HTML，HTTP 200 | 同上 | 中国四级分诊、响应时限、分区 |
 | `src.us.ahrq.esi.v4.2005` | AHRQ ESI v4 Implementation Handbook，Pub. No. 05-0046-2 | 开放 PDF，HTTP 200，463,412 bytes | 美国政府作品，公有领域 | M1 已抽取 ESI 五级、资源规则、危险区规则 |
 | `src.who.icd10.2019` | ICD-10-WHO Version for 2019 (COVID-19 expanded) | 开放 HTML，HTTP 200，21,878 bytes | WHO 条款；仅短引文 + GetConcept 链接，不批量复制 | M1-02 的 9 条胸痛病种编码映射（8 个编码，ACS 无单一码） |
+| `src.msd.dyspnea.2025` | MSD 诊疗手册专业版：呼吸困难（v910882_zh） | 开放 HTML，HTTP 200，571,742 bytes | 版权内容；仅短引文 + 章节定位 | M1-03 呼吸困难病种、表现、检查 |
+| `src.msd.acute_abdominal_pain.2024` | MSD 诊疗手册专业版：急性腹痛（v890185_zh） | 开放 HTML，HTTP 200，480,187 bytes | 同上 | M1-03 腹痛病种、表现、检查、处置 |
+| `src.msd.fever.2026` | MSD 诊疗手册专业版：发热（v997188_zh） | 开放 HTML，HTTP 200，619,843 bytes | 同上 | M1-03 发热病种、表现、检查、经验性治疗 |
 
 ### 5.2 仅登记、当前不用的来源
 
@@ -202,11 +205,11 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 |---|---|
 | M1-01 新增 | 14 实体（1 量表 + 5 级别 + 8 `TriageCriterion`）；13 事实 |
 | M1-01b 新增 | 4 实体（4 个年龄分层危险区指标）；4 事实 |
-| 当前总量 | 98 实体 / 133 事实 |
+| 当前总量（M1-01b 时点） | 98 实体 / 133 事实 |
 | 来源 | `src.us.ahrq.esi.v4.2005`（AHRQ 公有领域 PDF，SHA256 已登记） |
 | 覆盖 | 五级定义、高危/意识/疼痛/资源规则、4 个年龄分层危险区阈值（HR/RR/SaO2<92%） |
 | 查询 | `--scale esi_v4_2005`；默认与中国四级分组展示，不互映射 |
-| 质量门 | validate 0/0；45 项测试；事实 133/133 + ICD 9/9 引文命中 |
+| 质量门（M1-01b 时点） | validate 0/0；45 项测试；事实 133/133 + ICD 9/9 引文命中 |
 | 证据说明 | HR/RR 有 `pdftotext -raw` 文本引文；SaO2<92% 为 Figure 6-1 图像目视转录，裁剪图见 `docs/research/figures/esi_fig6_1_danger_zone.png` |
 
 年龄分层阈值（Figure 6-1, p. 41）：
@@ -235,8 +238,22 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 | 匹配 | `exact` 1、`inclusion` 2、`broader` 2、`narrower` 3、`no_single_code` 1 |
 | 追溯 | 每条 entry 含 `concept_url`（GetConcept?ConceptId=…）、`quote`、`locator`、`source_id`、`checked_at` |
 | 查询 | JSON 的 condition 增加 `icd10`；文本输出显示编码、匹配类型与来源，并提示不用于临床编码/计费 |
-| 质量门 | `validate --strict` 0/0；45 项测试；ICD-10 9/9 引文命中；4/4 来源 HTTP 200 |
+| 质量门（M1-02 时点） | `validate --strict` 0/0；45 项测试；ICD-10 9/9 引文命中；4/4 来源 HTTP 200 |
 | 边界 | 不做 ICD-11、不做全量/批量编码；未经临床编码员审核 |
+
+### 6.7 M1-03：呼吸困难、腹痛、发热（2026-11-13）
+
+| 项目 | 结果 |
+|---|---|
+| 来源 | `src.msd.dyspnea.2025`、`src.msd.acute_abdominal_pain.2024`、`src.msd.fever.2026`；均 verified/m1、HTTP 200、quotes-only |
+| 新增 | 3 个 `ChiefComplaint`、9 个 Condition、14 个 Finding、10 个 Test、1 个 Intervention；59 条事实 |
+| 呼吸困难 | 4 high（APE、张力性气胸、急性心力衰竭、肺炎）+ 1 medium（哮喘急性发作）；6 条主诉级检查 |
+| 腹痛 | 2 high（急性胰腺炎、急性阑尾炎）+ 1 medium（急性胆囊炎）；5 条主诉级检查 |
+| 发热 | 3 high（脓毒症、肺炎、脑膜炎）+ 1 low（病毒性上呼吸道感染）；6 条主诉级检查 |
+| 当前总量 | 135 实体 / 192 事实；来源 7 verified / 1 access_controlled / 3 candidate；事实来源 6 份 |
+| 查询 | `python -m edkg query --complaint 呼吸困难/腹痛/发热`；JSON/文本均可用 |
+| 质量门 | validate 0/0；49 项测试；事实 192/192 + ICD 9/9 引文命中；7/7 来源 HTTP 200 |
+| 边界 | 新 Condition 不填 ICD-10；未做病种级专科会诊；全部 `ai-draft` |
 
 ---
 
@@ -314,7 +331,7 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 | 阶段 | 目标 | 规模目标 | 验收 |
 |---|---|---|---|
 | **M0（已完成）** | 治理文档 + Schema + 胸痛 MVP + 校验/查询/审计/CI | 80 实体 / 116 事实 | 本页 6.4 全通过 |
-| **M1（进行中）** | ESI 五级 + 危险区阈值、WHO ICD-10 9 条映射已完成；待办：3 个新主诉、Neo4j、专科会诊 | 当前 98 / 133；目标 300+ / 800+ | 两套量表独立可查；ICD 映射可回溯；引文 100%；新增测试 |
+| **M1（进行中）** | ESI 五级 + 危险区阈值、WHO ICD-10 9 条映射、呼吸困难/腹痛/发热 3 个主诉已完成；待办：Neo4j、专科会诊 | 当前 135 / 192；目标 300+ / 800+ | 两套量表独立可查；ICD 映射可回溯；引文 100%；新增测试 |
 | M2 | 10 主诉、30+ 高危病种；LLM 候选抽取 + HITL 队列；L1/L2 评估 | 2k+ 实体 / 8k+ 事实 | 抽检通过率 ≥90%；无候选来源进入事实 |
 | M3 | 大规模扩展；GraphRAG/路径检索；DDXPlus/MIMIC 评测；论文产出 | 10k+ 实体 / 50k+ 关系 | 可复现实验、DUA/伦理合规、统计方案落地 |
 
@@ -367,7 +384,7 @@ tests/                    单元测试与负例
 
 1. 保持校验/测试/引文审计为每次提交门禁。
 2. M1-02（已完成）：WHO ICD-10 核验，9 个胸痛病种逐条映射，8 个编码，ACS 无单一码。
-3. M1-03：新增呼吸困难/腹痛/发热 3 个主诉，逐病种补来源。
+3. M1-03（已完成）：新增呼吸困难/腹痛/发热 3 个主诉，逐病种补来源；当前 135 实体 / 192 事实。
 4. M1-04：Neo4j/Cypher 导出 + 10 个查询用例。
 5. M1-05：M1 质量评估（20 条抽检 + 引文 100%）。
 6. M2 起再考虑 LLM 抽取、HITL 与下游评测；任何一步都不得绕过 `Agent.md` 的红线。

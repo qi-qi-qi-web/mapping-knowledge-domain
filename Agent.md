@@ -186,7 +186,7 @@
 
 ### 5.5 查询
 
-- `python -m edkg query --complaint 胸痛` 必须只返回图谱中有证据的条目，并附 evidence id。
+- `python -m edkg query --complaint 胸痛`（以及 `呼吸困难`、`腹痛`、`发热`）必须只返回图谱中有证据的条目，并附 evidence id。
 - 分诊输出只列“候选指标”，**不得自动定级**；必须提示由分诊人员结合生命体征判定。
 - 未收录主诉必须明确报错，不得生成无来源建议。
 
@@ -295,10 +295,10 @@
 
 ---
 
-## 11. 当前状态与下一步（M1 进行中，2026-11-09）
+## 11. 当前状态与下一步（M1 进行中，2026-11-13）
 
-- 已完成：Schema v0.2、8 个来源登记（4 verified / 1 access_controlled / 3 candidate）、胸痛种子图谱 98 实体 / 133 事实、中国四级 + ESI v4 两套分诊量表、WHO ICD-10 9 条逐病种映射（8 个编码，ACS 无单一码）、校验器、scale-aware 查询 CLI、45 项测试、CI。
-- M1 增量：ESI v4 五级、12 个 `TriageCriterion`（含 4 个年龄分层危险区阈值）、资源需求规则、危险区上调规则；WHO ICD-10 编码映射（`data/registry/icd10.json`，查询 JSON/文本展示）。
-- 全部事实 `ai-draft`，引用三份来源（2 份中文共识 + AHRQ ESI v4）；WHO ICD-10 仅用于编码映射；**未做临床审核/临床编码员审核**。
-- 未做：ICD-11/批量编码、更多主诉、Neo4j、LLM 抽取、MIMIC/DDXPlus 评测、临床专家审核。
+- 已完成：Schema v0.2、11 个来源登记（7 verified / 1 access_controlled / 3 candidate）、4 个主诉图谱 135 实体 / 192 事实、中国四级 + ESI v4 两套分诊量表、WHO ICD-10 9 条逐病种映射（8 个编码，ACS 无单一码）、校验器、scale-aware 查询 CLI、49 项测试、CI。
+- M1 增量：ESI v4 五级、12 个 `TriageCriterion`（含 4 个年龄分层危险区阈值）、资源需求规则、危险区上调规则；WHO ICD-10 编码映射（`data/registry/icd10.json`，查询 JSON/文本展示）；M1-03 新增呼吸困难、腹痛、发热 3 个主诉（9 个 Condition、59 条事实，来源为 3 份 MSD 手册页面）。
+- 全部事实 `ai-draft`，引用 6 份事实来源（2 份中文共识 + AHRQ ESI v4 + 3 份 MSD）；WHO ICD-10 仅用于编码映射；**未做临床审核/临床编码员审核**。
+- 未做：ICD-11/批量编码、Neo4j、LLM 抽取、MIMIC/DDXPlus 评测、临床专家审核、病种级专科会诊。
 - 下一步见 `TODO.md` 的 M1；任何扩展先补来源核验与引文，再谈规模。

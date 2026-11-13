@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "checked_at": "2026-11-09",
+  "checked_at": "2026-11-13",
   "policy": {
     "active_status": "verified",
     "candidate_use": "forbidden-in-facts",
@@ -11,7 +11,10 @@
       "id": "src.cn.chest_pain.2019",
       "type": "guideline_consensus",
       "title": "急性胸痛急诊诊疗专家共识",
-      "authors": ["中华医学会急诊医学分会", "中国医疗保健国际交流促进会胸痛分会"],
+      "authors": [
+        "中华医学会急诊医学分会",
+        "中国医疗保健国际交流促进会胸痛分会"
+      ],
       "publisher": "中华急诊医学杂志",
       "year": 2019,
       "language": "zh",
@@ -21,8 +24,18 @@
       "license": "copyrighted-research-citation-only",
       "redistribution": "quotes-only",
       "status": "verified",
-      "used_in": ["mvp"],
-      "topics": ["chest_pain", "risk_stratification", "ecg", "biomarkers", "imaging", "treatment", "mdt"],
+      "used_in": [
+        "mvp"
+      ],
+      "topics": [
+        "chest_pain",
+        "risk_stratification",
+        "ecg",
+        "biomarkers",
+        "imaging",
+        "treatment",
+        "mdt"
+      ],
       "verification": {
         "checked_at": "2026-10-29",
         "method": "http_get",
@@ -37,7 +50,12 @@
       "id": "src.cn.triage.2018",
       "type": "guideline_consensus",
       "title": "急诊预检分诊专家共识",
-      "authors": ["急诊预检分诊专家共识组", "史冬雷", "刘晓颖", "周瑛"],
+      "authors": [
+        "急诊预检分诊专家共识组",
+        "史冬雷",
+        "刘晓颖",
+        "周瑛"
+      ],
       "publisher": "中华急诊医学杂志",
       "year": 2018,
       "language": "zh",
@@ -47,8 +65,15 @@
       "license": "copyrighted-research-citation-only",
       "redistribution": "quotes-only",
       "status": "verified",
-      "used_in": ["mvp"],
-      "topics": ["triage", "cn_4level", "response_time", "care_area"],
+      "used_in": [
+        "mvp"
+      ],
+      "topics": [
+        "triage",
+        "cn_4level",
+        "response_time",
+        "care_area"
+      ],
       "verification": {
         "checked_at": "2026-10-29",
         "method": "http_get",
@@ -63,7 +88,13 @@
       "id": "src.us.ahrq.esi.v4.2005",
       "type": "official_handbook",
       "title": "Emergency Severity Index, Version 4: Implementation Handbook",
-      "authors": ["Gilboy N", "Tanabe P", "Travers DA", "Rosenau AM", "Eitel DR"],
+      "authors": [
+        "Gilboy N",
+        "Tanabe P",
+        "Travers DA",
+        "Rosenau AM",
+        "Eitel DR"
+      ],
       "publisher": "Agency for Healthcare Research and Quality (AHRQ)",
       "year": 2005,
       "language": "en",
@@ -73,8 +104,13 @@
       "license": "public-domain-us-government",
       "redistribution": "full-allowed",
       "status": "verified",
-      "used_in": ["m1"],
-      "topics": ["esi_v4", "five_level_triage"],
+      "used_in": [
+        "m1"
+      ],
+      "topics": [
+        "esi_v4",
+        "five_level_triage"
+      ],
       "verification": {
         "checked_at": "2026-11-01",
         "method": "http_get",
@@ -90,7 +126,9 @@
       "id": "src.physionet.mimic_iv_ed.2.2",
       "type": "registry",
       "title": "MIMIC-IV-ED v2.2",
-      "authors": ["PhysioNet"],
+      "authors": [
+        "PhysioNet"
+      ],
       "publisher": "PhysioNet",
       "year": null,
       "language": "en",
@@ -100,8 +138,14 @@
       "license": "physionet-dua",
       "redistribution": "no",
       "status": "access_controlled",
-      "used_in": ["evaluation"],
-      "topics": ["ed_visits", "triage", "outcomes"],
+      "used_in": [
+        "evaluation"
+      ],
+      "topics": [
+        "ed_visits",
+        "triage",
+        "outcomes"
+      ],
       "verification": {
         "checked_at": "2026-10-29",
         "method": "manual_page_check",
@@ -116,7 +160,9 @@
       "id": "src.github.ddxplus",
       "type": "software_repository",
       "title": "DDXPlus",
-      "authors": ["mila-iqia"],
+      "authors": [
+        "mila-iqia"
+      ],
       "publisher": "GitHub",
       "year": null,
       "language": "en",
@@ -127,7 +173,10 @@
       "redistribution": "unknown",
       "status": "candidate",
       "used_in": [],
-      "topics": ["differential_diagnosis", "synthetic_cases"],
+      "topics": [
+        "differential_diagnosis",
+        "synthetic_cases"
+      ],
       "verification": {
         "checked_at": "2026-10-29",
         "method": "api_get",
@@ -142,7 +191,9 @@
       "id": "src.github.triageagent",
       "type": "software_repository",
       "title": "TriageAgent",
-      "authors": ["Lucanyc"],
+      "authors": [
+        "Lucanyc"
+      ],
       "publisher": "GitHub",
       "year": null,
       "language": "en",
@@ -153,7 +204,10 @@
       "redistribution": "unknown",
       "status": "candidate",
       "used_in": [],
-      "topics": ["triage", "esi_cases"],
+      "topics": [
+        "triage",
+        "esi_cases"
+      ],
       "verification": {
         "checked_at": "2026-10-29",
         "method": "api_get",
@@ -168,7 +222,9 @@
       "id": "src.harvard.primekg",
       "type": "dataset",
       "title": "PrimeKG",
-      "authors": ["Harvard Dataverse"],
+      "authors": [
+        "Harvard Dataverse"
+      ],
       "publisher": "Harvard Dataverse",
       "year": null,
       "language": "en",
@@ -179,7 +235,10 @@
       "redistribution": "unknown",
       "status": "candidate",
       "used_in": [],
-      "topics": ["precision_medicine", "disease_gene_drug"],
+      "topics": [
+        "precision_medicine",
+        "disease_gene_drug"
+      ],
       "verification": {
         "checked_at": "2026-10-29",
         "method": "not_checked",
@@ -194,7 +253,9 @@
       "id": "src.who.icd10.2019",
       "type": "classification",
       "title": "ICD-10-WHO Version for 2019 (COVID-19 expanded)",
-      "authors": ["World Health Organization"],
+      "authors": [
+        "World Health Organization"
+      ],
       "publisher": "WHO",
       "year": 2019,
       "language": "en",
@@ -204,8 +265,14 @@
       "license": "WHO terms of use; short excerpts for research with attribution; no bulk reproduction",
       "redistribution": "quotes-only",
       "status": "verified",
-      "used_in": ["m1"],
-      "topics": ["icd10", "terminology", "coding"],
+      "used_in": [
+        "m1"
+      ],
+      "topics": [
+        "icd10",
+        "terminology",
+        "coding"
+      ],
       "verification": {
         "checked_at": "2026-11-09",
         "method": "http_get",
@@ -215,6 +282,108 @@
         "notes": "官方浏览器版本 ICD-10-WHO；页面版本头为 'International Statistical Classification of Diseases and Related Health Problems 10th Revision (ICD-10)-WHO Version for ;2019-covid-expanded'。许可参考 https://www.who.int/about/policies/publishing/copyright 与 https://www.who.int/about/policies/terms-of-use；仅保存短引文与 GetConcept 链接，不保存全文/PDF，不做批量导出。"
       },
       "notes": "M1-02 编码来源：9 个胸痛 Condition 的逐条映射登记在 data/registry/icd10.json；WHO 仅用于编码注册表，不用于事实引文。"
+    },
+    {
+      "id": "src.msd.dyspnea.2025",
+      "type": "official_handbook",
+      "title": "呼吸困难",
+      "authors": [
+        "Merck & Co., Inc."
+      ],
+      "publisher": "Merck & Co., Inc. (MSD Manuals Professional Edition)",
+      "year": 2025,
+      "language": "zh",
+      "url": "https://www.msdmanuals.cn/professional/pulmonary-disorders/symptoms-of-pulmonary-disorders/dyspnea",
+      "doi": null,
+      "access": "open",
+      "license": "copyrighted-research-citation-only",
+      "redistribution": "quotes-only",
+      "status": "verified",
+      "used_in": [
+        "m1"
+      ],
+      "topics": [
+        "dyspnea",
+        "differential_diagnosis",
+        "diagnostic_testing"
+      ],
+      "verification": {
+        "checked_at": "2026-11-13",
+        "method": "http_get",
+        "http_status": 200,
+        "content_type": "text/html; charset=utf-8",
+        "content_length": 571742,
+        "notes": "MSD Manuals Professional Edition 中文页；版本 v910882_zh；完整评审 2025-11；仅保存短引文与段落定位，不转载全文。"
+      },
+      "notes": "M1-03 呼吸困难/腹痛/发热主诉来源；只用于短引文与知识检索，不用于临床诊疗。"
+    },
+    {
+      "id": "src.msd.acute_abdominal_pain.2024",
+      "type": "official_handbook",
+      "title": "急性腹痛",
+      "authors": [
+        "Merck & Co., Inc."
+      ],
+      "publisher": "Merck & Co., Inc. (MSD Manuals Professional Edition)",
+      "year": 2024,
+      "language": "zh",
+      "url": "https://www.msdmanuals.cn/professional/gastrointestinal-disorders/acute-abdomen-and-surgical-gastroenterology/acute-abdominal-pain",
+      "doi": null,
+      "access": "open",
+      "license": "copyrighted-research-citation-only",
+      "redistribution": "quotes-only",
+      "status": "verified",
+      "used_in": [
+        "m1"
+      ],
+      "topics": [
+        "abdominal_pain",
+        "acute_abdomen",
+        "diagnostic_testing"
+      ],
+      "verification": {
+        "checked_at": "2026-11-13",
+        "method": "http_get",
+        "http_status": 200,
+        "content_type": "text/html; charset=utf-8",
+        "content_length": 480187,
+        "notes": "MSD Manuals Professional Edition 中文页；版本 v890185_zh；完整评审 2024-07；仅保存短引文与段落定位，不转载全文。"
+      },
+      "notes": "M1-03 呼吸困难/腹痛/发热主诉来源；只用于短引文与知识检索，不用于临床诊疗。"
+    },
+    {
+      "id": "src.msd.fever.2026",
+      "type": "official_handbook",
+      "title": "发热",
+      "authors": [
+        "Merck & Co., Inc."
+      ],
+      "publisher": "Merck & Co., Inc. (MSD Manuals Professional Edition)",
+      "year": 2026,
+      "language": "zh",
+      "url": "https://www.msdmanuals.cn/professional/infectious-diseases/biology-of-infectious-disease/fever",
+      "doi": null,
+      "access": "open",
+      "license": "copyrighted-research-citation-only",
+      "redistribution": "quotes-only",
+      "status": "verified",
+      "used_in": [
+        "m1"
+      ],
+      "topics": [
+        "fever",
+        "infection",
+        "sepsis"
+      ],
+      "verification": {
+        "checked_at": "2026-11-13",
+        "method": "http_get",
+        "http_status": 200,
+        "content_type": "text/html; charset=utf-8",
+        "content_length": 619843,
+        "notes": "MSD Manuals Professional Edition 中文页；版本 v997188_zh；完整评审 2024-07；Last updated 2026-04；仅保存短引文与段落定位，不转载全文。"
+      },
+      "notes": "M1-03 呼吸困难/腹痛/发热主诉来源；只用于短引文与知识检索，不用于临床诊疗。"
     }
   ]
 }

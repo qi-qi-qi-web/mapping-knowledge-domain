@@ -254,10 +254,13 @@ def query_complaint(
     chief_tests = _relation_items(graph, graph.outgoing(complaint_id, "RECOMMENDED_TEST"), book)
 
     # Triage levels whose criteria intersect the conditions/findings in this result.
+    # Chest-pain triage criteria only apply to the chest-pain complaint; otherwise
+    # every complaint would inherit the same cardiogenic criteria.
     relevant_ids = {condition["id"] for condition in conditions} | all_finding_ids
-    for entity in graph.entities.values():
-        if entity.get("type") == "Finding" and "胸痛" in str(entity.get("label_zh", "")):
-            relevant_ids.add(str(entity["id"]))
+    if complaint_id == "cc.chest_pain":
+        for entity in graph.entities.values():
+            if entity.get("type") == "Finding" and "胸痛" in str(entity.get("label_zh", "")):
+                relevant_ids.add(str(entity["id"]))
     level_entities = [
         entity for entity in graph.entities.values() if entity.get("type") == "TriageLevel"
     ]
