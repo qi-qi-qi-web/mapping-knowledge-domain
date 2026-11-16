@@ -44,8 +44,8 @@
 ### 提交
 
 - 基线：`631cf5f3787a7134983b4f3cc468d509be0b95e6`。
-- 提交信息：`M1-04: add Neo4j export and ten Cypher use cases`。
-- 不使用 force push；远端 commit SHA 以推送后的 `main` 为准。
+- 提交信息：`M1-04: add Neo4j/Cypher export and query cases`。
+- M1-04 功能提交：`3c72040d0893d612ebde04cb3f2deb6fbc868bfc`；本记录的实际提交信息以该 commit 为准。
 - 临时文件：`data/raw/neo4j-test*`、`data/raw/cacert.pem`、`artifacts/*` 均未提交。
 
 ### 遗留/阻塞
