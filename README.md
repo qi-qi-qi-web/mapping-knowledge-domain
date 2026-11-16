@@ -58,7 +58,7 @@ DEVLOG.md                   变更记录
 TODO.md                     分阶段待办
 docs/PLAN.md                总体构建方案、路线图、评估
 docs/SCHEMA.md              Schema 人读说明
-docs/MVP.md                 胸痛 MVP 说明
+docs/MVP.md                 急诊 4 主诉 MVP 说明
 docs/research/              原始研究报告 + 图（设计输入，非数据源目录）
 schema/edkg.schema.json     Schema v0.2
 data/registry/sources.json  来源登记与核验记录
@@ -66,8 +66,12 @@ data/registry/icd10.json    WHO ICD-10 逐病种编码映射（9 条）
 data/kg/entities.jsonl      实体（135）
 data/kg/facts.jsonl         事实（192，带 provenance）
 edkg/                       校验/查询/统计 CLI
-scripts/                    来源核验、引文审计
-tests/                      49 项单元测试
+edkg/neo4j.py               Neo4j CSV/Cypher 导出
+edkg/neo4j_cases.py         10 个 Cypher 用例的 JSONL 参考实现
+queries/                    10 个只读 Cypher 用例 + 固定参数/期望结果
+neo4j/                      生成的 import CSV、setup/import Cypher
+scripts/                    来源核验、引文审计、Neo4j 导出/校验
+tests/                      57 项单元测试
 .github/workflows/ci.yml    离线 CI
 ```
 
@@ -101,13 +105,16 @@ tests/                      49 项单元测试
 | 重复三元组 | 0 |
 | 引文审计 | 事实 192/192 + ICD-10 9/9 命中 |
 | 开放来源核验 | 7/7 HTTP 200 |
-| 单元测试 | 49 项通过 |
+| Neo4j/Cypher 导出 | 135 节点 / 192 关系；10 个用例离线校验通过（未在真实 Neo4j 实例执行） |
+| 单元测试 | 57 项通过 |
 | CI（GitHub Actions） | [见 Actions](https://github.com/qi-qi-qi-web/mapping-knowledge-domain/actions) |
 | 临床审核 | **未做**（全部 ai-draft） |
 
+- Neo4j 导出：`python scripts/export_neo4j.py --out neo4j`；离线校验：`python scripts/verify_neo4j_queries.py`；用例说明见 [`queries/README.md`](queries/README.md)。本机未安装 Neo4j，未在真实实例上执行导入。
+
 ## 路线图
 
-- **M1（进行中）**：ESI 五级已完成（5 级 / 12 项指标 / 资源规则 / 年龄分层危险区阈值）；WHO ICD-10 已完成 9 个病种逐条映射（8 个编码，ACS 无单一码）；呼吸困难/腹痛/发热 3 个主诉已完成；待办：Neo4j 导出、专科会诊、20 条抽检；
+- **M1（进行中）**：ESI 五级已完成（5 级 / 12 项指标 / 资源规则 / 年龄分层危险区阈值）；WHO ICD-10 已完成 9 个病种逐条映射（8 个编码，ACS 无单一码）；呼吸困难/腹痛/发热 3 个主诉已完成；Neo4j/Cypher 导出 + 10 个查询用例已完成（离线一致性校验，未在真实 Neo4j 实例执行）；待办：专科会诊、20 条抽检；
 - **M2**：10 主诉、30+ 高危病种、LLM 候选抽取 + HITL、L1/L2 评估；
 - **M3**：大规模扩展、GraphRAG/路径检索、DDXPlus/MIMIC 评测、论文产出。
 

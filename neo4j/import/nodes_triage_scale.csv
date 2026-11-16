@@ -1,0 +1,3 @@
+id,type,label_zh,label_en,aliases,scale_id,level_count,notes
+scale.cn_4level_2018,TriageScale,中国急诊预检分诊四级标准（2018）,Chinese 4-level emergency triage standard (2018),,cn_4level_2018,5,四主级+非急症；与 ESI 五级分别建模，不互映射。
+scale.esi_v4_2005,TriageScale,急诊严重度指数（ESI）第4版,Emergency Severity Index v4,,esi_v4_2005,5,五级分诊量表；与中国四级标准分别建模，不互映射。

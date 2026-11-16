@@ -1,0 +1,753 @@
+{
+  "01_complaint_differentials": [
+    {
+      "condition_id": "cond.aad",
+      "icd10": "I71.0",
+      "label_zh": "急性主动脉夹层",
+      "quote": "以急性主动脉夹层（acute aortic dissection，AAD）为主的急性主动脉综合征",
+      "risk": "high",
+      "source_id": "src.cn.chest_pain.2019"
+    },
+    {
+      "condition_id": "cond.acs",
+      "icd10": null,
+      "label_zh": "急性冠状动脉综合征",
+      "quote": "不仅包括急性冠状动脉综合征（acute coronary syndrome，ACS）",
+      "risk": "high",
+      "source_id": "src.cn.chest_pain.2019"
+    },
+    {
+      "condition_id": "cond.acute_mi",
+      "icd10": "I21.9",
+      "label_zh": "急性心肌梗死",
+      "quote": "持续时间超过20 min未缓解，需考虑急性心肌梗死的可能性",
+      "risk": "high",
+      "source_id": "src.cn.chest_pain.2019"
+    },
+    {
+      "condition_id": "cond.ape",
+      "icd10": "I26.9",
+      "label_zh": "急性肺栓塞",
+      "quote": "以急性肺栓塞（acute pulmonary embolism，APE）为主的“急性肺动脉综合征”",
+      "risk": "high",
+      "source_id": "src.cn.chest_pain.2019"
+    },
+    {
+      "condition_id": "cond.costochondritis",
+      "icd10": "M94.0",
+      "label_zh": "急性肋软骨炎",
+      "quote": "胸壁疾病。急性肋软骨炎、肋骨骨折",
+      "risk": "low",
+      "source_id": "src.cn.chest_pain.2019"
+    },
+    {
+      "condition_id": "cond.gerd",
+      "icd10": "K21.9",
+      "label_zh": "胃食管反流病",
+      "quote": "也包括稳定性冠心病、胃食管反流病、肋间神经痛、神经官能症等中低危胸痛",
+      "risk": "low",
+      "source_id": "src.cn.chest_pain.2019"
+    },
+    {
+      "condition_id": "cond.neurosis",
+      "icd10": "F48.9",
+      "label_zh": "神经官能症",
+      "quote": "也包括稳定性冠心病、胃食管反流病、肋间神经痛、神经官能症等中低危胸痛",
+      "risk": "low",
+      "source_id": "src.cn.chest_pain.2019"
+    },
+    {
+      "condition_id": "cond.stable_cad",
+      "icd10": "I25.1",
+      "label_zh": "稳定性冠心病",
+      "quote": "也包括稳定性冠心病、胃食管反流病、肋间神经痛、神经官能症等中低危胸痛",
+      "risk": "medium",
+      "source_id": "src.cn.chest_pain.2019"
+    },
+    {
+      "condition_id": "cond.tension_pneumothorax",
+      "icd10": "J93.0",
+      "label_zh": "张力性气胸",
+      "quote": "及张力性气胸（tension pneumothorax）等高危胸痛",
+      "risk": "high",
+      "source_id": "src.cn.chest_pain.2019"
+    }
+  ],
+  "02_high_risk_conditions": [
+    {
+      "condition_id": "cond.aad",
+      "icd10": "I71.0",
+      "label_zh": "急性主动脉夹层",
+      "presentations": 3,
+      "red_flags": 2
+    },
+    {
+      "condition_id": "cond.acs",
+      "icd10": null,
+      "label_zh": "急性冠状动脉综合征",
+      "presentations": 2,
+      "red_flags": 0
+    },
+    {
+      "condition_id": "cond.acute_heart_failure",
+      "icd10": null,
+      "label_zh": "急性心力衰竭",
+      "presentations": 2,
+      "red_flags": 0
+    },
+    {
+      "condition_id": "cond.acute_mi",
+      "icd10": "I21.9",
+      "label_zh": "急性心肌梗死",
+      "presentations": 1,
+      "red_flags": 0
+    },
+    {
+      "condition_id": "cond.acute_pancreatitis",
+      "icd10": null,
+      "label_zh": "急性胰腺炎",
+      "presentations": 1,
+      "red_flags": 0
+    },
+    {
+      "condition_id": "cond.ape",
+      "icd10": "I26.9",
+      "label_zh": "急性肺栓塞",
+      "presentations": 4,
+      "red_flags": 2
+    },
+    {
+      "condition_id": "cond.appendicitis",
+      "icd10": null,
+      "label_zh": "急性阑尾炎",
+      "presentations": 1,
+      "red_flags": 0
+    },
+    {
+      "condition_id": "cond.meningitis",
+      "icd10": null,
+      "label_zh": "脑膜炎",
+      "presentations": 3,
+      "red_flags": 2
+    },
+    {
+      "condition_id": "cond.pneumonia",
+      "icd10": null,
+      "label_zh": "肺炎",
+      "presentations": 4,
+      "red_flags": 0
+    },
+    {
+      "condition_id": "cond.sepsis",
+      "icd10": null,
+      "label_zh": "脓毒症",
+      "presentations": 3,
+      "red_flags": 1
+    },
+    {
+      "condition_id": "cond.tension_pneumothorax",
+      "icd10": "J93.0",
+      "label_zh": "张力性气胸",
+      "presentations": 2,
+      "red_flags": 2
+    }
+  ],
+  "03_red_flags_for_complaint": [
+    {
+      "condition_id": "cond.aad",
+      "condition_label": "急性主动脉夹层",
+      "finding_id": "find.bp_asymmetry",
+      "finding_label": "双侧肢体血压差别较大",
+      "quote": "双侧肢体血压差别较大",
+      "source_id": "src.cn.chest_pain.2019"
+    },
+    {
+      "condition_id": "cond.aad",
+      "condition_label": "急性主动脉夹层",
+      "finding_id": "find.tearing_chest_back_pain",
+      "finding_label": "持续撕裂样胸背痛",
+      "quote": "AAD及大血管疾病多表现为持续撕裂样胸、背痛",
+      "source_id": "src.cn.chest_pain.2019"
+    },
+    {
+      "condition_id": "cond.ape",
+      "condition_label": "急性肺栓塞",
+      "finding_id": "find.hypoxemia",
+      "finding_label": "氧饱和度下降",
+      "quote": "常同时合并氧饱和度下降",
+      "source_id": "src.cn.chest_pain.2019"
+    },
+    {
+      "condition_id": "cond.ape",
+      "condition_label": "急性肺栓塞",
+      "finding_id": "find.syncope",
+      "finding_label": "晕厥",
+      "quote": "甚或晕厥、猝死",
+      "source_id": "src.cn.chest_pain.2019"
+    },
+    {
+      "condition_id": "cond.tension_pneumothorax",
+      "condition_label": "张力性气胸",
+      "finding_id": "find.cyanosis",
+      "finding_label": "发绀",
+      "quote": "缺氧严重者出现发绀、甚至窒息",
+      "source_id": "src.cn.chest_pain.2019"
+    },
+    {
+      "condition_id": "cond.tension_pneumothorax",
+      "condition_label": "张力性气胸",
+      "finding_id": "find.severe_sudden_dyspnea",
+      "finding_label": "突发极度呼吸困难",
+      "quote": "张力性气胸患者表现为极度呼吸困难",
+      "source_id": "src.cn.chest_pain.2019"
+    }
+  ],
+  "04_condition_workup": [
+    {
+      "context": null,
+      "priority": "immediate",
+      "quote": "所有胸痛患者在首次医疗接触后应在10 min内完成心电图检查",
+      "source_id": "src.cn.chest_pain.2019",
+      "test_id": "test.ecg_12lead",
+      "test_label": "十二导联心电图",
+      "timing": "within_10min"
+    },
+    {
+      "context": null,
+      "priority": "urgent",
+      "quote": "cTn不仅是诊断急性心肌梗死（acute myocardial infarction，AMI）最常用的标志物",
+      "source_id": "src.cn.chest_pain.2019",
+      "test_id": "test.hs_troponin",
+      "test_label": "高敏心肌肌钙蛋白",
+      "timing": null
+    }
+  ],
+  "05_complaint_workup": [
+    {
+      "context": null,
+      "priority": "urgent",
+      "quote": "必要时动脉血气分析并观察以判断严重程度",
+      "source_id": "src.msd.dyspnea.2025",
+      "test_id": "test.arterial_blood_gas",
+      "test_label": "动脉血气分析",
+      "timing": "unspecified"
+    },
+    {
+      "context": null,
+      "priority": "urgent",
+      "quote": "超声心动图",
+      "source_id": "src.msd.dyspnea.2025",
+      "test_id": "test.bedside_echo",
+      "test_label": "床旁超声心动图",
+      "timing": "unspecified"
+    },
+    {
+      "context": null,
+      "priority": "urgent",
+      "quote": "BNP检测",
+      "source_id": "src.msd.dyspnea.2025",
+      "test_id": "test.bnp",
+      "test_label": "脑钠肽/氨基末端脑钠肽前体",
+      "timing": "unspecified"
+    },
+    {
+      "context": null,
+      "priority": "urgent",
+      "quote": "多数患者需要进行脉搏氧饱和度检测，除了症状可以明确地用已知慢性疾病的轻度加重来解释外，还需行胸片检查。",
+      "source_id": "src.msd.dyspnea.2025",
+      "test_id": "test.chest_xray",
+      "test_label": "胸部X线",
+      "timing": "unspecified"
+    },
+    {
+      "context": null,
+      "priority": "urgent",
+      "quote": "应行CT血管造影或通气/灌注扫描",
+      "source_id": "src.msd.dyspnea.2025",
+      "test_id": "test.cta",
+      "test_label": "CT血管造影",
+      "timing": "unspecified"
+    },
+    {
+      "context": "与胸片联合评估",
+      "priority": "urgent",
+      "quote": "胸片、心电图诊断不明确，肺栓塞有中高危险（根据临床预测规则）的患者，应行CT血管造影或通气/灌注扫描。",
+      "source_id": "src.msd.dyspnea.2025",
+      "test_id": "test.ecg_12lead",
+      "test_label": "十二导联心电图",
+      "timing": "unspecified"
+    }
+  ],
+  "06_treatment_options": [
+    {
+      "condition_id": "cond.aad",
+      "condition_label": "急性主动脉夹层",
+      "context": null,
+      "intervention_id": "int.analgesia",
+      "intervention_label": "有效镇痛",
+      "quote": "应尽快给予有效镇痛（可适当肌注或静脉应用阿片类药物）",
+      "source_id": "src.cn.chest_pain.2019",
+      "urgency": "immediate"
+    },
+    {
+      "condition_id": "cond.aad",
+      "condition_label": "急性主动脉夹层",
+      "context": "控制心率和血压",
+      "intervention_id": "int.beta_blocker",
+      "intervention_label": "β受体阻滞剂",
+      "quote": "控制心率和血压（建议静脉应用β受体阻滞剂）",
+      "source_id": "src.cn.chest_pain.2019",
+      "urgency": null
+    },
+    {
+      "condition_id": "cond.acs",
+      "condition_label": "急性冠状动脉综合征",
+      "context": "STEMI抗凝",
+      "intervention_id": "int.anticoagulation",
+      "intervention_label": "抗凝治疗",
+      "quote": "所有STEMI患者无出血禁忌时均应早期使用肝素",
+      "source_id": "src.cn.chest_pain.2019",
+      "urgency": null
+    },
+    {
+      "condition_id": "cond.acs",
+      "condition_label": "急性冠状动脉综合征",
+      "context": "抗栓治疗",
+      "intervention_id": "int.antiplatelet",
+      "intervention_label": "抗血小板治疗",
+      "quote": "ACS患者初始需服用阿司匹林负荷剂量后长期维持",
+      "source_id": "src.cn.chest_pain.2019",
+      "urgency": null
+    },
+    {
+      "condition_id": "cond.acs",
+      "condition_label": "急性冠状动脉综合征",
+      "context": "无禁忌证者发病24 h内",
+      "intervention_id": "int.beta_blocker",
+      "intervention_label": "β受体阻滞剂",
+      "quote": "无禁忌证的患者应在发病24 h内常规服用，并逐渐加量",
+      "source_id": "src.cn.chest_pain.2019",
+      "urgency": null
+    },
+    {
+      "condition_id": "cond.acs",
+      "condition_label": "急性冠状动脉综合征",
+      "context": "STEMI再灌注",
+      "intervention_id": "int.pci",
+      "intervention_label": "直接经皮冠状动脉介入治疗",
+      "quote": "包括直接PCI（primary PCI，PPCI）、转运PCI或静脉溶栓治疗",
+      "source_id": "src.cn.chest_pain.2019",
+      "urgency": "immediate"
+    },
+    {
+      "condition_id": "cond.acs",
+      "condition_label": "急性冠状动脉综合征",
+      "context": "STEMI再灌注",
+      "intervention_id": "int.thrombolysis",
+      "intervention_label": "静脉溶栓",
+      "quote": "包括直接PCI（primary PCI，PPCI）、转运PCI或静脉溶栓治疗",
+      "source_id": "src.cn.chest_pain.2019",
+      "urgency": null
+    },
+    {
+      "condition_id": "cond.ape",
+      "condition_label": "急性肺栓塞",
+      "context": null,
+      "intervention_id": "int.anticoagulation",
+      "intervention_label": "抗凝治疗",
+      "quote": "尽快进行抗凝治疗",
+      "source_id": "src.cn.chest_pain.2019",
+      "urgency": "immediate"
+    },
+    {
+      "condition_id": "cond.ape",
+      "condition_label": "急性肺栓塞",
+      "context": "排除溶栓禁忌证后",
+      "intervention_id": "int.thrombolysis",
+      "intervention_label": "静脉溶栓",
+      "quote": "及时给予静脉溶栓治疗",
+      "source_id": "src.cn.chest_pain.2019",
+      "urgency": null
+    },
+    {
+      "condition_id": "cond.tension_pneumothorax",
+      "condition_label": "张力性气胸",
+      "context": "条件允许时",
+      "intervention_id": "int.chest_drain",
+      "intervention_label": "胸腔闭式引流",
+      "quote": "亦可先行胸腔闭式引流术",
+      "source_id": "src.cn.chest_pain.2019",
+      "urgency": null
+    },
+    {
+      "condition_id": "cond.tension_pneumothorax",
+      "condition_label": "张力性气胸",
+      "context": null,
+      "intervention_id": "int.needle_decompression",
+      "intervention_label": "胸腔穿刺减压",
+      "quote": "待确诊后应立即施行胸腔穿刺术",
+      "source_id": "src.cn.chest_pain.2019",
+      "urgency": "immediate"
+    }
+  ],
+  "07_triage_criteria": [
+    {
+      "criterion_id": "crit.esi.immediate_lifesaving",
+      "criterion_label": "需要立即救生干预",
+      "criterion_type": "algorithm",
+      "level": "1",
+      "level_label": "ESI 1级 立即抢救",
+      "quote": "Patients requiring immediate life-saving intervention are now classified as ESI level 1.",
+      "source_id": "src.us.ahrq.esi.v4.2005"
+    },
+    {
+      "criterion_id": "crit.esi.danger_vitals_3_8y",
+      "criterion_label": "危险区生命体征：3–8岁（HR>140、RR>30、SaO2<92%）",
+      "criterion_type": "algorithm",
+      "level": "2",
+      "level_label": "ESI 2级 高危/不能等待",
+      "quote": "3-8 y >140 >30",
+      "source_id": "src.us.ahrq.esi.v4.2005"
+    },
+    {
+      "criterion_id": "crit.esi.danger_vitals_3m_3y",
+      "criterion_label": "危险区生命体征：3月–3岁（HR>160、RR>40、SaO2<92%）",
+      "criterion_type": "algorithm",
+      "level": "2",
+      "level_label": "ESI 2级 高危/不能等待",
+      "quote": "3 m-3y >160 >40",
+      "source_id": "src.us.ahrq.esi.v4.2005"
+    },
+    {
+      "criterion_id": "crit.esi.danger_vitals_infant",
+      "criterion_label": "危险区生命体征：<3月（HR>180、RR>50、SaO2<92%）",
+      "criterion_type": "algorithm",
+      "level": "2",
+      "level_label": "ESI 2级 高危/不能等待",
+      "quote": "<3 m >180 >50",
+      "source_id": "src.us.ahrq.esi.v4.2005"
+    },
+    {
+      "criterion_id": "crit.esi.danger_vitals_over8y",
+      "criterion_label": "危险区生命体征：>8岁（HR>100、RR>20、SaO2<92%）",
+      "criterion_type": "algorithm",
+      "level": "2",
+      "level_label": "ESI 2级 高危/不能等待",
+      "quote": ">8y >100 >20",
+      "source_id": "src.us.ahrq.esi.v4.2005"
+    },
+    {
+      "criterion_id": "crit.esi.danger_zone_vitals",
+      "criterion_label": "危险区生命体征（考虑上调至 ESI 2）",
+      "criterion_type": "algorithm",
+      "level": "2",
+      "level_label": "ESI 2级 高危/不能等待",
+      "quote": "Consider uptriage to ESI 2 if any vital sign criterion is exceeded.",
+      "source_id": "src.us.ahrq.esi.v4.2005"
+    },
+    {
+      "criterion_id": "crit.esi.high_risk",
+      "criterion_label": "高危情况（可能迅速恶化或需时间敏感治疗）",
+      "criterion_type": "algorithm",
+      "level": "2",
+      "level_label": "ESI 2级 高危/不能等待",
+      "quote": "A high-risk patient is one whose condition could easily deteriorate or a patient who presents with symptoms suggestive of a condition requiring time-sensitive treatment.",
+      "source_id": "src.us.ahrq.esi.v4.2005"
+    },
+    {
+      "criterion_id": "crit.esi.mental_status",
+      "criterion_label": "新发意识混乱/嗜睡/定向障碍",
+      "criterion_type": "algorithm",
+      "level": "2",
+      "level_label": "ESI 2级 高危/不能等待",
+      "quote": "Is the patient confused, lethargic or disoriented?",
+      "source_id": "src.us.ahrq.esi.v4.2005"
+    },
+    {
+      "criterion_id": "crit.esi.severe_pain",
+      "criterion_label": "严重疼痛/痛苦（≥7/10）",
+      "criterion_type": "algorithm",
+      "level": "2",
+      "level_label": "ESI 2级 高危/不能等待",
+      "quote": "Severe pain/distress is determined by clinical observation and/or patient rating of greater than or equal to 7 on 0-10 pain scale.",
+      "source_id": "src.us.ahrq.esi.v4.2005"
+    },
+    {
+      "criterion_id": "crit.esi.resources_2plus",
+      "criterion_label": "预计需要≥2项资源",
+      "criterion_type": "algorithm",
+      "level": "3",
+      "level_label": "ESI 3级 需≥2项资源",
+      "quote": "those who are expected to need two or more resources are designated as ESI level 3",
+      "source_id": "src.us.ahrq.esi.v4.2005"
+    },
+    {
+      "criterion_id": "crit.esi.resources_1",
+      "criterion_label": "预计需要1项资源",
+      "criterion_type": "algorithm",
+      "level": "4",
+      "level_label": "ESI 4级 需1项资源",
+      "quote": "those who are likely to require one resource are level 4",
+      "source_id": "src.us.ahrq.esi.v4.2005"
+    },
+    {
+      "criterion_id": "crit.esi.resources_0",
+      "criterion_label": "预计不需要资源",
+      "criterion_type": "algorithm",
+      "level": "5",
+      "level_label": "ESI 5级 需0项资源",
+      "quote": "patients who are expected to consume no resources are classified as level 5",
+      "source_id": "src.us.ahrq.esi.v4.2005"
+    }
+  ],
+  "08_icd10_coded_conditions": [
+    {
+      "condition_id": "cond.neurosis",
+      "icd10": "F48.9",
+      "label_zh": "神经官能症"
+    },
+    {
+      "condition_id": "cond.acute_mi",
+      "icd10": "I21.9",
+      "label_zh": "急性心肌梗死"
+    },
+    {
+      "condition_id": "cond.stable_cad",
+      "icd10": "I25.1",
+      "label_zh": "稳定性冠心病"
+    },
+    {
+      "condition_id": "cond.ape",
+      "icd10": "I26.9",
+      "label_zh": "急性肺栓塞"
+    },
+    {
+      "condition_id": "cond.aad",
+      "icd10": "I71.0",
+      "label_zh": "急性主动脉夹层"
+    },
+    {
+      "condition_id": "cond.tension_pneumothorax",
+      "icd10": "J93.0",
+      "label_zh": "张力性气胸"
+    },
+    {
+      "condition_id": "cond.gerd",
+      "icd10": "K21.9",
+      "label_zh": "胃食管反流病"
+    },
+    {
+      "condition_id": "cond.costochondritis",
+      "icd10": "M94.0",
+      "label_zh": "急性肋软骨炎"
+    }
+  ],
+  "09_condition_evidence": [
+    {
+      "object_id": "cond.ape",
+      "other_id": "cond.ape",
+      "other_label": "急性肺栓塞",
+      "predicate": "DIFFERENTIATED_FROM",
+      "quote": "AAD及大血管疾病多表现为持续撕裂样胸、背痛，可伴血压明显升高、双侧肢体血压差别较大等；APE常伴呼吸困难或咯血，常同时合并氧饱和度下降，甚或晕厥、猝死",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "cond.aad"
+    },
+    {
+      "object_id": "cond.aad",
+      "other_id": "cond.acs",
+      "other_label": "急性冠状动脉综合征",
+      "predicate": "DIFFERENTIATED_FROM",
+      "quote": "ACS症状主要包括发作性胸部闷痛、压迫感或憋闷感，甚或濒死感，部分患者可放射至上肢、后背部或颈部，劳累、情绪激动、气候骤变等均可诱发，持续数分钟至数十分钟，休息或硝酸甘油可缓解，持续时间超过20 min未缓解，需考虑急性心肌梗死的可能性；AAD及大血管疾病多表现为持续撕裂样胸、背痛，可伴血压明显升高、双侧肢体血压差别较大等",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "cond.acs"
+    },
+    {
+      "object_id": "find.bp_asymmetry",
+      "other_id": "find.bp_asymmetry",
+      "other_label": "双侧肢体血压差别较大",
+      "predicate": "DISTINGUISHED_BY",
+      "quote": "要注意血压数值及四肢血压是否对称",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "cond.aad"
+    },
+    {
+      "object_id": "find.bp_asymmetry",
+      "other_id": "find.bp_asymmetry",
+      "other_label": "双侧肢体血压差别较大",
+      "predicate": "HAS_RED_FLAG",
+      "quote": "双侧肢体血压差别较大",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "cond.aad"
+    },
+    {
+      "object_id": "find.tearing_chest_back_pain",
+      "other_id": "find.tearing_chest_back_pain",
+      "other_label": "持续撕裂样胸背痛",
+      "predicate": "HAS_RED_FLAG",
+      "quote": "AAD及大血管疾病多表现为持续撕裂样胸、背痛",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "cond.aad"
+    },
+    {
+      "object_id": "risk.hypertension",
+      "other_id": "risk.hypertension",
+      "other_label": "高血压",
+      "predicate": "HAS_RISK_FACTOR",
+      "quote": "既往有马凡综合征，伴有严重高血压",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "cond.aad"
+    },
+    {
+      "object_id": "risk.marfan",
+      "other_id": "risk.marfan",
+      "other_label": "马凡综合征",
+      "predicate": "HAS_RISK_FACTOR",
+      "quote": "既往有马凡综合征，伴有严重高血压",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "cond.aad"
+    },
+    {
+      "object_id": "cond.aad",
+      "other_id": "level.cn4.2",
+      "other_label": "Ⅱ级 急重",
+      "predicate": "LEVEL_CRITERION",
+      "quote": "急性心梗、急性肺栓塞、主动脉夹层",
+      "source_id": "src.cn.triage.2018",
+      "subject_id": "level.cn4.2"
+    },
+    {
+      "object_id": "cond.aad",
+      "other_id": "cc.chest_pain",
+      "other_label": "胸痛",
+      "predicate": "MAY_INDICATE",
+      "quote": "以急性主动脉夹层（acute aortic dissection，AAD）为主的急性主动脉综合征",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "cc.chest_pain"
+    },
+    {
+      "object_id": "find.bp_asymmetry",
+      "other_id": "find.bp_asymmetry",
+      "other_label": "双侧肢体血压差别较大",
+      "predicate": "PRESENTS_WITH",
+      "quote": "可伴血压明显升高、双侧肢体血压差别较大等",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "cond.aad"
+    },
+    {
+      "object_id": "find.severe_hypertension",
+      "other_id": "find.severe_hypertension",
+      "other_label": "血压明显升高",
+      "predicate": "PRESENTS_WITH",
+      "quote": "可伴血压明显升高、双侧肢体血压差别较大等",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "cond.aad"
+    },
+    {
+      "object_id": "find.tearing_chest_back_pain",
+      "other_id": "find.tearing_chest_back_pain",
+      "other_label": "持续撕裂样胸背痛",
+      "predicate": "PRESENTS_WITH",
+      "quote": "AAD及大血管疾病多表现为持续撕裂样胸、背痛",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "cond.aad"
+    },
+    {
+      "object_id": "test.bedside_echo",
+      "other_id": "test.bedside_echo",
+      "other_label": "床旁超声心动图",
+      "predicate": "RECOMMENDED_TEST",
+      "quote": "急性主动脉夹层超声表现为主动脉腔内出现飘摆颤动的线性回声",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "cond.aad"
+    },
+    {
+      "object_id": "test.cta",
+      "other_id": "test.cta",
+      "other_label": "CT血管造影",
+      "predicate": "RECOMMENDED_TEST",
+      "quote": "急性主动脉夹层可通过CTA明确诊断",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "cond.aad"
+    },
+    {
+      "object_id": "test.d_dimer",
+      "other_id": "test.d_dimer",
+      "other_label": "D-二聚体",
+      "predicate": "RECOMMENDED_TEST",
+      "quote": "D-二聚体检测还可用于主动脉夹层的筛查和排除",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "cond.aad"
+    },
+    {
+      "object_id": "cond.aad",
+      "other_id": "find.bp_asymmetry",
+      "other_label": "双侧肢体血压差别较大",
+      "predicate": "SUPPORTS",
+      "quote": "可伴血压明显升高、双侧肢体血压差别较大等",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "find.bp_asymmetry"
+    },
+    {
+      "object_id": "cond.aad",
+      "other_id": "find.intimal_flap",
+      "other_label": "主动脉内膜片",
+      "predicate": "SUPPORTS",
+      "quote": "血管内膜征，主动脉管腔内发现动脉内膜片提示夹层或壁间血肿",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "find.intimal_flap"
+    },
+    {
+      "object_id": "cond.aad",
+      "other_id": "int.analgesia",
+      "other_label": "有效镇痛",
+      "predicate": "TREATS",
+      "quote": "应尽快给予有效镇痛（可适当肌注或静脉应用阿片类药物）",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "int.analgesia"
+    },
+    {
+      "object_id": "cond.aad",
+      "other_id": "int.beta_blocker",
+      "other_label": "β受体阻滞剂",
+      "predicate": "TREATS",
+      "quote": "控制心率和血压（建议静脉应用β受体阻滞剂）",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "int.beta_blocker"
+    },
+    {
+      "object_id": "disp.transfer",
+      "other_id": "disp.transfer",
+      "other_label": "转诊至具备能力医院",
+      "predicate": "TYPICAL_DISPOSITION",
+      "quote": "不具备大血管介入和手术能力的医疗机构，应当建立完善的急性主动脉夹层转诊机制",
+      "source_id": "src.cn.chest_pain.2019",
+      "subject_id": "cond.aad"
+    }
+  ],
+  "10_source_coverage": [
+    {
+      "facts": 97,
+      "source_id": "src.cn.chest_pain.2019"
+    },
+    {
+      "facts": 23,
+      "source_id": "src.msd.fever.2026"
+    },
+    {
+      "facts": 21,
+      "source_id": "src.cn.triage.2018"
+    },
+    {
+      "facts": 21,
+      "source_id": "src.msd.dyspnea.2025"
+    },
+    {
+      "facts": 17,
+      "source_id": "src.us.ahrq.esi.v4.2005"
+    },
+    {
+      "facts": 13,
+      "source_id": "src.msd.acute_abdominal_pain.2024"
+    }
+  ]
+}

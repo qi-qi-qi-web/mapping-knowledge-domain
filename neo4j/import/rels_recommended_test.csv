@@ -1,0 +1,49 @@
+fact_id,subject,object,source_id,locator,quote,confidence,review_status,assertion_type,extracted_by,extracted_at,priority,timing,context
+fact.aad.recommended_test.cta,cond.aad,test.cta,src.cn.chest_pain.2019,§4.5 CT及CT血管造影（CTA）检查,急性主动脉夹层可通过CTA明确诊断,0.99,ai-draft,explicit,manual-curation,2026-10-29,urgent,unspecified,
+fact.aad.recommended_test.d_dimer,cond.aad,test.d_dimer,src.cn.chest_pain.2019,§4.2.3 出凝血标志物,D-二聚体检测还可用于主动脉夹层的筛查和排除,0.98,ai-draft,explicit,manual-curation,2026-10-29,,,筛查和排除
+fact.aad.recommended_test.echo,cond.aad,test.bedside_echo,src.cn.chest_pain.2019,§4.3 床旁超声心动图,急性主动脉夹层超声表现为主动脉腔内出现飘摆颤动的线性回声,0.98,ai-draft,explicit,manual-curation,2026-10-29,urgent,unspecified,
+fact.abdominal_pain.recommended_test.ct,cc.abdominal_pain,test.abdominal_ct,src.msd.acute_abdominal_pain.2024,检查,口服及静脉予造影剂行增强CT检查，可明确95%的严重腹痛患者诊断，明显降低了剖腹探查的阴性率。,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.abdominal_pain.recommended_test.lipase,cc.abdominal_pain,test.serum_lipase,src.msd.acute_abdominal_pain.2024,检查,血清脂肪酶是例外，它高度提示急性胰腺炎的诊断。,0.99,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.abdominal_pain.recommended_test.ultrasound,cc.abdominal_pain,test.abdominal_ultrasound,src.msd.acute_abdominal_pain.2024,检查,若疑似胆道疾病或异位妊娠（经阴道探头）以及儿童疑似阑尾炎，应行超声检查。,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.abdominal_pain.recommended_test.urine_pregnancy,cc.abdominal_pain,test.urine_pregnancy,src.msd.acute_abdominal_pain.2024,检查,所有育龄妇女均应行床旁尿液妊娠试验，因阴性结果即可有效排除异位妊娠破裂。,0.99,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.abdominal_pain.recommended_test.xray,cc.abdominal_pain,test.abdominal_xray,src.msd.acute_abdominal_pain.2024,检查,若怀疑穿孔或梗阻，应行腹部立卧位片及胸部正位片（若患者无法站立，行左侧卧位腹部平片及前后位胸片）。,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.acs.recommended_test.blood_gas,cond.acs,test.arterial_blood_gas,src.cn.chest_pain.2019,§4.2.5 动脉血气分析,高危胸痛患者可通过血气分析快速评估患者循环灌注情况,0.98,ai-draft,explicit,manual-curation,2026-10-29,,,高危胸痛循环灌注评估
+fact.acs.recommended_test.bnp,cond.acs,test.bnp,src.cn.chest_pain.2019,§4.2.2 心脏功能标志物,在急性胸痛的鉴别诊断、危险分层和预后判断等方面也具有重要作用,0.98,ai-draft,explicit,manual-curation,2026-10-29,,,鉴别诊断、危险分层与预后判断
+fact.acs.recommended_test.ck_mb,cond.acs,test.ck_mb,src.cn.chest_pain.2019,§4.2.1 心肌损伤标志物,当不能测定cTn时，可选择CK-MB做为诊断AMI的重要指标,0.98,ai-draft,explicit,manual-curation,2026-10-29,,,不能测定cTn时
+fact.acs.recommended_test.ecg,cond.acs,test.ecg_12lead,src.cn.chest_pain.2019,§4.1 心电图,心电图是诊断ACS的主要检查手段，建议首次医疗接触后10 min内完成心电图,0.99,ai-draft,explicit,manual-curation,2026-10-29,immediate,within_10min,
+fact.acs.recommended_test.echo,cond.acs,test.bedside_echo,src.cn.chest_pain.2019,§4.3 床旁超声心动图,超声心动图可判断心肌是否存在节段性室壁运动异常，有助于ACS的鉴别、诊断,0.98,ai-draft,explicit,manual-curation,2026-10-29,urgent,unspecified,
+fact.acs.recommended_test.hs_troponin,cond.acs,test.hs_troponin,src.cn.chest_pain.2019,§4.2.1 心肌损伤标志物,高敏cTn（high-sensitivity cardiac troponin，hs-cTn）的敏感度更高，常用来早期筛查及排除诊断,0.98,ai-draft,explicit,manual-curation,2026-10-29,urgent,unspecified,
+fact.acs.recommended_test.myoglobin,cond.acs,test.myoglobin,src.cn.chest_pain.2019,§4.2.1 心肌损伤标志物,MYO释放早、排泄快速，与cTn或CK-MB联合应用有助于AMI的早期诊断,0.98,ai-draft,explicit,manual-curation,2026-10-29,,,与cTn或CK-MB联合应用
+fact.acute_heart_failure.recommended_test.bnp,cond.acute_heart_failure,test.bnp,src.msd.dyspnea.2025,病因（表：引起急性呼吸困难的部分病因）,BNP检测,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.acute_heart_failure.recommended_test.chest_xray,cond.acute_heart_failure,test.chest_xray,src.msd.dyspnea.2025,病因（表：引起急性呼吸困难的部分病因）,胸部X光检查,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.acute_heart_failure.recommended_test.echo,cond.acute_heart_failure,test.bedside_echo,src.msd.dyspnea.2025,病因（表：引起急性呼吸困难的部分病因）,超声心动图,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.acute_mi.recommended_test.ecg,cond.acute_mi,test.ecg_12lead,src.cn.chest_pain.2019,§3.2.4 辅助检查,所有胸痛患者在首次医疗接触后应在10 min内完成心电图检查,0.98,ai-draft,explicit,manual-curation,2026-10-29,immediate,within_10min,
+fact.acute_mi.recommended_test.hs_troponin,cond.acute_mi,test.hs_troponin,src.cn.chest_pain.2019,§4.2.1 心肌损伤标志物,cTn不仅是诊断急性心肌梗死（acute myocardial infarction，AMI）最常用的标志物,0.98,ai-draft,explicit,manual-curation,2026-10-29,urgent,,
+fact.acute_pancreatitis.recommended_test.lipase,cond.acute_pancreatitis,test.serum_lipase,src.msd.acute_abdominal_pain.2024,检查,血清脂肪酶是例外，它高度提示急性胰腺炎的诊断。,0.99,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.ape.recommended_test.blood_gas,cond.ape,test.arterial_blood_gas,src.cn.chest_pain.2019,§4.2.5 动脉血气分析,动脉血气分析常用来鉴别APE,0.98,ai-draft,explicit,manual-curation,2026-10-29,urgent,,
+fact.ape.recommended_test.bnp,cond.ape,test.bnp,src.cn.chest_pain.2019,§5.3 急性肺栓塞,APE患者入院后须尽快完成心电图检查，并行血气分析、D-二聚体、BNP、cTn等检测,0.98,ai-draft,explicit,manual-curation,2026-10-29,urgent,,
+fact.ape.recommended_test.cta,cond.ape,test.cta,src.cn.chest_pain.2019,§4.5 CT及CT血管造影（CTA）检查,肺栓塞可通过CTA明确诊断,0.99,ai-draft,explicit,manual-curation,2026-10-29,urgent,unspecified,
+fact.ape.recommended_test.d_dimer,cond.ape,test.d_dimer,src.cn.chest_pain.2019,§4.2.3 出凝血标志物,D-二聚体可作为APE诊断的首选筛查指标,0.99,ai-draft,explicit,manual-curation,2026-10-29,urgent,,首选筛查指标
+fact.ape.recommended_test.hs_troponin,cond.ape,test.hs_troponin,src.cn.chest_pain.2019,§5.3 急性肺栓塞,APE患者入院后须尽快完成心电图检查，并行血气分析、D-二聚体、BNP、cTn等检测,0.98,ai-draft,explicit,manual-curation,2026-10-29,urgent,,
+fact.ape.recommended_test.pesi,cond.ape,test.pesi,src.cn.chest_pain.2019,§5.3 急性肺栓塞,根据Wells评分或PESI分级等评估手段动态评估患者,0.98,ai-draft,explicit,manual-curation,2026-10-29,,,动态危险分层
+fact.ape.recommended_test.wells,cond.ape,test.wells_score,src.cn.chest_pain.2019,§5.3 急性肺栓塞,根据Wells评分或PESI分级等评估手段动态评估患者,0.98,ai-draft,explicit,manual-curation,2026-10-29,,,动态危险分层
+fact.chest_pain.recommended_test.ecg,cc.chest_pain,test.ecg_12lead,src.cn.chest_pain.2019,§3.2.4 辅助检查,所有胸痛患者在首次医疗接触后应在10 min内完成心电图检查,0.99,ai-draft,explicit,manual-curation,2026-10-29,immediate,within_10min,
+fact.chest_pain.recommended_test.triple_cta,cc.chest_pain,test.cta,src.cn.chest_pain.2019,§3.2.4 辅助检查,胸痛三联CTA可同时鉴别ACS、AAD、APE三种高危胸痛,0.98,ai-draft,explicit,manual-curation,2026-10-29,urgent,unspecified,胸痛三联CTA用于同时鉴别ACS、AAD、APE
+fact.cholecystitis.recommended_test.ultrasound,cond.cholecystitis,test.abdominal_ultrasound,src.msd.acute_abdominal_pain.2024,检查,若疑似胆道疾病或异位妊娠（经阴道探头）以及儿童疑似阑尾炎，应行超声检查。,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.dyspnea.recommended_test.abg,cc.dyspnea,test.arterial_blood_gas,src.msd.dyspnea.2025,诊断（其他检查）,必要时动脉血气分析并观察以判断严重程度,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.dyspnea.recommended_test.bnp,cc.dyspnea,test.bnp,src.msd.dyspnea.2025,诊断（其他检查）,BNP检测,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.dyspnea.recommended_test.chest_xray,cc.dyspnea,test.chest_xray,src.msd.dyspnea.2025,诊断（其他检查）,多数患者需要进行脉搏氧饱和度检测，除了症状可以明确地用已知慢性疾病的轻度加重来解释外，还需行胸片检查。,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.dyspnea.recommended_test.cta,cc.dyspnea,test.cta,src.msd.dyspnea.2025,诊断（其他检查）,应行CT血管造影或通气/灌注扫描,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.dyspnea.recommended_test.ecg,cc.dyspnea,test.ecg_12lead,src.msd.dyspnea.2025,诊断（其他检查）,胸片、心电图诊断不明确，肺栓塞有中高危险（根据临床预测规则）的患者，应行CT血管造影或通气/灌注扫描。,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,与胸片联合评估
+fact.dyspnea.recommended_test.echo,cc.dyspnea,test.bedside_echo,src.msd.dyspnea.2025,病因（表：引起急性呼吸困难的部分病因）,超声心动图,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.fever.recommended_test.blood_culture,cc.fever,test.blood_culture,src.msd.fever.2026,检测,细菌或 真菌感染 ：血培养以检测可能的血流感染,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.fever.recommended_test.cbc,cc.fever,test.cbc,src.msd.fever.2026,检测,通常会做血常规,0.98,ai-draft,explicit,manual-curation,2026-11-13,routine,unspecified,
+fact.fever.recommended_test.chest_xray,cc.fever,test.chest_xray,src.msd.fever.2026,检测,存在 脓毒症 危险信号的患者需要进行血尿培养和胸片检查,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.fever.recommended_test.head_ct,cc.fever,test.head_ct,src.msd.fever.2026,检测,有脑疝风险的患者腰穿前应行头颅CT,0.98,ai-draft,explicit,manual-curation,2026-11-13,immediate,immediate,
+fact.fever.recommended_test.lumbar_puncture,cc.fever,test.lumbar_puncture,src.msd.fever.2026,检测,脑膜炎 ：立即进行腰椎穿刺，并静脉给予 地塞米松 和抗生素,0.99,ai-draft,explicit,manual-curation,2026-11-13,immediate,immediate,
+fact.fever.recommended_test.urine_culture,cc.fever,test.urine_culture,src.msd.fever.2026,检测,存在 脓毒症 危险信号的患者需要进行血尿培养和胸片检查,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.meningitis.recommended_test.head_ct,cond.meningitis,test.head_ct,src.msd.fever.2026,检测,有脑疝风险的患者腰穿前应行头颅CT,0.98,ai-draft,explicit,manual-curation,2026-11-13,immediate,immediate,
+fact.meningitis.recommended_test.lumbar_puncture,cond.meningitis,test.lumbar_puncture,src.msd.fever.2026,检测,脑膜炎 ：立即进行腰椎穿刺，并静脉给予 地塞米松 和抗生素,0.99,ai-draft,explicit,manual-curation,2026-11-13,immediate,immediate,
+fact.pneumonia.recommended_test.chest_xray,cond.pneumonia,test.chest_xray,src.msd.dyspnea.2025,病因（表：引起急性呼吸困难的部分病因）,胸部X光检查,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.sepsis.recommended_test.blood_culture,cond.sepsis,test.blood_culture,src.msd.fever.2026,检测,细菌或 真菌感染 ：血培养以检测可能的血流感染,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
+fact.tension.recommended_test.chest_xray,cond.tension_pneumothorax,test.chest_xray,src.cn.chest_pain.2019,§4.4 X线检查,X线检查是诊断气胸最常用的方法,0.98,ai-draft,explicit,manual-curation,2026-10-29,urgent,unspecified,

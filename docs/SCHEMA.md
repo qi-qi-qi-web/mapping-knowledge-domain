@@ -104,7 +104,8 @@ ID 规则：`<prefix>.<slug>`，只允许小写字母、数字、下划线、点
 - 分诊：中国四级 + ESI v4；两套量表分别建模，查询分组展示，**不互映射**。
 - 危险区阈值：HR/RR 有文本引文；SaO2<92% 为 Figure 6-1 图像目视转录，裁剪图见 `docs/research/figures/esi_fig6_1_danger_zone.png`。
 - 会诊：胸痛中心参与科室（院前/急诊/心内科）与转诊条件。
-- 未做：ICD-11/批量编码、病种级专科会诊、流程事件实例。
+- Neo4j 投影（M1-04）：135 节点 / 192 关系；13 类节点标签、15 个谓词；`queries/` 下 10 个只读 Cypher 用例与 `expected.json` 离线夹具通过 JSONL 参考实现校验；不改 Schema，**未在真实 Neo4j 实例执行导入**。
+- 未做：ICD-11/批量编码、真实 Neo4j 实例导入/性能验证、病种级专科会诊、流程事件实例。
 
 ## 7. 如何新增
 
@@ -112,6 +113,7 @@ ID 规则：`<prefix>.<slug>`，只允许小写字母、数字、下划线、点
 2. 新增实体（唯一 ID、必填属性）；
 3. 新增事实（domain/range 正确、qualifier 在 Schema 内、provenance 完整）；
 4. 如需填 `Condition.icd10`，先在 `data/registry/icd10.json` 登记并保证 code/quote/URL 一致；
-5. `python -m edkg validate --strict`；
-6. `python scripts/audit_quotes.py`；
-7. 更新 `DEVLOG.md`/`TODO.md`。
+5. 数据变更后重跑 `python scripts/export_neo4j.py --out neo4j` 与 `python scripts/verify_neo4j_queries.py`；如用例结果有意变化，审查 diff 后用 `--write` 重生成 `expected.json`；
+6. `python -m edkg validate --strict`；
+7. `python scripts/audit_quotes.py`；
+8. 更新 `DEVLOG.md`/`TODO.md`。

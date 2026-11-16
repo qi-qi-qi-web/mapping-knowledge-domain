@@ -1,0 +1,10 @@
+id,type,label_zh,label_en,aliases,intervention_kind
+int.analgesia,Intervention,有效镇痛,Effective analgesia,,drug
+int.antibiotics,Intervention,抗生素治疗,Antibiotic therapy,,drug
+int.anticoagulation,Intervention,抗凝治疗,Anticoagulation,,drug
+int.antiplatelet,Intervention,抗血小板治疗,Antiplatelet therapy,,drug
+int.beta_blocker,Intervention,β受体阻滞剂,Beta-blocker,,drug
+int.chest_drain,Intervention,胸腔闭式引流,Tube thoracostomy,,procedure
+int.needle_decompression,Intervention,胸腔穿刺减压,Needle thoracostomy decompression,,procedure
+int.pci,Intervention,直接经皮冠状动脉介入治疗,Primary PCI,直接PCI|PPCI,procedure
+int.thrombolysis,Intervention,静脉溶栓,Intravenous thrombolysis,,drug

@@ -1,0 +1,38 @@
+id,type,label_zh,label_en,aliases,finding_kind,red_flag
+find.altered_consciousness,Finding,急性意识障碍,Acute altered consciousness,,sign,true
+find.bp_asymmetry,Finding,双侧肢体血压差别较大,Inter-arm blood pressure difference,,sign,true
+find.cardiac_arrest,Finding,心搏/呼吸停止或节律不稳定,Cardiac or respiratory arrest,,sign,true
+find.cardiac_like_chest_pain,Finding,类似心脏因素的胸痛,Cardiac-like chest pain,,symptom,true
+find.chest_pressure,Finding,胸部闷痛、压迫感或憋闷感,Chest pressure or tightness,,symptom,
+find.cough,Finding,咳嗽,Cough,,symptom,
+find.cyanosis,Finding,发绀,Cyanosis,,sign,true
+find.dyspnea,Finding,呼吸困难,Dyspnea,,symptom,
+find.ecg_acute_mi,Finding,心电图提示急性心肌梗死,ECG suggesting acute myocardial infarction,,ecg,true
+find.epigastric_pain,Finding,上腹痛,Epigastric pain,,symptom,
+find.fever,Finding,发热,Fever,,symptom,
+find.headache,Finding,头痛,Headache,,symptom,
+find.hemoptysis,Finding,咯血,Hemoptysis,,symptom,
+find.hypotension,Finding,低血压,Hypotension,,vital_sign,true
+find.hypoxemia,Finding,氧饱和度下降,Hypoxemia,,sign,true
+find.intimal_flap,Finding,主动脉内膜片,Aortic intimal flap,,imaging,true
+find.moderate_noncardiac_chest_pain,Finding,中等程度的非心源性胸痛,Moderate non-cardiac chest pain,,symptom,
+find.neck_stiffness,Finding,颈项强直,Neck stiffness,,sign,true
+find.orthopnea,Finding,端坐呼吸,Orthopnea,,symptom,
+find.paroxysmal_nocturnal_dyspnea,Finding,夜间阵发性呼吸困难,Paroxysmal nocturnal dyspnea,,symptom,
+find.petechial_rash,Finding,瘀点/紫癜样皮疹,Petechial rash,,sign,true
+find.radiating_pain,Finding,放射至上肢、后背部或颈部,Radiating pain,,symptom,
+find.reduced_lung_markings,Finding,患侧肺纹理消失,Reduced lung markings,,imaging,
+find.regional_wall_motion_abnormality,Finding,节段性室壁运动异常,Regional wall motion abnormality,,imaging,
+find.right_heart_strain,Finding,右心负荷过重,Right heart strain,,imaging,
+find.right_lower_quadrant_pain,Finding,右下腹痛,Right lower quadrant pain,,symptom,
+find.right_upper_quadrant_pain,Finding,右上腹痛,Right upper quadrant pain,,symptom,
+find.severe_hypertension,Finding,血压明显升高,Severe hypertension,,vital_sign,
+find.severe_pain_with_diaphoresis,Finding,不明原因的严重疼痛伴大汗（脐以上）,Severe unexplained pain with diaphoresis above the umbilicus,,symptom,true
+find.severe_sudden_dyspnea,Finding,突发极度呼吸困难,Severe sudden dyspnea,,symptom,true
+find.shock,Finding,休克,Shock,,sign,true
+find.spo2_below_80,Finding,SpO2 < 80%且呼吸急促,SpO2 below 80% with tachypnea,,vital_sign,true
+find.sputum,Finding,咳痰,Sputum,,symptom,
+find.syncope,Finding,晕厥,Syncope,,symptom,true
+find.tachycardia,Finding,心动过速,Tachycardia,,vital_sign,
+find.tearing_chest_back_pain,Finding,持续撕裂样胸背痛,Tearing chest-back pain,,symptom,true
+find.wheezing,Finding,哮鸣,Wheezing,,sign,

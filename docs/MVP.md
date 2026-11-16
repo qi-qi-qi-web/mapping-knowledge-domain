@@ -21,6 +21,7 @@
 | 治疗 | 胸痛：PCI、溶栓、抗血小板、抗凝、β受体阻滞剂、镇痛、胸腔穿刺减压、胸腔闭式引流；腹痛：急诊手术、镇痛；发热：经验性抗生素 |
 | 组织 | 胸痛中心（院前急救/急诊科/心内科）；不具备 PCI/大血管手术/引流能力时转诊 |
 | 编码 | WHO ICD-10：9 个胸痛病种（8 个编码，ACS 无单一码）；仅检索/追溯，不用于临床编码/计费；M1-03 新病种未填 ICD-10 |
+| 图谱导出 | Neo4j CSV/Cypher：135 节点、192 关系、13 类节点、15 个谓词；`queries/` 10 个只读用例；离线与 JSONL 参考结果一致，未在真实 Neo4j 实例执行 |
 | 规模 | 135 实体、192 事实（M0 80/116 + M1 ESI 18/17 + M1-03 37/59） |
 
 ## 3. 来源与定位
@@ -67,6 +68,18 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 4. **胸痛中心 MDT**：参与科室与来源。
 5. **证据列表**：`[evN] source_id locator: “原文引文”`。
 
+## 4.1 Neo4j/Cypher 导出（可选）
+
+```bash
+python scripts/export_neo4j.py --out neo4j
+python scripts/verify_neo4j_queries.py
+```
+
+- 生成 13 类实体、15 个谓词的 28 个 CSV，以及 `neo4j/setup.cypher`、`neo4j/import.cypher`；不依赖 APOC。
+- `queries/` 提供 10 个只读用例，覆盖主诉鉴别、高危病种、红旗、检查、治疗、分诊、ICD-10、病种证据与来源覆盖。
+- `verify_neo4j_queries.py` 在**不连接 Neo4j** 的情况下，用 Python 参考实现核对 `queries/expected.json`；本机无 Neo4j，未做真实实例导入。
+- 详细说明见 [`queries/README.md`](queries/README.md) 与 [`neo4j/README.md`](neo4j/README.md)。
+
 ## 5. 示例输出（节选）
 
 ```text
@@ -95,9 +108,10 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 ## 6. 质量门
 
 - `python -m edkg validate --strict`：0 错误 0 警告；
-- `python -m unittest discover -s tests -v`：49 项通过；
+- `python -m unittest discover -s tests -v`：57 项通过；
 - `python scripts/audit_quotes.py`：事实 192/192 + ICD-10 9/9 引文命中（2026-11-13）；
 - `python scripts/verify_sources.py`：7/7 开放来源 HTTP 200；
+- `python scripts/verify_neo4j_queries.py`：10 个 Cypher 用例与 JSONL 参考结果一致（离线，未执行 Neo4j）；
 - 事实引用 6 个 `verified` 来源；WHO ICD-10 仅用于编码映射；0 重复三元组；provenance 100%。
 
 ## 7. 已知限制
@@ -111,7 +125,8 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 - **流程层未实例化**：Visit/CareEvent 只有 Schema，没有患者事件。
 - **规模小**：135/192，不是“大规模”；规模目标见 `docs/PLAN.md`。
 - **新主诉分诊未扩展**：M1-03 未新增中国四级/ESI 的病种级分诊指标，非胸痛主诉的分诊输出只保留通用算法指标。
+- **Neo4j 未实测**：本机无 Neo4j/`cypher-shell`，Docker daemon 未启动，`dist.neo4j.org` 返回 403；M1-04 仅完成确定性导出、10 个查询用例的静态检查与 JSONL 参考结果比对，**未在真实 Neo4j 实例执行导入/查询**，也没有性能数据。
 
 ## 8. 下一步
 
-见 `TODO.md` 的 M1：Neo4j 导出、病种级专科会诊、20 条人工抽检。
+见 `TODO.md` 的 M1：病种级专科会诊、20 条人工抽检；M1-05 质量评估优先。

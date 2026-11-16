@@ -1,0 +1,11 @@
+id,type,label_zh,label_en,aliases,scale_id,level,color,response_time,care_area_id,description
+level.cn4.1,TriageLevel,Ⅰ级 急危,,,cn_4level_2018,1,红色,即刻,area.resuscitation,正在或即将发生的生命威胁或病情恶化，需要立即进行积极干预
+level.cn4.2,TriageLevel,Ⅱ级 急重,,,cn_4level_2018,2,橙色,10 min,area.rescue,病情危重或迅速恶化，如短时间内不能进行治疗则危及生命或造成严重的器官功能衰竭
+level.cn4.3,TriageLevel,Ⅲ级 急症,,,cn_4level_2018,3,黄色,30 min,area.priority,存在潜在的生命威胁，如短时间内不进行干预，病情可进展至威胁生命或产生十分不利的结局
+level.cn4.4,TriageLevel,Ⅳ级 亚急症,,,cn_4level_2018,4,绿色,60 min,area.general,存在潜在的严重性，如患者一定时间内没有给予治疗，患者情况可能会恶化或出现不利的结局
+level.cn4.non_emergency,TriageLevel,非急症,,,cn_4level_2018,non_emergency,none,2~4 h,,慢性或非常轻微的症状，即便等待一段时间再进行治疗也不会对结局产生大的影响
+level.esi.1,TriageLevel,ESI 1级 立即抢救,,,esi_v4_2005,1,,immediate,,需要立即救生干预；不能等待。
+level.esi.2,TriageLevel,ESI 2级 高危/不能等待,,,esi_v4_2005,2,,generally within 10 minutes of arrival,,高危情况、新发意识改变或严重疼痛/痛苦；不能等待。
+level.esi.3,TriageLevel,ESI 3级 需≥2项资源,,,esi_v4_2005,3,,,,稳定患者，预计需要两项或以上资源。
+level.esi.4,TriageLevel,ESI 4级 需1项资源,,,esi_v4_2005,4,,,,稳定患者，预计需要一项资源。
+level.esi.5,TriageLevel,ESI 5级 需0项资源,,,esi_v4_2005,5,,,,稳定患者，预计不需要资源。

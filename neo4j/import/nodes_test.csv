@@ -1,0 +1,23 @@
+id,type,label_zh,label_en,aliases,test_kind
+test.abdominal_ct,Test,腹部CT,Abdominal CT,,imaging
+test.abdominal_ultrasound,Test,腹部超声,Abdominal ultrasound,,imaging
+test.abdominal_xray,Test,腹部立卧位平片,Abdominal x-ray,,imaging
+test.arterial_blood_gas,Test,动脉血气分析,Arterial blood gas,,lab
+test.bedside_echo,Test,床旁超声心动图,Bedside echocardiography,,bedside_ultrasound
+test.blood_culture,Test,血培养,Blood culture,,lab
+test.bnp,Test,脑钠肽/氨基末端脑钠肽前体,BNP / NT-proBNP,,lab
+test.cbc,Test,全血细胞计数,Complete blood count,,lab
+test.chest_xray,Test,胸部X线,Chest X-ray,,imaging
+test.ck_mb,Test,肌酸激酶同工酶MB,CK-MB,,lab
+test.cta,Test,CT血管造影,CT angiography,胸痛三联CTA|主动脉CTA|肺动脉CTA,imaging
+test.d_dimer,Test,D-二聚体,D-dimer,,lab
+test.ecg_12lead,Test,十二导联心电图,12-lead ECG,,ecg
+test.head_ct,Test,头颅CT,Head CT,,imaging
+test.hs_troponin,Test,高敏心肌肌钙蛋白,High-sensitivity cardiac troponin,hs-cTn,lab
+test.lumbar_puncture,Test,腰椎穿刺,Lumbar puncture,,other
+test.myoglobin,Test,肌红蛋白,Myoglobin,,lab
+test.pesi,Test,PESI分级,PESI,,scoring
+test.serum_lipase,Test,血清脂肪酶,Serum lipase,,lab
+test.urine_culture,Test,尿培养,Urine culture,,lab
+test.urine_pregnancy,Test,尿妊娠试验,Urine pregnancy test,,lab
+test.wells_score,Test,Wells评分,Wells score,,scoring

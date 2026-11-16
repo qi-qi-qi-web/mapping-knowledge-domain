@@ -1,0 +1,5 @@
+id,type,label_zh,label_en,aliases,care_area_kind
+area.general,CareArea,普通诊疗区,General care area,,general
+area.priority,CareArea,优先诊疗区,Priority care area,,priority
+area.rescue,CareArea,抢救区,Rescue area,,rescue
+area.resuscitation,CareArea,复苏区,Resuscitation area,,resuscitation

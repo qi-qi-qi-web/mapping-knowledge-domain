@@ -1,0 +1,13 @@
+id,type,label_zh,label_en,aliases,criterion_kind,description
+crit.esi.danger_vitals_3_8y,TriageCriterion,危险区生命体征：3–8岁（HR>140、RR>30、SaO2<92%）,Danger-zone vital signs: 3 to 8 years,,vital_sign,任一超过即考虑上调至 ESI 2：HR>140、RR>30、SaO2<92%。
+crit.esi.danger_vitals_3m_3y,TriageCriterion,危险区生命体征：3月–3岁（HR>160、RR>40、SaO2<92%）,Danger-zone vital signs: 3 months to 3 years,,vital_sign,任一超过即考虑上调至 ESI 2：HR>160、RR>40、SaO2<92%。
+crit.esi.danger_vitals_infant,TriageCriterion,危险区生命体征：<3月（HR>180、RR>50、SaO2<92%）,Danger-zone vital signs: under 3 months,,vital_sign,任一超过即考虑上调至 ESI 2：HR>180、RR>50、SaO2<92%。
+crit.esi.danger_vitals_over8y,TriageCriterion,危险区生命体征：>8岁（HR>100、RR>20、SaO2<92%）,Danger-zone vital signs: over 8 years,,vital_sign,任一超过即考虑上调至 ESI 2：HR>100、RR>20、SaO2<92%。
+crit.esi.danger_zone_vitals,TriageCriterion,危险区生命体征（考虑上调至 ESI 2）,Danger-zone vital signs,,vital_sign,任一生命体征超过年龄分层危险区阈值时，考虑上调至 ESI 2；具体阈值见 crit.esi.danger_vitals_*。
+crit.esi.high_risk,TriageCriterion,高危情况（可能迅速恶化或需时间敏感治疗）,High-risk situation,,acuity,病情可能迅速恶化，或症状提示需要时间敏感治疗的情况。
+crit.esi.immediate_lifesaving,TriageCriterion,需要立即救生干预,Immediate life-saving intervention required,,acuity,需要立即救生干预（气道、急救药物或血流动力学干预）。
+crit.esi.mental_status,TriageCriterion,新发意识混乱/嗜睡/定向障碍,"New confusion, lethargy, or disorientation",,mental_status,与基线相比的新发意识状态改变。
+crit.esi.resources_0,TriageCriterion,预计不需要资源,Predicted need for no resources,,resource,稳定患者，预计不需要资源。
+crit.esi.resources_1,TriageCriterion,预计需要1项资源,Predicted need for one resource,,resource,稳定患者，预计需要一项资源。
+crit.esi.resources_2plus,TriageCriterion,预计需要≥2项资源,Predicted need for two or more resources,,resource,稳定患者，预计需要两项或以上不同资源。
+crit.esi.severe_pain,TriageCriterion,严重疼痛/痛苦（≥7/10）,Severe pain or distress,,pain,临床观察和/或患者自评≥7分（0–10）。

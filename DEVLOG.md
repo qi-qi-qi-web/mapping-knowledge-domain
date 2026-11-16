@@ -5,6 +5,56 @@
 
 ---
 
+## 2026-11-16 | M1-04：Neo4j/Cypher 导出 + 10 个查询用例
+
+### 背景
+
+- M1-03 完成后为 135 实体 / 192 事实、4 个主诉；图谱只有 JSONL 与 Python 查询，没有图数据库投影或可复用查询用例。
+- 目标：把 `entities`/`facts` 导出为可重复的 Neo4j CSV/Cypher，提供 10 个只读查询用例，并用 JSONL 参考实现校验结果；不引入第三方 Python 依赖。
+
+### 完成
+
+- [x] `edkg/neo4j.py`：13 类实体、15 个谓词的 28 个 CSV；节点 `:Entity:<Type>` 双标签；关系使用静态谓词类型；`setup.cypher` + `import.cypher`（28 条 `LOAD CSV WITH HEADERS`，无 APOC）。
+- [x] `edkg/neo4j_cases.py`：10 个固定参数用例的 JSONL 参考实现；`queries/01…10_*.cypher` 10 个只读查询；`queries/cases.json`、`queries/expected.json`。
+- [x] `scripts/export_neo4j.py`、`scripts/verify_neo4j_queries.py`；后者校验查询只读/参数/文件，并比对 10 个用例的参考结果。
+- [x] `tests/test_neo4j_export.py` 8 项测试；总计 57 项测试。
+- [x] `queries/README.md`、`neo4j/README.md`；README/Agent/PLAN/SCHEMA/MVP/TODO 同步。
+- [x] 未修改 `data/kg/*.jsonl`、`data/registry/*.json` 或 Schema；当前仍 135 实体 / 192 事实。
+
+### 决策
+
+| 编号 | 决策 | 理由 |
+|---|---|---|
+| D-032 | 用“CSV + 静态 Cypher”导出，不使用 APOC/第三方库 | 保持零依赖、可 diff、可在普通 Neo4j 导入；避免引入额外运行时 |
+| D-033 | 节点用 `:Entity:<Type>` 双标签，关系用静态谓词类型，provenance/qualifier 放关系属性 | 既可按类型/谓词查询，又保留逐条来源；不把来源建成独立节点 |
+| D-034 | 10 个用例用 Python 参考实现 + `expected.json` 离线校验 | 本机无 Neo4j/驱动/Docker daemon，且 `dist.neo4j.org` 403；不能伪造运行时验收 |
+| D-035 | `neo4j/` 与 `queries/expected.json` 作为可重建投影，JSONL 是唯一知识源 | 防止生成物反向成为第二份数据；源数据变更后统一重新生成 |
+| D-036 | 测试 scratch 改用 `data/raw/neo4j-test`，不用系统 temp | Windows DSH sandbox 对 `%TEMP%`/`artifacts/tmp*` 的 Python 写权限会报 `PermissionError` |
+
+### 验证
+
+- `python -m edkg validate --strict`：**PASS，135 实体 / 192 事实 / 9 条 ICD-10，0 错误 0 警告**。
+- `python -m unittest discover -s tests -q`：**57 项通过**。
+- `python scripts/export_neo4j.py --out neo4j`：**nodes 135, relationships 192, node_types 13, predicates 15**；28 个 CSV。
+- `python scripts/verify_neo4j_queries.py`：**OK: 10 Cypher cases, results match JSONL reference**；行数 9/11/6/2/6/11/12/8/20/6。
+- `python scripts/audit_quotes.py --cafile <临时公共 CA bundle>`：**事实 192/192 + ICD-10 9/9 命中**。
+- `python scripts/verify_sources.py --cafile <临时公共 CA bundle>`：**7/7 开放来源 HTTP 200**；1 access_controlled + 3 candidate 跳过。
+- `python -m edkg stats`：provenance 100%、重复三元组 0、来源 7 verified / 1 access_controlled / 3 candidate。
+
+### 提交
+
+- 基线：`631cf5f3787a7134983b4f3cc468d509be0b95e6`。
+- 提交信息：`M1-04: add Neo4j export and ten Cypher use cases`。
+- 不使用 force push；远端 commit SHA 以推送后的 `main` 为准。
+- 临时文件：`data/raw/neo4j-test*`、`data/raw/cacert.pem`、`artifacts/*` 均未提交。
+
+### 遗留/阻塞
+
+- **未在真实 Neo4j 实例执行导入/查询**：本机无 Neo4j/`cypher-shell`，Docker daemon 未启动，`dist.neo4j.org` 403；当前只完成导出与离线一致性校验，没有运行时或性能结论。
+- 未做 Neo4j 版本兼容矩阵、索引/查询性能、APOC 依赖验证。
+- 全部事实仍 `ai-draft`；不得用于真实患者诊疗。
+- 下一步：M1-05（20 条分层随机事实双人盲评 + 引文 100%）。
+
 ## 2026-11-13 | M1-03：呼吸困难、腹痛、发热 3 个主诉
 
 ### 背景

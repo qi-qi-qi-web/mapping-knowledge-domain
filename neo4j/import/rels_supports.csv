@@ -1,0 +1,7 @@
+fact_id,subject,object,source_id,locator,quote,confidence,review_status,assertion_type,extracted_by,extracted_at,strength
+fact.bp_asymmetry.supports.aad,find.bp_asymmetry,cond.aad,src.cn.chest_pain.2019,§3.2.2 症状,可伴血压明显升高、双侧肢体血压差别较大等,0.98,ai-draft,explicit,manual-curation,2026-10-29,strong
+fact.ecg_acute_mi.supports.acute_mi,find.ecg_acute_mi,cond.acute_mi,src.cn.triage.2018,§3 表 1 急诊预检分诊分级标准,ECG提示急性心肌梗死,0.98,ai-draft,explicit,manual-curation,2026-10-29,strong
+fact.hypoxemia.supports.ape,find.hypoxemia,cond.ape,src.cn.chest_pain.2019,§3.2.2 症状,常同时合并氧饱和度下降,0.98,ai-draft,explicit,manual-curation,2026-10-29,moderate
+fact.intimal_flap.supports.aad,find.intimal_flap,cond.aad,src.cn.chest_pain.2019,§4.5 CT及CT血管造影（CTA）检查,血管内膜征，主动脉管腔内发现动脉内膜片提示夹层或壁间血肿,0.98,ai-draft,explicit,manual-curation,2026-10-29,strong
+fact.regional_wall_motion.supports.acs,find.regional_wall_motion_abnormality,cond.acs,src.cn.chest_pain.2019,§4.3 床旁超声心动图,超声心动图可判断心肌是否存在节段性室壁运动异常,0.98,ai-draft,explicit,manual-curation,2026-10-29,moderate
+fact.right_heart_strain.supports.ape,find.right_heart_strain,cond.ape,src.cn.chest_pain.2019,§4.3 床旁超声心动图,间接征象多是右心负荷过重的表现,0.98,ai-draft,explicit,manual-curation,2026-10-29,moderate

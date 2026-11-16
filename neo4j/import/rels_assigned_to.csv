@@ -1,0 +1,5 @@
+fact_id,subject,object,source_id,locator,quote,confidence,review_status,assertion_type,extracted_by,extracted_at
+fact.level1.assigned_to.resuscitation,level.cn4.1,area.resuscitation,src.cn.triage.2018,§4 急诊分级分区管理；表 2,Ⅰ级患者需要进入复苏区进行即刻抢救,0.99,ai-draft,explicit,manual-curation,2026-10-29
+fact.level2.assigned_to.rescue,level.cn4.2,area.rescue,src.cn.triage.2018,§4 急诊分级分区管理；表 2,Ⅱ级患者需要进入抢救区进行支持和救治,0.99,ai-draft,explicit,manual-curation,2026-10-29
+fact.level3.assigned_to.priority,level.cn4.3,area.priority,src.cn.triage.2018,§4 急诊分级分区管理；表 2,Ⅲ级患者需在优先诊疗区进行诊治,0.99,ai-draft,explicit,manual-curation,2026-10-29
+fact.level4.assigned_to.general,level.cn4.4,area.general,src.cn.triage.2018,§4 急诊分级分区管理；表 2,Ⅳ级患者在普通诊疗区顺序就诊,0.99,ai-draft,explicit,manual-curation,2026-10-29

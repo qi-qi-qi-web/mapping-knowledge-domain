@@ -1,0 +1,11 @@
+fact_id,subject,object,source_id,locator,quote,confidence,review_status,assertion_type,extracted_by,extracted_at
+fact.aad.risk.hypertension,cond.aad,risk.hypertension,src.cn.chest_pain.2019,§3.1.1 急性非创伤性胸痛急诊分诊策略,既往有马凡综合征，伴有严重高血压,0.98,ai-draft,explicit,manual-curation,2026-10-29
+fact.aad.risk.marfan,cond.aad,risk.marfan,src.cn.chest_pain.2019,§3.1.1 急性非创伤性胸痛急诊分诊策略,既往有马凡综合征，伴有严重高血压,0.98,ai-draft,explicit,manual-curation,2026-10-29
+fact.acs.risk.diabetes,cond.acs,risk.diabetes,src.cn.chest_pain.2019,§3.2.1 病史,是否有高血压病、糖尿病、血脂异常、吸烟史、冠心病家族史等心血管危险因素,0.98,ai-draft,explicit,manual-curation,2026-10-29
+fact.acs.risk.dyslipidemia,cond.acs,risk.dyslipidemia,src.cn.chest_pain.2019,§3.2.1 病史,是否有高血压病、糖尿病、血脂异常、吸烟史、冠心病家族史等心血管危险因素,0.98,ai-draft,explicit,manual-curation,2026-10-29
+fact.acs.risk.family_history,cond.acs,risk.family_history_chd,src.cn.chest_pain.2019,§3.2.1 病史,是否有高血压病、糖尿病、血脂异常、吸烟史、冠心病家族史等心血管危险因素,0.98,ai-draft,explicit,manual-curation,2026-10-29
+fact.acs.risk.hypertension,cond.acs,risk.hypertension,src.cn.chest_pain.2019,§3.2.1 病史,是否有高血压病、糖尿病、血脂异常、吸烟史、冠心病家族史等心血管危险因素,0.98,ai-draft,explicit,manual-curation,2026-10-29
+fact.acs.risk.smoking,cond.acs,risk.smoking,src.cn.chest_pain.2019,§3.2.1 病史,是否有高血压病、糖尿病、血脂异常、吸烟史、冠心病家族史等心血管危险因素,0.98,ai-draft,explicit,manual-curation,2026-10-29
+fact.ape.risk.immobilization,cond.ape,risk.immobilization,src.cn.chest_pain.2019,§3.1.2 急性非创伤性胸痛急诊分诊策略,长期卧床、长途旅行者，突发胸痛且持续不缓解,0.98,ai-draft,explicit,manual-curation,2026-10-29
+fact.ape.risk.previous_vte,cond.ape,risk.previous_vte,src.cn.chest_pain.2019,§3.1.2 急性非创伤性胸痛急诊分诊策略,确诊肿瘤、下肢静脉血栓者突发胸痛且持续不缓解,0.98,ai-draft,explicit,manual-curation,2026-10-29
+fact.tension.risk.copd_bulla,cond.tension_pneumothorax,risk.copd_bulla,src.cn.chest_pain.2019,§3.2.1 病史,是否有肺大疱、肺结核等慢性肺病病史或剧烈咳嗽、体型瘦长等危险因素,0.98,ai-draft,explicit,manual-curation,2026-10-29

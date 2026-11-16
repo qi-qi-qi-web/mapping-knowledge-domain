@@ -1,0 +1,5 @@
+id,type,label_zh,label_en,aliases
+cc.abdominal_pain,ChiefComplaint,腹痛,Abdominal pain,急腹症|肚子痛
+cc.chest_pain,ChiefComplaint,胸痛,Chest pain,急性胸痛|胸部疼痛
+cc.dyspnea,ChiefComplaint,呼吸困难,Dyspnea,气短|气促
+cc.fever,ChiefComplaint,发热,Fever,发烧

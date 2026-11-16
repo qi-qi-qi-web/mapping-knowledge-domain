@@ -1,0 +1,2 @@
+id,type,label_zh,label_en,aliases,process_kind
+proc.chest_pain_center,CareProcess,胸痛中心,Chest pain center,,mdt_center

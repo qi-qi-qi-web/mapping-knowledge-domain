@@ -1,0 +1,19 @@
+id,type,label_zh,label_en,aliases,condition_kind,risk,icd10
+cond.aad,Condition,急性主动脉夹层,Acute aortic dissection,主动脉夹层|AAD,disease,high,I71.0
+cond.acs,Condition,急性冠状动脉综合征,Acute coronary syndrome,ACS,syndrome,high,
+cond.acute_heart_failure,Condition,急性心力衰竭,Acute heart failure,,disease,high,
+cond.acute_mi,Condition,急性心肌梗死,Acute myocardial infarction,急性心梗|AMI,disease,high,I21.9
+cond.acute_pancreatitis,Condition,急性胰腺炎,Acute pancreatitis,,disease,high,
+cond.ape,Condition,急性肺栓塞,Acute pulmonary embolism,肺栓塞|APE,disease,high,I26.9
+cond.appendicitis,Condition,急性阑尾炎,Acute appendicitis,,disease,high,
+cond.asthma_exacerbation,Condition,哮喘急性发作,Acute asthma exacerbation,,disease,medium,
+cond.cholecystitis,Condition,急性胆囊炎,Acute cholecystitis,,disease,medium,
+cond.costochondritis,Condition,急性肋软骨炎,Acute costochondritis,肋软骨炎,disease,low,M94.0
+cond.gerd,Condition,胃食管反流病,Gastroesophageal reflux disease,GERD,disease,low,K21.9
+cond.meningitis,Condition,脑膜炎,Meningitis,,disease,high,
+cond.neurosis,Condition,神经官能症,Neurosis,,symptom_complex,low,F48.9
+cond.pneumonia,Condition,肺炎,Pneumonia,,disease,high,
+cond.sepsis,Condition,脓毒症,Sepsis,,syndrome,high,
+cond.stable_cad,Condition,稳定性冠心病,Stable coronary artery disease,稳定性心绞痛,disease,medium,I25.1
+cond.tension_pneumothorax,Condition,张力性气胸,Tension pneumothorax,,disease,high,J93.0
+cond.viral_upper_respiratory_infection,Condition,病毒性上呼吸道感染,Viral upper respiratory infection,,disease,low,

@@ -1,0 +1,4 @@
+id,type,label_zh,label_en,aliases,department_kind
+dept.cardiology,Department,心内科,Cardiology,,cardiology
+dept.emergency,Department,急诊科,Emergency department,,emergency
+dept.prehospital,Department,院前急救,Prehospital emergency care,,prehospital

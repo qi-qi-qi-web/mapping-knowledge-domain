@@ -255,6 +255,21 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 | 质量门 | validate 0/0；49 项测试；事实 192/192 + ICD 9/9 引文命中；7/7 来源 HTTP 200 |
 | 边界 | 新 Condition 不填 ICD-10；未做病种级专科会诊；全部 `ai-draft` |
 
+### 6.8 M1-04：Neo4j/Cypher 导出与 10 个查询用例（2026-11-16）
+
+| 项目 | 结果 |
+|---|---|
+| 导出 | `edkg/neo4j.py`：13 类实体、15 个谓词、28 个 CSV；`neo4j/import.cypher` 用 28 条 `LOAD CSV WITH HEADERS`，无 APOC |
+| 图模型 | 节点 `:Entity:<Type>` 双标签；关系使用静态谓词类型；provenance/qualifier 作为关系属性 |
+| 用例 | `queries/01…10_*.cypher` 10 个只读查询；`queries/cases.json` 固定参数；`queries/expected.json` 离线夹具 |
+| 当前结果 | 135 节点 / 192 关系；用例行数 9/11/6/2/6/11/12/8/20/6 |
+| 离线校验 | `python scripts/verify_neo4j_queries.py` 通过：10 个用例与 JSONL 参考实现一致 |
+| 环境限制 | 本机无 Neo4j/`cypher-shell`，Docker daemon 未启动，`dist.neo4j.org` 403；**未在真实 Neo4j 实例执行导入** |
+| 质量门 | validate 0/0；57 项测试；事实 192/192 + ICD 9/9 引文命中；7/7 来源 HTTP 200 |
+| 边界 | 导出是单向投影，不反向修改 JSONL；未做 Neo4j 性能/生产验证；全部 `ai-draft` |
+
+实现文件：`edkg/neo4j.py`、`edkg/neo4j_cases.py`、`scripts/export_neo4j.py`、`scripts/verify_neo4j_queries.py`、`queries/README.md`、`neo4j/README.md`。
+
 ---
 
 ## 7. 建图流水线（M0 → M2）
@@ -331,7 +346,7 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 | 阶段 | 目标 | 规模目标 | 验收 |
 |---|---|---|---|
 | **M0（已完成）** | 治理文档 + Schema + 胸痛 MVP + 校验/查询/审计/CI | 80 实体 / 116 事实 | 本页 6.4 全通过 |
-| **M1（进行中）** | ESI 五级 + 危险区阈值、WHO ICD-10 9 条映射、呼吸困难/腹痛/发热 3 个主诉已完成；待办：Neo4j、专科会诊 | 当前 135 / 192；目标 300+ / 800+ | 两套量表独立可查；ICD 映射可回溯；引文 100%；新增测试 |
+| **M1（进行中）** | ESI 五级 + 危险区阈值、WHO ICD-10 9 条映射、呼吸困难/腹痛/发热 3 个主诉、Neo4j 导出 + 10 个查询用例已完成；待办：专科会诊、20 条抽检 | 当前 135 / 192；目标 300+ / 800+ | 两套量表独立可查；ICD 映射可回溯；引文 100%；新增测试 |
 | M2 | 10 主诉、30+ 高危病种；LLM 候选抽取 + HITL 队列；L1/L2 评估 | 2k+ 实体 / 8k+ 事实 | 抽检通过率 ≥90%；无候选来源进入事实 |
 | M3 | 大规模扩展；GraphRAG/路径检索；DDXPlus/MIMIC 评测；论文产出 | 10k+ 实体 / 50k+ 关系 | 可复现实验、DUA/伦理合规、统计方案落地 |
 
@@ -350,15 +365,17 @@ LICENSE / NOTICE.md       许可与第三方声明
 docs/
   PLAN.md                 本文件
   SCHEMA.md               Schema 人读说明
-  MVP.md                  胸痛 MVP 说明
+  MVP.md                  急诊 4 主诉 MVP 说明
   research/               原始报告 + 图 + 引用警示
 schema/edkg.schema.json   机器可读 Schema
 data/registry/sources.json  来源登记
 data/registry/icd10.json    WHO ICD-10 逐病种编码映射
 data/kg/entities.jsonl    实体
 data/kg/facts.jsonl       事实
-edkg/                     零依赖工具链（loader/validate/query/stats/CLI）
-scripts/                  来源核验、引文审计
+edkg/                     零依赖工具链（loader/validate/query/stats/neo4j/CLI）
+queries/                  10 个只读 Cypher 用例 + 参数/期望结果
+neo4j/                    生成的 import CSV、setup/import Cypher
+scripts/                  来源核验、引文审计、Neo4j 导出/校验
 tests/                    单元测试与负例
 .github/workflows/ci.yml  离线 CI
 ```
@@ -385,6 +402,6 @@ tests/                    单元测试与负例
 1. 保持校验/测试/引文审计为每次提交门禁。
 2. M1-02（已完成）：WHO ICD-10 核验，9 个胸痛病种逐条映射，8 个编码，ACS 无单一码。
 3. M1-03（已完成）：新增呼吸困难/腹痛/发热 3 个主诉，逐病种补来源；当前 135 实体 / 192 事实。
-4. M1-04：Neo4j/Cypher 导出 + 10 个查询用例。
+4. M1-04（已完成）：Neo4j/Cypher 导出 + 10 个查询用例；离线与 JSONL 参考结果一致；未在真实 Neo4j 实例执行。
 5. M1-05：M1 质量评估（20 条抽检 + 引文 100%）。
 6. M2 起再考虑 LLM 抽取、HITL 与下游评测；任何一步都不得绕过 `Agent.md` 的红线。

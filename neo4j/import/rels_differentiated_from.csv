@@ -1,0 +1,5 @@
+fact_id,subject,object,source_id,locator,quote,confidence,review_status,assertion_type,extracted_by,extracted_at
+fact.aad.differentiated_from.ape,cond.aad,cond.ape,src.cn.chest_pain.2019,§3.2.2 症状,AAD及大血管疾病多表现为持续撕裂样胸、背痛，可伴血压明显升高、双侧肢体血压差别较大等；APE常伴呼吸困难或咯血，常同时合并氧饱和度下降，甚或晕厥、猝死,0.97,ai-draft,explicit,manual-curation,2026-10-29
+fact.acs.differentiated_from.aad,cond.acs,cond.aad,src.cn.chest_pain.2019,§3.2.2 症状,ACS症状主要包括发作性胸部闷痛、压迫感或憋闷感，甚或濒死感，部分患者可放射至上肢、后背部或颈部，劳累、情绪激动、气候骤变等均可诱发，持续数分钟至数十分钟，休息或硝酸甘油可缓解，持续时间超过20 min未缓解，需考虑急性心肌梗死的可能性；AAD及大血管疾病多表现为持续撕裂样胸、背痛，可伴血压明显升高、双侧肢体血压差别较大等,0.97,ai-draft,explicit,manual-curation,2026-10-29
+fact.acs.differentiated_from.ape,cond.acs,cond.ape,src.cn.chest_pain.2019,§3.2.2 症状,ACS症状主要包括发作性胸部闷痛、压迫感或憋闷感，甚或濒死感，部分患者可放射至上肢、后背部或颈部，劳累、情绪激动、气候骤变等均可诱发，持续数分钟至数十分钟，休息或硝酸甘油可缓解，持续时间超过20 min未缓解，需考虑急性心肌梗死的可能性；AAD及大血管疾病多表现为持续撕裂样胸、背痛，可伴血压明显升高、双侧肢体血压差别较大等；APE常伴呼吸困难或咯血，常同时合并氧饱和度下降，甚或晕厥、猝死,0.97,ai-draft,explicit,manual-curation,2026-10-29
+fact.ape.differentiated_from.tension,cond.ape,cond.tension_pneumothorax,src.cn.chest_pain.2019,§3.2.2 症状,APE常伴呼吸困难或咯血，常同时合并氧饱和度下降，甚或晕厥、猝死；张力性气胸患者表现为极度呼吸困难，缺氧严重者出现发绀、甚至窒息,0.97,ai-draft,explicit,manual-curation,2026-10-29

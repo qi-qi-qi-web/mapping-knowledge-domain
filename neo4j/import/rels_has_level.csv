@@ -1,0 +1,11 @@
+fact_id,subject,object,source_id,locator,quote,confidence,review_status,assertion_type,extracted_by,extracted_at
+fact.esi.scale.has_level.1,scale.esi_v4_2005,level.esi.1,src.us.ahrq.esi.v4.2005,"Chapter 2, The Emergency Severity Index (ESI)",The Emergency Severity Index (ESI) is a five-level triage scale,0.99,ai-draft,explicit,manual-curation,2026-11-01
+fact.esi.scale.has_level.2,scale.esi_v4_2005,level.esi.2,src.us.ahrq.esi.v4.2005,"Chapter 2, The Emergency Severity Index (ESI)",The Emergency Severity Index (ESI) is a five-level triage scale,0.99,ai-draft,explicit,manual-curation,2026-11-01
+fact.esi.scale.has_level.3,scale.esi_v4_2005,level.esi.3,src.us.ahrq.esi.v4.2005,"Chapter 2, The Emergency Severity Index (ESI)",The Emergency Severity Index (ESI) is a five-level triage scale,0.99,ai-draft,explicit,manual-curation,2026-11-01
+fact.esi.scale.has_level.4,scale.esi_v4_2005,level.esi.4,src.us.ahrq.esi.v4.2005,"Chapter 2, The Emergency Severity Index (ESI)",The Emergency Severity Index (ESI) is a five-level triage scale,0.99,ai-draft,explicit,manual-curation,2026-11-01
+fact.esi.scale.has_level.5,scale.esi_v4_2005,level.esi.5,src.us.ahrq.esi.v4.2005,"Chapter 2, The Emergency Severity Index (ESI)",The Emergency Severity Index (ESI) is a five-level triage scale,0.99,ai-draft,explicit,manual-curation,2026-11-01
+fact.scale.has_level.1,scale.cn_4level_2018,level.cn4.1,src.cn.triage.2018,§3.1 预检分诊级别,本标准按病情危急程度分为四级,0.99,ai-draft,explicit,manual-curation,2026-10-29
+fact.scale.has_level.2,scale.cn_4level_2018,level.cn4.2,src.cn.triage.2018,§3.1 预检分诊级别,本标准按病情危急程度分为四级,0.99,ai-draft,explicit,manual-curation,2026-10-29
+fact.scale.has_level.3,scale.cn_4level_2018,level.cn4.3,src.cn.triage.2018,§3.1 预检分诊级别,本标准按病情危急程度分为四级,0.99,ai-draft,explicit,manual-curation,2026-10-29
+fact.scale.has_level.4,scale.cn_4level_2018,level.cn4.4,src.cn.triage.2018,§3.1 预检分诊级别,本标准按病情危急程度分为四级,0.99,ai-draft,explicit,manual-curation,2026-10-29
+fact.scale.has_level.non_emergency,scale.cn_4level_2018,level.cn4.non_emergency,src.cn.triage.2018,§3.1 预检分诊级别,非急症患者具有慢性或非常轻微的症状,0.99,ai-draft,explicit,manual-curation,2026-10-29

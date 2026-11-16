@@ -1,0 +1,29 @@
+fact_id,subject,object,source_id,locator,quote,confidence,review_status,assertion_type,extracted_by,extracted_at,typicality
+fact.aad.presents.bp_asymmetry,cond.aad,find.bp_asymmetry,src.cn.chest_pain.2019,§3.2.2 症状,可伴血压明显升高、双侧肢体血压差别较大等,0.98,ai-draft,explicit,manual-curation,2026-10-29,typical
+fact.aad.presents.severe_hypertension,cond.aad,find.severe_hypertension,src.cn.chest_pain.2019,§3.2.2 症状,可伴血压明显升高、双侧肢体血压差别较大等,0.98,ai-draft,explicit,manual-curation,2026-10-29,variable
+fact.aad.presents.tearing_pain,cond.aad,find.tearing_chest_back_pain,src.cn.chest_pain.2019,§3.2.2 症状,AAD及大血管疾病多表现为持续撕裂样胸、背痛,0.99,ai-draft,explicit,manual-curation,2026-10-29,typical
+fact.acs.presents.chest_pressure,cond.acs,find.chest_pressure,src.cn.chest_pain.2019,§3.2.2 症状,发作性胸部闷痛、压迫感或憋闷感,0.99,ai-draft,explicit,manual-curation,2026-10-29,typical
+fact.acs.presents.radiating_pain,cond.acs,find.radiating_pain,src.cn.chest_pain.2019,§3.2.2 症状,部分患者可放射至上肢、后背部或颈部,0.98,ai-draft,explicit,manual-curation,2026-10-29,typical
+fact.acute_heart_failure.presents.orthopnea,cond.acute_heart_failure,find.orthopnea,src.msd.dyspnea.2025,病因（表：引起急性呼吸困难的部分病因）,端坐呼吸或夜间阵发性呼吸困难,0.98,ai-draft,explicit,manual-curation,2026-11-13,typical
+fact.acute_heart_failure.presents.pnd,cond.acute_heart_failure,find.paroxysmal_nocturnal_dyspnea,src.msd.dyspnea.2025,病因（表：引起急性呼吸困难的部分病因）,端坐呼吸或夜间阵发性呼吸困难,0.98,ai-draft,explicit,manual-curation,2026-11-13,typical
+fact.acute_mi.presents.chest_pressure,cond.acute_mi,find.chest_pressure,src.cn.chest_pain.2019,§3.2.2 症状,持续时间超过20 min未缓解，需考虑急性心肌梗死的可能性,0.98,ai-draft,explicit,manual-curation,2026-10-29,typical
+fact.acute_pancreatitis.presents.epigastric_pain,cond.acute_pancreatitis,find.epigastric_pain,src.msd.acute_abdominal_pain.2024,急性腹痛的病理生理学（内脏痛）,前肠器官（胃、十二指肠、肝及胰腺）可致上腹痛,0.98,ai-draft,explicit,manual-curation,2026-11-13,typical
+fact.ape.presents.dyspnea,cond.ape,find.dyspnea,src.cn.chest_pain.2019,§3.2.2 症状,APE常伴呼吸困难或咯血,0.99,ai-draft,explicit,manual-curation,2026-10-29,typical
+fact.ape.presents.hemoptysis,cond.ape,find.hemoptysis,src.cn.chest_pain.2019,§3.2.2 症状,APE常伴呼吸困难或咯血,0.99,ai-draft,explicit,manual-curation,2026-10-29,variable
+fact.ape.presents.hypoxemia,cond.ape,find.hypoxemia,src.cn.chest_pain.2019,§3.2.2 症状,常同时合并氧饱和度下降,0.99,ai-draft,explicit,manual-curation,2026-10-29,typical
+fact.ape.presents.syncope,cond.ape,find.syncope,src.cn.chest_pain.2019,§3.2.2 症状,甚或晕厥、猝死,0.98,ai-draft,explicit,manual-curation,2026-10-29,variable
+fact.appendicitis.presents.rlq_pain,cond.appendicitis,find.right_lower_quadrant_pain,src.msd.acute_abdominal_pain.2024,评估（体格检查）,压痛位置可提示病因（如，右上象限提示胆囊炎，右下象限提示 阑尾炎 ），但可能不具有诊断特异性。,0.98,ai-draft,explicit,manual-curation,2026-11-13,variable
+fact.asthma.presents.wheezing,cond.asthma_exacerbation,find.wheezing,src.msd.dyspnea.2025,病因（表：引起急性呼吸困难的部分病因）,哮鸣和气体交换下降,0.98,ai-draft,explicit,manual-curation,2026-11-13,typical
+fact.cholecystitis.presents.ruq_pain,cond.cholecystitis,find.right_upper_quadrant_pain,src.msd.acute_abdominal_pain.2024,评估（体格检查）,压痛位置可提示病因（如，右上象限提示胆囊炎，右下象限提示 阑尾炎 ），但可能不具有诊断特异性。,0.98,ai-draft,explicit,manual-curation,2026-11-13,variable
+fact.meningitis.presents.headache,cond.meningitis,find.headache,src.msd.fever.2026,临床表现解析（危险信号）,头痛，颈部僵硬，出现瘀斑或紫癜样皮疹很可能是 脑膜炎 。,0.99,ai-draft,explicit,manual-curation,2026-11-13,typical
+fact.meningitis.presents.neck_stiffness,cond.meningitis,find.neck_stiffness,src.msd.fever.2026,临床表现解析（危险信号）,头痛，颈部僵硬，出现瘀斑或紫癜样皮疹很可能是 脑膜炎 。,0.99,ai-draft,explicit,manual-curation,2026-11-13,typical
+fact.meningitis.presents.petechial_rash,cond.meningitis,find.petechial_rash,src.msd.fever.2026,临床表现解析（危险信号）,头痛，颈部僵硬，出现瘀斑或紫癜样皮疹很可能是 脑膜炎 。,0.99,ai-draft,explicit,manual-curation,2026-11-13,typical
+fact.pneumonia.presents.cough,cond.pneumonia,find.cough,src.msd.dyspnea.2025,病因（表：引起急性呼吸困难的部分病因）,肺炎 发热、咳痰、呼吸困难、有时胸膜炎性胸痛,0.98,ai-draft,explicit,manual-curation,2026-11-13,typical
+fact.pneumonia.presents.dyspnea,cond.pneumonia,find.dyspnea,src.msd.dyspnea.2025,病因（表：引起急性呼吸困难的部分病因）,肺炎 发热、咳痰、呼吸困难、有时胸膜炎性胸痛,0.98,ai-draft,explicit,manual-curation,2026-11-13,typical
+fact.pneumonia.presents.fever,cond.pneumonia,find.fever,src.msd.dyspnea.2025,病因（表：引起急性呼吸困难的部分病因）,肺炎 发热、咳痰、呼吸困难、有时胸膜炎性胸痛,0.98,ai-draft,explicit,manual-curation,2026-11-13,variable
+fact.pneumonia.presents.sputum,cond.pneumonia,find.sputum,src.msd.dyspnea.2025,病因（表：引起急性呼吸困难的部分病因）,肺炎 发热、咳痰、呼吸困难、有时胸膜炎性胸痛,0.98,ai-draft,explicit,manual-curation,2026-11-13,typical
+fact.sepsis.presents.altered_consciousness,cond.sepsis,find.altered_consciousness,src.msd.fever.2026,临床表现解析（危险信号）,心动过速（超出发热引起的正常变化范围）并且呼吸急促，有无低血压或精神状态变化，很可能是 脓毒症 。,0.98,ai-draft,explicit,manual-curation,2026-11-13,variable
+fact.sepsis.presents.hypotension,cond.sepsis,find.hypotension,src.msd.fever.2026,临床表现解析（危险信号）,心动过速（超出发热引起的正常变化范围）并且呼吸急促，有无低血压或精神状态变化，很可能是 脓毒症 。,0.98,ai-draft,explicit,manual-curation,2026-11-13,variable
+fact.sepsis.presents.tachycardia,cond.sepsis,find.tachycardia,src.msd.fever.2026,临床表现解析（危险信号）,心动过速（超出发热引起的正常变化范围）并且呼吸急促，有无低血压或精神状态变化，很可能是 脓毒症 。,0.98,ai-draft,explicit,manual-curation,2026-11-13,variable
+fact.tension.presents.cyanosis,cond.tension_pneumothorax,find.cyanosis,src.cn.chest_pain.2019,§3.2.2 症状,缺氧严重者出现发绀、甚至窒息,0.98,ai-draft,explicit,manual-curation,2026-10-29,variable
+fact.tension.presents.severe_dyspnea,cond.tension_pneumothorax,find.severe_sudden_dyspnea,src.cn.chest_pain.2019,§3.2.2 症状,张力性气胸患者表现为极度呼吸困难,0.99,ai-draft,explicit,manual-curation,2026-10-29,typical

@@ -1,0 +1,4 @@
+fact_id,subject,object,source_id,locator,quote,confidence,review_status,assertion_type,extracted_by,extracted_at
+fact.chest_pain_center.participated_by.cardiology,proc.chest_pain_center,dept.cardiology,src.cn.chest_pain.2019,§6 胸痛中心建设,院前急救、急诊科和心内科是胸痛中心建设的主要参与者,0.99,ai-draft,explicit,manual-curation,2026-10-29
+fact.chest_pain_center.participated_by.emergency,proc.chest_pain_center,dept.emergency,src.cn.chest_pain.2019,§6 胸痛中心建设,院前急救、急诊科和心内科是胸痛中心建设的主要参与者,0.99,ai-draft,explicit,manual-curation,2026-10-29
+fact.chest_pain_center.participated_by.prehospital,proc.chest_pain_center,dept.prehospital,src.cn.chest_pain.2019,§6 胸痛中心建设,院前急救、急诊科和心内科是胸痛中心建设的主要参与者,0.99,ai-draft,explicit,manual-curation,2026-10-29

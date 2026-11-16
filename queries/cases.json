@@ -1,0 +1,68 @@
+{
+  "cases": [
+    {
+      "id": "01_complaint_differentials",
+      "file": "01_complaint_differentials.cypher",
+      "params": {
+        "complaint_id": "cc.chest_pain"
+      }
+    },
+    {
+      "id": "02_high_risk_conditions",
+      "file": "02_high_risk_conditions.cypher",
+      "params": {}
+    },
+    {
+      "id": "03_red_flags_for_complaint",
+      "file": "03_red_flags_for_complaint.cypher",
+      "params": {
+        "complaint_id": "cc.chest_pain"
+      }
+    },
+    {
+      "id": "04_condition_workup",
+      "file": "04_condition_workup.cypher",
+      "params": {
+        "condition_id": "cond.acute_mi"
+      }
+    },
+    {
+      "id": "05_complaint_workup",
+      "file": "05_complaint_workup.cypher",
+      "params": {
+        "complaint_id": "cc.dyspnea"
+      }
+    },
+    {
+      "id": "06_treatment_options",
+      "file": "06_treatment_options.cypher",
+      "params": {
+        "complaint_id": "cc.chest_pain"
+      }
+    },
+    {
+      "id": "07_triage_criteria",
+      "file": "07_triage_criteria.cypher",
+      "params": {
+        "scale_id": "esi_v4_2005"
+      }
+    },
+    {
+      "id": "08_icd10_coded_conditions",
+      "file": "08_icd10_coded_conditions.cypher",
+      "params": {}
+    },
+    {
+      "id": "09_condition_evidence",
+      "file": "09_condition_evidence.cypher",
+      "params": {
+        "condition_id": "cond.aad"
+      }
+    },
+    {
+      "id": "10_source_coverage",
+      "file": "10_source_coverage.cypher",
+      "params": {}
+    }
+  ]
+}

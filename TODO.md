@@ -45,9 +45,10 @@
   - 已完成：3 个 `ChiefComplaint` + 9 个 Condition + 14 个 Finding + 10 个 Test + 1 个 Intervention；59 条事实；来源为 `src.msd.dyspnea.2025`、`src.msd.acute_abdominal_pain.2024`、`src.msd.fever.2026`（均 verified/m1、短引文）。
   - 覆盖：呼吸困难 4 high + 1 medium；腹痛 2 high + 1 medium；发热 3 high + 1 low；每个主诉 5–6 条主诉级检查。
   - 验收：查询 CLI 支持三主诉；每个病种有来源 + 引文；新增 4 项查询测试；总计 49 项测试；事实 192 条。
-- [ ] **M1-04** Neo4j/Cypher 导出 + 10 个查询用例
-  - 导出 `entities`/`facts` 为 Cypher 或 CSV；提供 `queries/*.cypher`。
-  - 验收：导入脚本可复现；10 个用例结果与 JSONL 查询一致。
+- [x] **M1-04** Neo4j/Cypher 导出 + 10 个查询用例
+  - 已完成：`edkg/neo4j.py` 确定性导出 135 节点/192 关系/13 类节点/15 谓词、28 个 CSV；`neo4j/import.cypher` 无 APOC；`queries/01…10_*.cypher` 10 个只读用例 + `cases.json` + `expected.json`；`scripts/export_neo4j.py` / `scripts/verify_neo4j_queries.py`。
+  - 验收：导出可重复；10 个用例与 JSONL 参考实现一致（9/11/6/2/6/11/12/8/20/6 行）；新增 8 项测试，总 57 项。
+  - 限制：本机无 Neo4j/`cypher-shell`，Docker daemon 未启动，`dist.neo4j.org` 403；**未在真实 Neo4j 实例执行导入**，不得写成运行验证通过。
 - [ ] **M1-05** M1 质量评估
   - 20 条分层随机事实，双人盲评“正确/部分/错误”；报告 P/R/F1、Kappa。
   - 验收：正确率 ≥90%（达不到则修数据，不修指标）。

@@ -1,0 +1,14 @@
+fact_id,subject,object,source_id,locator,quote,confidence,review_status,assertion_type,extracted_by,extracted_at,urgency,context
+fact.analgesia.treats.aad,int.analgesia,cond.aad,src.cn.chest_pain.2019,§5.2 急性主动脉夹层,应尽快给予有效镇痛（可适当肌注或静脉应用阿片类药物）,0.98,ai-draft,explicit,manual-curation,2026-10-29,immediate,
+fact.antibiotics.treats.meningitis,int.antibiotics,cond.meningitis,src.msd.fever.2026,检测,静脉给予 地塞米松 和抗生素,0.98,ai-draft,explicit,manual-curation,2026-11-13,,脑膜炎立即静脉给药
+fact.antibiotics.treats.sepsis,int.antibiotics,cond.sepsis,src.msd.fever.2026,治疗发热,当怀疑严重感染时，需要根据最可能的解剖部位和所涉及的病原体进行经验性抗感染治疗。,0.98,ai-draft,explicit,manual-curation,2026-11-13,,经验性抗感染治疗
+fact.anticoagulation.treats.acs,int.anticoagulation,cond.acs,src.cn.chest_pain.2019,§5.1.4 ACS的药物治疗,所有STEMI患者无出血禁忌时均应早期使用肝素,0.98,ai-draft,explicit,manual-curation,2026-10-29,,STEMI抗凝
+fact.anticoagulation.treats.ape,int.anticoagulation,cond.ape,src.cn.chest_pain.2019,§5.3 急性肺栓塞,尽快进行抗凝治疗,0.99,ai-draft,explicit,manual-curation,2026-10-29,immediate,
+fact.antiplatelet.treats.acs,int.antiplatelet,cond.acs,src.cn.chest_pain.2019,§5.1.4 ACS的药物治疗,ACS患者初始需服用阿司匹林负荷剂量后长期维持,0.98,ai-draft,explicit,manual-curation,2026-10-29,,抗栓治疗
+fact.beta_blocker.treats.aad,int.beta_blocker,cond.aad,src.cn.chest_pain.2019,§5.2 急性主动脉夹层,控制心率和血压（建议静脉应用β受体阻滞剂）,0.98,ai-draft,explicit,manual-curation,2026-10-29,,控制心率和血压
+fact.beta_blocker.treats.acs,int.beta_blocker,cond.acs,src.cn.chest_pain.2019,§5.1.4 ACS的药物治疗,无禁忌证的患者应在发病24 h内常规服用，并逐渐加量,0.98,ai-draft,explicit,manual-curation,2026-10-29,,无禁忌证者发病24 h内
+fact.chest_drain.treats.tension,int.chest_drain,cond.tension_pneumothorax,src.cn.chest_pain.2019,§5.4 张力性气胸患者,亦可先行胸腔闭式引流术,0.98,ai-draft,explicit,manual-curation,2026-10-29,,条件允许时
+fact.needle_decompression.treats.tension,int.needle_decompression,cond.tension_pneumothorax,src.cn.chest_pain.2019,§5.4 张力性气胸患者,待确诊后应立即施行胸腔穿刺术,0.99,ai-draft,explicit,manual-curation,2026-10-29,immediate,
+fact.pci.treats.acs,int.pci,cond.acs,src.cn.chest_pain.2019,§5.1.1 急性ST段抬高型心肌梗死,包括直接PCI（primary PCI，PPCI）、转运PCI或静脉溶栓治疗,0.99,ai-draft,explicit,manual-curation,2026-10-29,immediate,STEMI再灌注
+fact.thrombolysis.treats.acs,int.thrombolysis,cond.acs,src.cn.chest_pain.2019,§5.1.1 急性ST段抬高型心肌梗死,包括直接PCI（primary PCI，PPCI）、转运PCI或静脉溶栓治疗,0.99,ai-draft,explicit,manual-curation,2026-10-29,,STEMI再灌注
+fact.thrombolysis.treats.ape,int.thrombolysis,cond.ape,src.cn.chest_pain.2019,§5.3 急性肺栓塞,及时给予静脉溶栓治疗,0.98,ai-draft,explicit,manual-curation,2026-10-29,,排除溶栓禁忌证后

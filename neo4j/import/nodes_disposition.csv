@@ -1,0 +1,5 @@
+id,type,label_zh,label_en,aliases,disposition_kind
+disp.admit,Disposition,住院,Admission,,admit
+disp.discharge,Disposition,离院/门诊随访,Discharge or outpatient follow-up,,discharge
+disp.icu,Disposition,重症监护病房,Intensive care unit,,icu
+disp.transfer,Disposition,转诊至具备能力医院,Transfer to a capable facility,,transfer

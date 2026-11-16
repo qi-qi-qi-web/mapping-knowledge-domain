@@ -1,0 +1,10 @@
+id,type,label_zh,label_en,aliases,risk_factor_kind
+risk.copd_bulla,RiskFactor,肺大疱/肺结核等慢性肺病,Chronic lung disease such as bullae or tuberculosis,,
+risk.diabetes,RiskFactor,糖尿病,Diabetes mellitus,,
+risk.dyslipidemia,RiskFactor,血脂异常,Dyslipidemia,,
+risk.family_history_chd,RiskFactor,冠心病家族史,Family history of coronary heart disease,,
+risk.hypertension,RiskFactor,高血压,Hypertension,,
+risk.immobilization,RiskFactor,长期卧床/长途旅行/制动,Immobilization or long-distance travel,,
+risk.marfan,RiskFactor,马凡综合征,Marfan syndrome,,
+risk.previous_vte,RiskFactor,下肢静脉血栓或静脉炎,Previous lower-limb venous thrombosis or phlebitis,,
+risk.smoking,RiskFactor,吸烟史,Smoking history,,

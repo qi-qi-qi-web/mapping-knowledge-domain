@@ -190,6 +190,13 @@
 - 分诊输出只列“候选指标”，**不得自动定级**；必须提示由分诊人员结合生命体征判定。
 - 未收录主诉必须明确报错，不得生成无来源建议。
 
+### 5.6 Neo4j/Cypher 导出
+
+- `edkg/neo4j.py` 是 JSONL 的只读、确定性投影，生成 `neo4j/import/*.csv`、`setup.cypher`、`import.cypher`；源数据仍是 `data/kg/*.jsonl`。
+- 不得手工修改 `neo4j/import/` 或 `queries/expected.json`；数据变化后重新运行 `python scripts/export_neo4j.py --out neo4j` 与 `python scripts/verify_neo4j_queries.py --write`，并审查 diff。
+- `queries/*.cypher` 必须只读、带参数，且与 `queries/cases.json` 的 10 个用例对应；结果用 `edkg/neo4j_cases.py` 的 JSONL 参考实现和 `expected.json` 校验。
+- 未在真实 Neo4j 实例执行前，文档只能写“离线一致性校验通过”，不得写“Neo4j 导入/运行通过”；不得声称已做性能或生产验证。
+
 ---
 
 ## 6. 标准工作流
@@ -205,6 +212,7 @@
    python -m edkg validate --strict
    python -m unittest discover -s tests -v
    python scripts/audit_quotes.py        # 有网络时；发布前必跑
+   python scripts/verify_neo4j_queries.py
    python -m edkg stats
    ```
 6. **更新记录**：`DEVLOG.md` 写本次变更、决策、验证结果、commit；`TODO.md` 勾选/新增。
@@ -295,10 +303,11 @@
 
 ---
 
-## 11. 当前状态与下一步（M1 进行中，2026-11-13）
+## 11. 当前状态与下一步（M1 进行中，2026-11-16）
 
-- 已完成：Schema v0.2、11 个来源登记（7 verified / 1 access_controlled / 3 candidate）、4 个主诉图谱 135 实体 / 192 事实、中国四级 + ESI v4 两套分诊量表、WHO ICD-10 9 条逐病种映射（8 个编码，ACS 无单一码）、校验器、scale-aware 查询 CLI、49 项测试、CI。
-- M1 增量：ESI v4 五级、12 个 `TriageCriterion`（含 4 个年龄分层危险区阈值）、资源需求规则、危险区上调规则；WHO ICD-10 编码映射（`data/registry/icd10.json`，查询 JSON/文本展示）；M1-03 新增呼吸困难、腹痛、发热 3 个主诉（9 个 Condition、59 条事实，来源为 3 份 MSD 手册页面）。
+- 已完成：Schema v0.2、11 个来源登记（7 verified / 1 access_controlled / 3 candidate）、4 个主诉图谱 135 实体 / 192 事实、中国四级 + ESI v4 两套分诊量表、WHO ICD-10 9 条逐病种映射（8 个编码，ACS 无单一码）、校验器、scale-aware 查询 CLI、57 项测试、CI。
+- M1 增量：ESI v4 五级、12 个 `TriageCriterion`（含 4 个年龄分层危险区阈值）、资源需求规则、危险区上调规则；WHO ICD-10 编码映射（`data/registry/icd10.json`，查询 JSON/文本展示）；M1-03 新增呼吸困难、腹痛、发热 3 个主诉（9 个 Condition、59 条事实，来源为 3 份 MSD 手册页面）；M1-04 新增 Neo4j CSV/Cypher 导出、10 个只读查询用例与离线一致性校验。
 - 全部事实 `ai-draft`，引用 6 份事实来源（2 份中文共识 + AHRQ ESI v4 + 3 份 MSD）；WHO ICD-10 仅用于编码映射；**未做临床审核/临床编码员审核**。
-- 未做：ICD-11/批量编码、Neo4j、LLM 抽取、MIMIC/DDXPlus 评测、临床专家审核、病种级专科会诊。
+- M1-04 的 135 节点/192 关系与 10 个查询用例已通过静态检查和 JSONL 参考结果比对；**本机无 Neo4j，未在真实实例执行导入**，不得表述为“Neo4j 运行验证通过”。
+- 未做：ICD-11/批量编码、真实 Neo4j 实例导入/性能验证、LLM 抽取、MIMIC/DDXPlus 评测、临床专家审核、病种级专科会诊。
 - 下一步见 `TODO.md` 的 M1；任何扩展先补来源核验与引文，再谈规模。
