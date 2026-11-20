@@ -270,6 +270,21 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 
 实现文件：`edkg/neo4j.py`、`edkg/neo4j_cases.py`、`scripts/export_neo4j.py`、`scripts/verify_neo4j_queries.py`、`queries/README.md`、`neo4j/README.md`。
 
+### 6.9 M1-05：质量评估工具与双人评审包（2026-11-20，受 B-01 阻塞）
+
+| 项目 | 结果 |
+|---|---|
+| 抽样 | 192 条事实中抽 20 条；固定 seed `20261120`；按 predicate 分层（每层 1 条，覆盖 15 个谓词），再从最大层补 5 条；最终 shuffle |
+| 样本边界 | 覆盖导向，不是按事实总体患病率加权；结论仅对这 20 条负责，不能外推为全图准确率 |
+| 评审材料 | `evaluation/m1-05/sample.json`、`sample_manifest.json`（仅审计，评审时隐藏）、`review_packet.md`、`review_template.csv` |
+| 工具 | `edkg/quality.py`；`scripts/m1_05_sample.py`；`scripts/m1_05_evaluate.py`；4 项新测试，总 61 项 |
+| 指标 | 每位评审 strict/lenient 正确率；observed agreement、Cohen's kappa；A↔B 双向逐类 P/R/F1 与 macro-F1（评审者间一致性，不是外部 gold standard） |
+| gate | 两位严格正确率均 ≥0.9，且 unanimous_correct_rate ≥0.9；未过则修数据，不改指标 |
+| 当前状态 | **等待两名独立人类评审；没有正确率、Kappa 或通过结论，M1-05 不得标 `[x]`** |
+| 禁止 | AI 自查/两个 AI 代理冒充盲评；伪造 `review_a.csv`/`review_b.csv`/`report.json`；把合成测试标签当真实评审 |
+
+实现文件：`edkg/quality.py`、`scripts/m1_05_sample.py`、`scripts/m1_05_evaluate.py`、`evaluation/m1-05/README.md`。
+
 ---
 
 ## 7. 建图流水线（M0 → M2）
@@ -346,7 +361,7 @@ python -m edkg query --complaint 胸痛 --scale esi_v4_2005
 | 阶段 | 目标 | 规模目标 | 验收 |
 |---|---|---|---|
 | **M0（已完成）** | 治理文档 + Schema + 胸痛 MVP + 校验/查询/审计/CI | 80 实体 / 116 事实 | 本页 6.4 全通过 |
-| **M1（进行中）** | ESI 五级 + 危险区阈值、WHO ICD-10 9 条映射、呼吸困难/腹痛/发热 3 个主诉、Neo4j 导出 + 10 个查询用例已完成；待办：专科会诊、20 条抽检 | 当前 135 / 192；目标 300+ / 800+ | 两套量表独立可查；ICD 映射可回溯；引文 100%；新增测试 |
+| **M1（进行中）** | ESI 五级 + 危险区阈值、WHO ICD-10 9 条映射、呼吸困难/腹痛/发热 3 个主诉、Neo4j 导出 + 10 个查询用例已完成；M1-05 样本/评估工具已就绪、等待双人人类评审；待办：双人评审、专科会诊 | 当前 135 / 192；目标 300+ / 800+ | 两套量表独立可查；ICD 映射可回溯；引文 100%；新增测试；M1-05 在 B-01 完成前不得声称通过 |
 | M2 | 10 主诉、30+ 高危病种；LLM 候选抽取 + HITL 队列；L1/L2 评估 | 2k+ 实体 / 8k+ 事实 | 抽检通过率 ≥90%；无候选来源进入事实 |
 | M3 | 大规模扩展；GraphRAG/路径检索；DDXPlus/MIMIC 评测；论文产出 | 10k+ 实体 / 50k+ 关系 | 可复现实验、DUA/伦理合规、统计方案落地 |
 
@@ -372,10 +387,11 @@ data/registry/sources.json  来源登记
 data/registry/icd10.json    WHO ICD-10 逐病种编码映射
 data/kg/entities.jsonl    实体
 data/kg/facts.jsonl       事实
-edkg/                     零依赖工具链（loader/validate/query/stats/neo4j/CLI）
+edkg/                     零依赖工具链（loader/validate/query/stats/neo4j/quality/CLI）
 queries/                  10 个只读 Cypher 用例 + 参数/期望结果
 neo4j/                    生成的 import CSV、setup/import Cypher
-scripts/                  来源核验、引文审计、Neo4j 导出/校验
+evaluation/m1-05/         20 条分层样本、评审包、空白评分表
+scripts/                  来源核验、引文审计、Neo4j 导出/校验、质量评估
 tests/                    单元测试与负例
 .github/workflows/ci.yml  离线 CI
 ```
@@ -403,5 +419,5 @@ tests/                    单元测试与负例
 2. M1-02（已完成）：WHO ICD-10 核验，9 个胸痛病种逐条映射，8 个编码，ACS 无单一码。
 3. M1-03（已完成）：新增呼吸困难/腹痛/发热 3 个主诉，逐病种补来源；当前 135 实体 / 192 事实。
 4. M1-04（已完成）：Neo4j/Cypher 导出 + 10 个查询用例；离线与 JSONL 参考结果一致；未在真实 Neo4j 实例执行。
-5. M1-05：M1 质量评估（20 条抽检 + 引文 100%）。
+5. M1-05（工具/样本已完成，验收阻塞）：20 条分层抽检 + 双人独立评审；在 B-01 完成前不得报告正确率/Kappa 通过，不得标 `[x]`。
 6. M2 起再考虑 LLM 抽取、HITL 与下游评测；任何一步都不得绕过 `Agent.md` 的红线。

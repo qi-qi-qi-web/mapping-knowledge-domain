@@ -197,6 +197,15 @@
 - `queries/*.cypher` 必须只读、带参数，且与 `queries/cases.json` 的 10 个用例对应；结果用 `edkg/neo4j_cases.py` 的 JSONL 参考实现和 `expected.json` 校验。
 - 未在真实 Neo4j 实例执行前，文档只能写“离线一致性校验通过”，不得写“Neo4j 导入/运行通过”；不得声称已做性能或生产验证。
 
+### 5.7 质量评估
+
+- M1-05 只生成**给人类评审者使用的样本/表单/评估工具**；Agent 不得扮演评审者，不得用 AI 自查、两个 AI 子代理或模拟标签冒充“双人盲评”。
+- 样本固定 20 条、固定 seed、按 predicate 分层；评审者看到的 `sample.json`/`review_packet.md` 不得含 `fact_id` 或置信度；`sample_manifest.json` 仅用于审计，评审期间不得展示。
+- 只有两名独立人类都完成评审后，才能运行评估并报告正确率、P/R/F1、Kappa；在此之前 `TODO.md` 的 M1-05 只能是 `[!]`/阻塞，不得标 `[x]`。
+- P/R/F1 是评审者间一致性指标，不是外部 gold standard 上的抽取性能；报告必须写明样本是覆盖导向、不能外推为全图准确率。
+- gate 未过时修数据，不得改指标、改样本或伪造 `review_a.csv`/`review_b.csv`/`report.json`；不得把本地合成的测试标签当作评审结果。
+- 任何评审结论都不能替代临床上线前的完整专家审核；全部事实仍保持 `ai-draft`，除非具名人类明确审核并记录。
+
 ---
 
 ## 6. 标准工作流
@@ -215,6 +224,7 @@
    python scripts/verify_neo4j_queries.py
    python -m edkg stats
    ```
+   M1-05 相关改动另跑 `python scripts/m1_05_sample.py`；只有两名独立人类完成后才运行 `python scripts/m1_05_evaluate.py`，没有真实评审时只验证工具，不产出质量结论。
 6. **更新记录**：`DEVLOG.md` 写本次变更、决策、验证结果、commit；`TODO.md` 勾选/新增。
 7. **提交**：Conventional Commits；一次提交一类事。
 8. **远端验证**：确认远端 commit/tree/文件内容；CI 未跑就写“待运行”。
@@ -303,11 +313,12 @@
 
 ---
 
-## 11. 当前状态与下一步（M1 进行中，2026-11-16）
+## 11. 当前状态与下一步（M1 进行中，2026-11-20）
 
-- 已完成：Schema v0.2、11 个来源登记（7 verified / 1 access_controlled / 3 candidate）、4 个主诉图谱 135 实体 / 192 事实、中国四级 + ESI v4 两套分诊量表、WHO ICD-10 9 条逐病种映射（8 个编码，ACS 无单一码）、校验器、scale-aware 查询 CLI、57 项测试、CI。
-- M1 增量：ESI v4 五级、12 个 `TriageCriterion`（含 4 个年龄分层危险区阈值）、资源需求规则、危险区上调规则；WHO ICD-10 编码映射（`data/registry/icd10.json`，查询 JSON/文本展示）；M1-03 新增呼吸困难、腹痛、发热 3 个主诉（9 个 Condition、59 条事实，来源为 3 份 MSD 手册页面）；M1-04 新增 Neo4j CSV/Cypher 导出、10 个只读查询用例与离线一致性校验。
+- 已完成：Schema v0.2、11 个来源登记（7 verified / 1 access_controlled / 3 candidate）、4 个主诉图谱 135 实体 / 192 事实、中国四级 + ESI v4 两套分诊量表、WHO ICD-10 9 条逐病种映射（8 个编码，ACS 无单一码）、校验器、scale-aware 查询 CLI、61 项测试、CI。
+- M1 增量：ESI v4 五级、12 个 `TriageCriterion`（含 4 个年龄分层危险区阈值）、资源需求规则、危险区上调规则；WHO ICD-10 编码映射（`data/registry/icd10.json`，查询 JSON/文本展示）；M1-03 新增呼吸困难、腹痛、发热 3 个主诉（9 个 Condition、59 条事实，来源为 3 份 MSD 手册页面）；M1-04 新增 Neo4j CSV/Cypher 导出、10 个只读查询用例与离线一致性校验；M1-05 新增 20 条分层抽样、双人评审模板与离线评估器。
 - 全部事实 `ai-draft`，引用 6 份事实来源（2 份中文共识 + AHRQ ESI v4 + 3 份 MSD）；WHO ICD-10 仅用于编码映射；**未做临床审核/临床编码员审核**。
 - M1-04 的 135 节点/192 关系与 10 个查询用例已通过静态检查和 JSONL 参考结果比对；**本机无 Neo4j，未在真实实例执行导入**，不得表述为“Neo4j 运行验证通过”。
-- 未做：ICD-11/批量编码、真实 Neo4j 实例导入/性能验证、LLM 抽取、MIMIC/DDXPlus 评测、临床专家审核、病种级专科会诊。
+- M1-05 工具/样本已就绪，但**两名独立人类评审尚未发生**；在 B-01 完成前没有正确率、Kappa 或质量通过结论，不得把 M1-05 标为完成。
+- 未做：ICD-11/批量编码、真实 Neo4j 实例导入/性能验证、LLM 抽取、MIMIC/DDXPlus 评测、临床专家审核、双人质量评审、病种级专科会诊。
 - 下一步见 `TODO.md` 的 M1；任何扩展先补来源核验与引文，再谈规模。

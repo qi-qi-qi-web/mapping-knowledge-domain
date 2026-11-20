@@ -105,7 +105,8 @@ ID 规则：`<prefix>.<slug>`，只允许小写字母、数字、下划线、点
 - 危险区阈值：HR/RR 有文本引文；SaO2<92% 为 Figure 6-1 图像目视转录，裁剪图见 `docs/research/figures/esi_fig6_1_danger_zone.png`。
 - 会诊：胸痛中心参与科室（院前/急诊/心内科）与转诊条件。
 - Neo4j 投影（M1-04）：135 节点 / 192 关系；13 类节点标签、15 个谓词；`queries/` 下 10 个只读 Cypher 用例与 `expected.json` 离线夹具通过 JSONL 参考实现校验；不改 Schema，**未在真实 Neo4j 实例执行导入**。
-- 未做：ICD-11/批量编码、真实 Neo4j 实例导入/性能验证、病种级专科会诊、流程事件实例。
+- 质量评估（M1-05）：不改变 Schema；`evaluation/m1-05/` 保存 20 条分层样本、评审包与空白表；`sample_manifest.json` 只做 `sample_id -> fact_id` 审计，评审标签不进入图谱；在两名独立人类完成评审前没有质量结论。
+- 未做：ICD-11/批量编码、真实 Neo4j 实例导入/性能验证、双人质量评审、病种级专科会诊、流程事件实例。
 
 ## 7. 如何新增
 

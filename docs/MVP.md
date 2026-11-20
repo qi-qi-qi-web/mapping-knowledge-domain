@@ -80,6 +80,18 @@ python scripts/verify_neo4j_queries.py
 - `verify_neo4j_queries.py` 在**不连接 Neo4j** 的情况下，用 Python 参考实现核对 `queries/expected.json`；本机无 Neo4j，未做真实实例导入。
 - 详细说明见 [`queries/README.md`](queries/README.md) 与 [`neo4j/README.md`](neo4j/README.md)。
 
+## 4.2 M1-05 双人评审包（等待人类评审）
+
+```bash
+python scripts/m1_05_sample.py
+# 两名独立人类填写 review_a.csv / review_b.csv 后：
+python scripts/m1_05_evaluate.py --a evaluation/m1-05/review_a.csv --b evaluation/m1-05/review_b.csv --json
+```
+
+- 20 条事实按 predicate 分层，固定 seed `20261120`；`sample.json`/`review_packet.md` 不含 `fact_id` 或置信度。
+- 评审材料与说明见 [`../evaluation/m1-05/README.md`](../evaluation/m1-05/README.md)；在两名独立人类完成前没有正确率/Kappa 结论，M1-05 不得标记为通过。
+- 评估器拒绝两份完全相同的评分文件；gate 未过应修数据，不得改指标或伪造评审。
+
 ## 5. 示例输出（节选）
 
 ```text
@@ -108,10 +120,11 @@ python scripts/verify_neo4j_queries.py
 ## 6. 质量门
 
 - `python -m edkg validate --strict`：0 错误 0 警告；
-- `python -m unittest discover -s tests -v`：57 项通过；
+- `python -m unittest discover -s tests -v`：61 项通过；
 - `python scripts/audit_quotes.py`：事实 192/192 + ICD-10 9/9 引文命中（2026-11-13）；
 - `python scripts/verify_sources.py`：7/7 开放来源 HTTP 200；
 - `python scripts/verify_neo4j_queries.py`：10 个 Cypher 用例与 JSONL 参考结果一致（离线，未执行 Neo4j）；
+- M1-05：样本/评估器可运行；**双人人类评审未完成，无正确率/Kappa 结论**；
 - 事实引用 6 个 `verified` 来源；WHO ICD-10 仅用于编码映射；0 重复三元组；provenance 100%。
 
 ## 7. 已知限制
@@ -126,7 +139,8 @@ python scripts/verify_neo4j_queries.py
 - **规模小**：135/192，不是“大规模”；规模目标见 `docs/PLAN.md`。
 - **新主诉分诊未扩展**：M1-03 未新增中国四级/ESI 的病种级分诊指标，非胸痛主诉的分诊输出只保留通用算法指标。
 - **Neo4j 未实测**：本机无 Neo4j/`cypher-shell`，Docker daemon 未启动，`dist.neo4j.org` 返回 403；M1-04 仅完成确定性导出、10 个查询用例的静态检查与 JSONL 参考结果比对，**未在真实 Neo4j 实例执行导入/查询**，也没有性能数据。
+- **M1-05 未完成**：20 条样本与双人评审工具已就绪，但尚无两名独立人类评审；**没有正确率、P/R/F1 或 Kappa 结论**，不得声称质量验收通过；受 B-01 阻塞。
 
 ## 8. 下一步
 
-见 `TODO.md` 的 M1：病种级专科会诊、20 条人工抽检；M1-05 质量评估优先。
+见 `TODO.md` 的 M1：先完成 M1-05 双人独立人类评审（B-01），再考虑病种级专科会诊；不得用 AI 自查替代评审。

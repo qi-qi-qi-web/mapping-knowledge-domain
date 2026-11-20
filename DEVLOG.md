@@ -5,6 +5,54 @@
 
 ---
 
+## 2026-11-20 | M1-05：双人评审样本与评估工具（受 B-01 阻塞）
+
+### 背景
+
+- TODO 的 M1-05 要求 20 条分层随机事实、双人独立判定“正确/部分/错误”，报告正确率、P/R/F1、Kappa，正确率 ≥90%。
+- 项目没有临床评审者；`TODO.md` 的 B-01 仍阻塞。Agent 不能扮演评审者，也不能用 AI 自查或合成标签冒充双人盲评，因此本轮只交付**供人类使用的样本、评审包和评估器**，不产出质量结论。
+
+### 完成
+
+- [x] `edkg/quality.py`：固定 seed 的分层抽样；评审 CSV 校验；strict/lenient 正确率；observed agreement、Cohen's kappa；A↔B 双向逐类 P/R/F1 与 macro-F1；gate 判定。
+- [x] `scripts/m1_05_sample.py`：生成 `evaluation/m1-05/sample.json`、`sample_manifest.json`、`review_packet.md`、`review_template.csv`。
+- [x] `scripts/m1_05_evaluate.py`：读取两份独立 CSV，拒绝完全相同的文件，输出文本或 JSON；gate 不通过退出 1，输入错误退出 2。
+- [x] `evaluation/m1-05/`：20 条样本（192 条事实中抽取，覆盖 15 个谓词，seed `20261120`）、评审说明、空白评分表。
+- [x] `tests/test_quality.py` 4 项测试；总测试数 57 → 61。
+- [x] README/Agent/PLAN/SCHEMA/MVP/TODO 同步；数据、Schema、来源均未改。
+
+### 决策
+
+| 编号 | 决策 | 理由 |
+|---|---|---|
+| D-037 | 按 predicate 分层，每层 1 条，再从最大层补 5 条，固定 seed | 让 20 条覆盖 15 类关系，同时保持可复现；明确这是覆盖样本，不是患病率加权 |
+| D-038 | 评审者看 `sample.json`/`review_packet.md`，不看 `sample_manifest.json` 和 `fact_id` | 降低按事实 ID 查库/对照的偏差；manifest 仅用于审计 |
+| D-039 | 不把 AI 自查或两个 AI 子代理当评审 | 违反 Agent 红线；没有独立人类时只能标阻塞 |
+| D-040 | 报告 strict/lenient 正确率、kappa 和双向 P/R/F1；P/R/F1 明示为评审者间一致性 | 没有外部 gold standard，不能把评审者间指标冒充抽取性能 |
+| D-041 | gate 未过时修数据，不改指标/样本；禁止伪造评分文件 | M1-05 的验收目的是发现数据问题，不是让指标好看 |
+
+### 验证
+
+- `python -m edkg validate --strict`：**PASS，135 实体 / 192 事实 / 9 条 ICD-10，0 错误 0 警告**。
+- `python -m unittest discover -s tests -q`：**61 项通过**。
+- `python scripts/m1_05_sample.py`：**20 / 192 条，15 个 predicate 分层，seed 20261120**。
+- 评估器仅用合成标签做过 CLI 连通性 smoke test（验证格式/退出码/指标计算），合成文件已删除；**不是评审结果，不作为质量证据**。
+- 数据未改，沿用 M1-04 的 `audit_quotes` 结果（事实 192/192 + ICD 9/9）与 `verify_sources` 7/7。
+
+### 提交
+
+- 基线：`49a2bbfd4dc7e40730d015415c658c1b19cb2cdf`。
+- 提交信息：`M1-05: add human review sample and evaluation toolkit`。
+- 推送后以远端 `main` 为准；不 force。若推送失败，如实记录，不把本地 commit 说成已发布。
+
+### 遗留/阻塞
+
+- **无真实双人人类评审**：没有正确率、Kappa 或 gate 通过结论；M1-05 在 `TODO.md` 保持 `[!]`，不得标 `[x]`。
+- 样本为覆盖导向，不能外推为全图准确率；结论仅对 20 条负责。
+- 全部事实仍 `ai-draft`；M1-05 的评审也不能替代临床上线前的完整专家审核。
+
+---
+
 ## 2026-11-16 | M1-04：Neo4j/Cypher 导出 + 10 个查询用例
 
 ### 背景
