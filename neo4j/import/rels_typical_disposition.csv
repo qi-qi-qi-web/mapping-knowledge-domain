@@ -1,5 +1,4 @@
 fact_id,subject,object,source_id,locator,quote,confidence,review_status,assertion_type,extracted_by,extracted_at,context
 fact.aad.disposition.transfer_no_surgery,cond.aad,disp.transfer,src.cn.chest_pain.2019,§5.2 急性主动脉夹层,不具备大血管介入和手术能力的医疗机构，应当建立完善的急性主动脉夹层转诊机制,0.98,ai-draft,explicit,manual-curation,2026-10-29,不具备大血管介入和手术能力
 fact.acs.disposition.transfer_no_pci,cond.acs,disp.transfer,src.cn.chest_pain.2019,§5.1.2 非ST段抬高的急性冠脉综合征,不具备PCI能力的医院，应与具备PCI能力的医院合作，建立联络及转诊机制,0.98,ai-draft,explicit,manual-curation,2026-10-29,不具备PCI能力
-fact.ape.disposition.admit,cond.ape,disp.admit,src.cn.chest_pain.2019,§5.3 急性肺栓塞,中低危组：应住院或门诊抗凝治疗,0.97,ai-draft,explicit,manual-curation,2026-10-29,中低危组；应住院或门诊抗凝治疗
 fact.tension.disposition.transfer_no_drain,cond.tension_pneumothorax,disp.transfer,src.cn.chest_pain.2019,§5.4 张力性气胸患者,若医疗机构不具备胸腔闭式引流术条件，应当对张力性气胸患者实施紧急胸腔穿刺减压后转诊,0.98,ai-draft,explicit,manual-curation,2026-10-29,不具备胸腔闭式引流术条件

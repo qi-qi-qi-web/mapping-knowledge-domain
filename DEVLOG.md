@@ -5,6 +5,63 @@
 
 ---
 
+## 2026-11-23 | M1-05 round 1 评审反馈与数据修正
+
+### 背景
+
+- 用户提供 `evaluation/m1-05/review_a.csv`、`review_b.csv` 并运行 `scripts/m1_05_evaluate.py`。两份 CSV 各 20 行，只有 `sample_id,verdict,comment`，没有评审者姓名、角色或独立性声明。
+- 结果：A correct 13 / partial 7 / error 0（strict 65.0%，lenient 82.5%）；B correct 17 / partial 3 / error 0（strict 85.0%，lenient 92.5%）；observed agreement 60.0%，Cohen's kappa **-0.0127**，unanimous correct 11/20（55.0%）；gate **未通过**。
+- 评审反馈集中在：限定条件被过度延伸（`risk=high`、`strength=moderate`）、关系标签功能性拔高（危险信号/需鉴别/鉴别依据）、主体漂移（高危胸痛→ACS）、并列处置被压成单一处置、ESI 级别缺少对应原文引文。
+- 不能确认两份 CSV 来自两名独立临床人员，因此只作为**内部质量反馈**，不声称临床验证，也不报告为 M1-05 通过。
+
+### 完成
+
+- [x] 保存 round 1 历史：`evaluation/m1-05/round-1/`（样本、评审 CSV、`report.json`、说明）。
+- [x] 删除 4 条引文不支持的断言：
+  - `fact.ape.red_flag.hypoxemia`：引文只描述氧饱和度下降，未定义为危险信号。
+  - `fact.ape.differentiated_from.tension`：引文只并列描述 APE 与张力性气胸，未说明“需鉴别”。
+  - `fact.ape.distinguished_by.hypoxemia`：引文未说明低氧可鉴别 APE。
+  - `fact.ape.disposition.admit`：引文写“应住院或门诊抗凝治疗”，不能把住院当作唯一典型处置。
+- [x] `fact.acs.recommended_test.blood_gas` 改为 `fact.chest_pain.recommended_test.blood_gas`，主体改为 `cc.chest_pain`，与引文“高危胸痛患者”一致。
+- [x] 修正 5 条 ESI `HAS_LEVEL` 引文，分别使用各级资源需求/立即就诊的原文；不再用“五级分诊量表”总述支撑每一级。
+- [x] 删除 `fact.hypoxemia.supports.ape` 的 `strength=moderate`，以及 `fact.dyspnea.may_indicate.ape`、`fact.fever.may_indicate.pneumonia` 的 `risk=high`；这些限定没有引文直接定级。
+- [x] 事实数 192 → 188；`tests/test_stats.py`、Neo4j 夹具/导出、`queries/README.md`、`neo4j/README.md` 同步。
+- [x] 重抽 round 2 样本：`python scripts/m1_05_sample.py --out evaluation/m1-05`，20/188，15 个 predicate，seed `20261120`；round 2 尚无评审 CSV。
+- [x] README/Agent/PLAN/SCHEMA/MVP/TODO 同步 round 1 失败、188 事实与 round 2 等待状态。
+
+### 决策
+
+| 编号 | 决策 | 理由 |
+|---|---|---|
+| D-042 | 不把无姓名/角色/独立性声明的 CSV 当作临床评审证据 | 评审者身份不可核验，不能声称双人盲评或质量通过 |
+| D-043 | 只修引文能明确支持/否定的数据问题；不为了 gate 改指标或样本 | 遵守 TODO “达不到修数据，不修指标” |
+| D-044 | 删除而非降级 4 条关系标签不成立的事实；不保留空壳关系 | 关系标签本身是断言；仅改 qualifier 仍会误导查询 |
+| D-045 | round 1 样本与评分归档，round 2 重抽；旧分数不得套用 | 事实集变化后旧样本不再代表当前图谱 |
+| D-046 | round 2 仍标 M1-05 `[!]`，等待两名独立人类评审 | B-01 未完成；没有通过结论 |
+
+### 验证
+
+- `python -m edkg validate --strict`：**PASS，135 实体 / 188 事实 / 9 条 ICD-10，0 错误 0 警告**。
+- `python -m unittest discover -s tests -q`：**61 项通过**（含更新后的 188 关系阈值）。
+- `python scripts/verify_neo4j_queries.py`：10 个用例通过，行数 9/11/5/2/6/11/12/8/20/6。
+- `python scripts/export_neo4j.py --out neo4j`：135 节点 / 188 关系 / 13 类 / 15 谓词。
+- `python scripts/audit_quotes.py --cafile data/raw/cacert.pem`：事实 188/188 + ICD 9/9，failures 0。
+- `python scripts/verify_sources.py --cafile data/raw/cacert.pem`：7/7 HTTP 200。
+
+### 提交
+
+- 基线：`210aea480e6abc1a9297ceafecfa412b11dba310`（M1-05 工具/样本提交）。
+- 本轮提交信息：`M1-05: apply round 1 review corrections and resample`；提交后以远端 `main` 为准，不 force、不伪造。
+
+### 遗留/阻塞
+
+- **M1-05 未通过**：round 1 gate 未通过，round 2 尚无独立人类评审；不得标 `[x]`。
+- 评审者身份/独立性未记录；round 1 只能作为内部历史。
+- 全部事实仍 `ai-draft`；不得用于真实患者诊疗。
+- 新病种仍无 ICD-10；分诊未扩展到新病种；专科会诊未做。
+
+---
+
 ## 2026-11-20 | M1-05：双人评审样本与评估工具（受 B-01 阻塞）
 
 ### 背景

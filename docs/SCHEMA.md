@@ -96,16 +96,17 @@ ID 规则：`<prefix>.<slug>`，只允许小写字母、数字、下划线、点
 
 ## 6. 当前覆盖（M1 进行中）
 
-- **135 实体、192 事实**；7 份已核验来源：6 份进入事实（2 份中文共识 + AHRQ ESI v4 + 3 份 MSD），WHO ICD-10 仅用于编码映射。
+- **135 实体、188 事实**；7 份已核验来源：6 份进入事实（2 份中文共识 + AHRQ ESI v4 + 3 份 MSD），WHO ICD-10 仅用于编码映射。
 - M0 基线：80 实体、116 事实；中国四级分诊 + 胸痛高危/中低危 + 胸痛中心。
 - M1 增量：ESI v4 五级、12 个 `TriageCriterion`（立即救生、高危、意识、疼痛、危险区、资源 2+/1/0、4 个年龄分层危险区阈值）、17 条事实。
 - M1-03：新增呼吸困难、腹痛、发热 3 个主诉，9 个 Condition、14 个 Finding、10 个 Test、1 个 Intervention；59 条事实；新 Condition 不填 ICD-10。
+- M1-05 round 1 反馈：删除 4 条引文不支持其关系标签/单一处置的事实（APE 低氧危险信号、APE-张力性气胸鉴别、APE 低氧鉴别依据、APE 住院处置），修正 5 条 ESI 级别引文；事实数 192→188。
 - ICD-10：`data/registry/icd10.json` 9 条 entry；8 个 `Condition.icd10`，ACS 为 `no_single_code`；每条有 `concept_url`、`locator`、`quote`、`match`、`source_id`。
 - 分诊：中国四级 + ESI v4；两套量表分别建模，查询分组展示，**不互映射**。
 - 危险区阈值：HR/RR 有文本引文；SaO2<92% 为 Figure 6-1 图像目视转录，裁剪图见 `docs/research/figures/esi_fig6_1_danger_zone.png`。
 - 会诊：胸痛中心参与科室（院前/急诊/心内科）与转诊条件。
-- Neo4j 投影（M1-04）：135 节点 / 192 关系；13 类节点标签、15 个谓词；`queries/` 下 10 个只读 Cypher 用例与 `expected.json` 离线夹具通过 JSONL 参考实现校验；不改 Schema，**未在真实 Neo4j 实例执行导入**。
-- 质量评估（M1-05）：不改变 Schema；`evaluation/m1-05/` 保存 20 条分层样本、评审包与空白表；`sample_manifest.json` 只做 `sample_id -> fact_id` 审计，评审标签不进入图谱；在两名独立人类完成评审前没有质量结论。
+- Neo4j 投影（M1-04）：135 节点 / 188 关系；13 类节点标签、15 个谓词；`queries/` 下 10 个只读 Cypher 用例与 `expected.json` 离线夹具通过 JSONL 参考实现校验；不改 Schema，**未在真实 Neo4j 实例执行导入**。
+- 质量评估（M1-05）：不改变 Schema；`evaluation/m1-05/` 保存 round 2 的 20 条分层样本、评审包与空白表，`round-1/` 保存未通过、评审者身份未记录的历史；`sample_manifest.json` 只做 `sample_id -> fact_id` 审计，评审标签不进入图谱；在两名独立人类完成评审前没有质量结论。
 - 未做：ICD-11/批量编码、真实 Neo4j 实例导入/性能验证、双人质量评审、病种级专科会诊、流程事件实例。
 
 ## 7. 如何新增

@@ -33,7 +33,7 @@ class Neo4jExportTests(unittest.TestCase):
             self.counts,
             {
                 "nodes": 135,
-                "relationships": 192,
+                "relationships": 188,
                 "node_types": 13,
                 "predicates": 15,
             },
@@ -63,8 +63,8 @@ class Neo4jExportTests(unittest.TestCase):
                 self.assertTrue(row["object"])
                 self.assertTrue(row["source_id"])
                 fact_ids.append(row["fact_id"])
-        self.assertEqual(len(fact_ids), 192)
-        self.assertEqual(len(set(fact_ids)), 192)
+        self.assertEqual(len(fact_ids), 188)
+        self.assertEqual(len(set(fact_ids)), 188)
 
     def test_import_script_is_static_and_reset_free(self) -> None:
         script = (self.out / "import.cypher").read_text(encoding="utf-8")
@@ -134,7 +134,7 @@ class Neo4jExportTests(unittest.TestCase):
             },
         )
         self.assertEqual(len(expected["10_source_coverage"]), 6)
-        self.assertEqual(sum(row["facts"] for row in expected["10_source_coverage"]), 192)
+        self.assertEqual(sum(row["facts"] for row in expected["10_source_coverage"]), 188)
 
 
 if __name__ == "__main__":

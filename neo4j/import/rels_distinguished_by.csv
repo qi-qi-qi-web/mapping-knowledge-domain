@@ -1,5 +1,4 @@
 fact_id,subject,object,source_id,locator,quote,confidence,review_status,assertion_type,extracted_by,extracted_at
 fact.aad.distinguished_by.bp_asymmetry,cond.aad,find.bp_asymmetry,src.cn.chest_pain.2019,§3.2.3 查体,要注意血压数值及四肢血压是否对称,0.98,ai-draft,explicit,manual-curation,2026-10-29
 fact.acs.distinguished_by.ecg,cond.acs,test.ecg_12lead,src.cn.chest_pain.2019,§4.1 心电图,心电图是诊断ACS的主要检查手段,0.98,ai-draft,explicit,manual-curation,2026-10-29
-fact.ape.distinguished_by.hypoxemia,cond.ape,find.hypoxemia,src.cn.chest_pain.2019,§3.2.2 症状,常同时合并氧饱和度下降,0.98,ai-draft,explicit,manual-curation,2026-10-29
 fact.tension.distinguished_by.severe_dyspnea,cond.tension_pneumothorax,find.severe_sudden_dyspnea,src.cn.chest_pain.2019,§3.2.2 症状,张力性气胸患者表现为极度呼吸困难,0.98,ai-draft,explicit,manual-curation,2026-10-29

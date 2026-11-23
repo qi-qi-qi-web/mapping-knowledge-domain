@@ -44,14 +44,16 @@
 - [x] **M1-03** 新增 3 个主诉：呼吸困难、腹痛、发热
   - 已完成：3 个 `ChiefComplaint` + 9 个 Condition + 14 个 Finding + 10 个 Test + 1 个 Intervention；59 条事实；来源为 `src.msd.dyspnea.2025`、`src.msd.acute_abdominal_pain.2024`、`src.msd.fever.2026`（均 verified/m1、短引文）。
   - 覆盖：呼吸困难 4 high + 1 medium；腹痛 2 high + 1 medium；发热 3 high + 1 low；每个主诉 5–6 条主诉级检查。
-  - 验收：查询 CLI 支持三主诉；每个病种有来源 + 引文；新增 4 项查询测试；总计 49 项测试；事实 192 条。
+  - 验收（M1-03 时点）：查询 CLI 支持三主诉；每个病种有来源 + 引文；新增 4 项查询测试；总计 49 项测试；事实 192 条。
 - [x] **M1-04** Neo4j/Cypher 导出 + 10 个查询用例
-  - 已完成：`edkg/neo4j.py` 确定性导出 135 节点/192 关系/13 类节点/15 谓词、28 个 CSV；`neo4j/import.cypher` 无 APOC；`queries/01…10_*.cypher` 10 个只读用例 + `cases.json` + `expected.json`；`scripts/export_neo4j.py` / `scripts/verify_neo4j_queries.py`。
-  - 验收：导出可重复；10 个用例与 JSONL 参考实现一致（9/11/6/2/6/11/12/8/20/6 行）；新增 8 项测试，总 57 项。
+  - 已完成：`edkg/neo4j.py` 确定性导出 135 节点/188 关系（M1-05 修正后）/13 类节点/15 谓词、28 个 CSV；`neo4j/import.cypher` 无 APOC；`queries/01…10_*.cypher` 10 个只读用例 + `cases.json` + `expected.json`；`scripts/export_neo4j.py` / `scripts/verify_neo4j_queries.py`。
+  - 验收：导出可重复；10 个用例与 JSONL 参考实现一致（9/11/5/2/6/11/12/8/20/6 行）；新增 8 项测试，总 57 项。
   - 限制：本机无 Neo4j/`cypher-shell`，Docker daemon 未启动，`dist.neo4j.org` 403；**未在真实 Neo4j 实例执行导入**，不得写成运行验证通过。
-- [!] **M1-05** M1 质量评估（工具/样本已就绪；双人人类评审未完成，受 B-01 阻塞）
-  - 已完成：`edkg/quality.py`、`scripts/m1_05_sample.py`、`scripts/m1_05_evaluate.py`；`evaluation/m1-05/` 的 20 条分层样本（seed `20261120`，覆盖 15 个谓词）、评审包、空白评分表、说明；新增 4 项测试，总 61 项。
-  - 验收：两名独立人类完成“正确/部分/错误”评审后，运行评估器；正确率 ≥90%，报告 P/R/F1、Kappa。**当前没有评审结果，不得标 `[x]`，不得用 AI 自查或合成标签代替。**
+- [!] **M1-05** M1 质量评估（round 1 未通过；round 2 待双人人类评审，受 B-01 阻塞）
+  - 已完成：`edkg/quality.py`、`scripts/m1_05_sample.py`、`scripts/m1_05_evaluate.py`；`evaluation/m1-05/` 的 round 2 20 条分层样本（seed `20261120`，覆盖 15 个谓词）、评审包、空白评分表、说明；`round-1/` 保留历史；新增 4 项测试，总 61 项。
+  - round 1：A correct 13/partial 7/error 0（strict 65%）、B 17/3/0（85%）；κ -0.0127；gate 未通过；评审 CSV 无姓名/角色，不能确认独立临床人员，只作内部历史。
+  - 数据修正：删除 4 条引文不支持其关系标签/单一处置的事实（APE 低氧危险信号、APE-张力性气胸鉴别、APE 低氧鉴别依据、APE 住院处置）；修正 5 条 ESI 级别引文；事实数 192→188；round 2 样本已重抽。
+  - 验收：两名独立人类完成 round 2 “正确/部分/错误”评审后，运行评估器；正确率 ≥90%，报告 P/R/F1、Kappa。**当前没有通过结论，不得标 `[x]`，不得用 AI 自查或合成标签代替，不得把 round 1 分数套到 round 2。**
   - 说明：P/R/F1 是评审者间一致性，不是外部 gold standard；样本为覆盖导向，不能外推全图。
 - [ ] **M1-06** 病种级专科会诊
   - 只在指南明确写“应请 XX 科”时添加 `CONSULT`；不得推断。
@@ -82,7 +84,7 @@
 
 ## 阻塞/等待
 
-- [!] **B-01 临床专家审核**：需要急诊/心内科专家双人独立评审；M1-05 样本/评估工具已就绪，等待评审者；在此之前所有事实保持 `ai-draft`，M1-05 不得标 `[x]`。
+- [!] **B-01 临床专家审核**：需要急诊/心内科专家双人独立评审；M1-05 round 1 已运行但 gate 未通过、评审者身份未记录，已重抽 round 2 样本等待评审者；在此之前所有事实保持 `ai-draft`，M1-05 不得标 `[x]`。
 - [!] **B-02 MIMIC-IV-ED**：CITI 培训 + PhysioNet DUA；未完成前不使用、不提交任何记录级数据。
 - [!] **B-03 第三方许可证**：DDXPlus、TriageAgent、PrimeKG、CMeKG 的许可证/版本需逐个核验；未核验前保持 `candidate`。
 - [x] **B-04 WHO ICD 编码**：已完成 9 条逐病种核验（8 个编码 + ACS 无单一码）；不做全量/批量导出；映射待临床编码员复核。

@@ -1,7 +1,6 @@
 fact_id,subject,object,source_id,locator,quote,confidence,review_status,assertion_type,extracted_by,extracted_at,note
 fact.aad.red_flag.bp_asymmetry,cond.aad,find.bp_asymmetry,src.cn.chest_pain.2019,§3.2.2 症状,双侧肢体血压差别较大,0.98,ai-draft,explicit,manual-curation,2026-10-29,
 fact.aad.red_flag.tearing_pain,cond.aad,find.tearing_chest_back_pain,src.cn.chest_pain.2019,§3.2.2 症状,AAD及大血管疾病多表现为持续撕裂样胸、背痛,0.98,ai-draft,explicit,manual-curation,2026-10-29,
-fact.ape.red_flag.hypoxemia,cond.ape,find.hypoxemia,src.cn.chest_pain.2019,§3.2.2 症状,常同时合并氧饱和度下降,0.98,ai-draft,explicit,manual-curation,2026-10-29,
 fact.ape.red_flag.syncope,cond.ape,find.syncope,src.cn.chest_pain.2019,§3.2.2 症状,甚或晕厥、猝死,0.98,ai-draft,explicit,manual-curation,2026-10-29,
 fact.meningitis.red_flag.neck_stiffness,cond.meningitis,find.neck_stiffness,src.msd.fever.2026,临床表现解析（危险信号）,头痛，颈部僵硬，出现瘀斑或紫癜样皮疹很可能是 脑膜炎 。,0.99,ai-draft,explicit,manual-curation,2026-11-13,发热伴颈项强直提示脑膜炎
 fact.meningitis.red_flag.petechial_rash,cond.meningitis,find.petechial_rash,src.msd.fever.2026,临床表现解析（危险信号）,头痛，颈部僵硬，出现瘀斑或紫癜样皮疹很可能是 脑膜炎 。,0.99,ai-draft,explicit,manual-curation,2026-11-13,发热伴瘀点/紫癜样皮疹提示脑膜炎

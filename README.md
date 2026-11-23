@@ -2,7 +2,7 @@
 
 **急诊全流程会诊知识图谱**（Emergency Department full-process Consultation Knowledge Graph）。
 
-当前状态：**M1 进行中 / 4 个主诉（胸痛、呼吸困难、腹痛、发热）+ ESI v4 五级**。135 实体、192 事实，全部 `ai-draft`，未经临床专家审核；只用于研究与智能体检索实验，**不得用于真实患者诊疗**。
+当前状态：**M1 进行中 / 4 个主诉（胸痛、呼吸困难、腹痛、发热）+ ESI v4 五级**。135 实体、188 事实，全部 `ai-draft`，未经临床专家审核；只用于研究与智能体检索实验，**不得用于真实患者诊疗**。
 
 ## 这是什么
 
@@ -64,14 +64,14 @@ schema/edkg.schema.json     Schema v0.2
 data/registry/sources.json  来源登记与核验记录
 data/registry/icd10.json    WHO ICD-10 逐病种编码映射（9 条）
 data/kg/entities.jsonl      实体（135）
-data/kg/facts.jsonl         事实（192，带 provenance）
+data/kg/facts.jsonl         事实（188，带 provenance）
 edkg/                       校验/查询/统计 CLI
 edkg/quality.py             M1-05 分层抽样、评审校验、指标/gate
 edkg/neo4j.py               Neo4j CSV/Cypher 导出
 edkg/neo4j_cases.py         10 个 Cypher 用例的 JSONL 参考实现
 queries/                    10 个只读 Cypher 用例 + 固定参数/期望结果
 neo4j/                      生成的 import CSV、setup/import Cypher
-evaluation/m1-05/           20 条评审样本、评审包、空白评分表
+evaluation/m1-05/           round 2 评审样本/包 + round 1 历史记录
 scripts/                    来源核验、引文审计、Neo4j 导出/校验、质量评估
 tests/                      61 项单元测试
 .github/workflows/ci.yml    离线 CI
@@ -94,7 +94,7 @@ tests/                      61 项单元测试
 - 只保存**短引文 + 章节定位**，不转载全文/PDF（AHRQ 公有领域，但仍只存抽取事实）；MSD 页面为版权内容，仅保存支撑事实的短引文并注明来源，不转载全文；
 - `candidate` 来源（MIMIC-IV-ED、DDXPlus、TriageAgent、PrimeKG）只登记、**不进入事实**；WHO ICD-10 已核验，仅用于编码映射、不进入事实；
 - 报告中的 arXiv/数据集引用未逐条核验，不作为数据源；见 [`docs/research/README.md`](docs/research/README.md)；
-- 事实只能引用 `verified` 来源；`python scripts/audit_quotes.py` 逐条回查原文（当前：事实 192/192 + ICD-10 9/9 通过）。
+- 事实只能引用 `verified` 来源；`python scripts/audit_quotes.py` 逐条回查原文（当前：事实 188/188 + ICD-10 9/9 通过）。
 - **中国四级与 ESI 五级分别建模，不互映射**；查询默认分组展示，也可用 `--scale` 只看一套。
 
 ## 当前质量指标
@@ -102,19 +102,19 @@ tests/                      61 项单元测试
 | 指标 | 结果 |
 |---|---|
 | Schema 校验（strict） | 0 错误 / 0 警告 |
-| 实体 / 事实 | 135 / 192 |
+| 实体 / 事实 | 135 / 188 |
 | provenance 完整率 | 100% |
 | 重复三元组 | 0 |
-| 引文审计 | 事实 192/192 + ICD-10 9/9 命中 |
+| 引文审计 | 事实 188/188 + ICD-10 9/9 命中 |
 | 开放来源核验 | 7/7 HTTP 200 |
-| Neo4j/Cypher 导出 | 135 节点 / 192 关系；10 个用例离线校验通过（未在真实 Neo4j 实例执行） |
-| M1-05 质量评估包 | 20 条分层样本 + 双人评审模板已就绪；**等待两名独立人类评审，尚无正确率/Kappa 结论**（B-01 阻塞） |
+| Neo4j/Cypher 导出 | 135 节点 / 188 关系；10 个用例离线校验通过（未在真实 Neo4j 实例执行） |
+| M1-05 质量评估包 | round 1 gate 未通过（A 65%/B 85%，κ -0.0127）；已修正 4 条事实并重抽 round 2 样本；**等待两名独立人类评审，尚无质量结论**（B-01 阻塞） |
 | 单元测试 | 61 项通过 |
 | CI（GitHub Actions） | [见 Actions](https://github.com/qi-qi-qi-web/mapping-knowledge-domain/actions) |
 | 临床审核 | **未做**（全部 ai-draft） |
 
 - Neo4j 导出：`python scripts/export_neo4j.py --out neo4j`；离线校验：`python scripts/verify_neo4j_queries.py`；用例说明见 [`queries/README.md`](queries/README.md)。本机未安装 Neo4j，未在真实实例上执行导入。
-- M1-05 质量评估：`python scripts/m1_05_sample.py` 生成 20 条分层样本；两名独立人类评审后运行 `python scripts/m1_05_evaluate.py --a evaluation/m1-05/review_a.csv --b evaluation/m1-05/review_b.csv --json`。当前仅有工具/样本，**未产生真实评审结果**；说明见 [`evaluation/m1-05/README.md`](evaluation/m1-05/README.md)。
+- M1-05 质量评估：`python scripts/m1_05_sample.py` 生成 20 条分层样本；两名独立人类评审后运行 `python scripts/m1_05_evaluate.py --sample evaluation/m1-05/sample.json --a evaluation/m1-05/review_a.csv --b evaluation/m1-05/review_b.csv --json`。round 1 未通过且评审者身份未记录，只作内部历史；**round 2 尚未评审**；说明见 [`evaluation/m1-05/README.md`](evaluation/m1-05/README.md)。
 
 ## 路线图
 

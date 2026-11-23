@@ -1,7 +1,7 @@
 # M1-05 双人盲评包
 
-- 生成日期：2026-11-20
-- 抽样总体：192 条事实
+- 生成日期：2026-11-23
+- 抽样总体：188 条事实
 - 样本量：20
 - 随机种子：20261120
 - 抽样方法：predicate-stratified: one fact per predicate stratum, then five additional facts from the largest strata; within-stratum random selection; item order shuffled
@@ -17,155 +17,156 @@
 
 ### M105-01
 
-- 事实：抗凝治疗（`int.anticoagulation`） --治疗--> 急性肺栓塞（`cond.ape`）
+- 事实：急性主动脉夹层（`cond.aad`） --典型去向--> 转诊至具备能力医院（`disp.transfer`）
 - 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
-- 定位：§5.3 急性肺栓塞
-- 引文：> 尽快进行抗凝治疗
-- 限定条件：`urgency`=immediate
+- 定位：§5.2 急性主动脉夹层
+- 引文：> 不具备大血管介入和手术能力的医疗机构，应当建立完善的急性主动脉夹层转诊机制
+- 限定条件：`context`=不具备大血管介入和手术能力
 
 ### M105-02
 
-- 事实：急性肺栓塞（`cond.ape`） --典型去向--> 住院（`disp.admit`）
-- 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
-- 定位：§5.3 急性肺栓塞
-- 引文：> 中低危组：应住院或门诊抗凝治疗
-- 限定条件：`context`=中低危组；应住院或门诊抗凝治疗
+- 事实：中国急诊预检分诊四级标准（2018）（`scale.cn_4level_2018`） --分诊级别--> Ⅱ级 急重（`level.cn4.2`）
+- 来源：急诊预检分诊专家共识（`src.cn.triage.2018`）
+- 定位：§3.1 预检分诊级别
+- 引文：> 本标准按病情危急程度分为四级
 
 ### M105-03
 
-- 事实：急性心力衰竭（`cond.acute_heart_failure`） --表现为--> 端坐呼吸（`find.orthopnea`）
-- 来源：呼吸困难（`src.msd.dyspnea.2025`）
-- 定位：病因（表：引起急性呼吸困难的部分病因）
-- 引文：> 端坐呼吸或夜间阵发性呼吸困难
-- 限定条件：`typicality`=typical
+- 事实：脑膜炎（`cond.meningitis`） --危险信号--> 瘀点/紫癜样皮疹（`find.petechial_rash`）
+- 来源：发热（`src.msd.fever.2026`）
+- 定位：临床表现解析（危险信号）
+- 引文：> 头痛，颈部僵硬，出现瘀斑或紫癜样皮疹很可能是 脑膜炎 。
+- 限定条件：`note`=发热伴瘀点/紫癜样皮疹提示脑膜炎
 
 ### M105-04
-
-- 事实：Ⅱ级 急重（`level.cn4.2`） --级别判定依据--> 类似心脏因素的胸痛（`find.cardiac_like_chest_pain`）
-- 来源：急诊预检分诊专家共识（`src.cn.triage.2018`）
-- 定位：§3 表 1 急诊预检分诊分级标准
-- 引文：> 类似心脏因素的胸痛
-- 限定条件：`criterion_type`=artificial
-
-### M105-05
-
-- 事实：呼吸困难（`cc.dyspnea`） --可能提示--> 急性肺栓塞（`cond.ape`）
-- 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
-- 定位：§5.3 急性肺栓塞
-- 引文：> APE常伴呼吸困难或咯血
-- 限定条件：`risk`=high
-
-### M105-06
-
-- 事实：急性肺栓塞（`cond.ape`） --危险信号--> 氧饱和度下降（`find.hypoxemia`）
-- 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
-- 定位：§3.2.2 症状
-- 引文：> 常同时合并氧饱和度下降
-
-### M105-07
 
 - 事实：Ⅳ级 亚急症（`level.cn4.4`） --归属--> 普通诊疗区（`area.general`）
 - 来源：急诊预检分诊专家共识（`src.cn.triage.2018`）
 - 定位：§4 急诊分级分区管理；表 2
 - 引文：> Ⅳ级患者在普通诊疗区顺序就诊
 
-### M105-08
+### M105-05
 
-- 事实：胸痛中心（`proc.chest_pain_center`） --参与角色--> 心内科（`dept.cardiology`）
+- 事实：胸痛（`cc.chest_pain`） --可能提示--> 急性冠状动脉综合征（`cond.acs`）
+- 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
+- 定位：§1 急性胸痛救治现状
+- 引文：> 不仅包括急性冠状动脉综合征（acute coronary syndrome，ACS）
+- 限定条件：`risk`=high
+
+### M105-06
+
+- 事实：直接经皮冠状动脉介入治疗（`int.pci`） --治疗--> 急性冠状动脉综合征（`cond.acs`）
+- 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
+- 定位：§5.1.1 急性ST段抬高型心肌梗死
+- 引文：> 包括直接PCI（primary PCI，PPCI）、转运PCI或静脉溶栓治疗
+- 限定条件：`context`=STEMI再灌注, `urgency`=immediate
+
+### M105-07
+
+- 事实：胸痛中心（`proc.chest_pain_center`） --参与角色--> 急诊科（`dept.emergency`）
 - 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
 - 定位：§6 胸痛中心建设
 - 引文：> 院前急救、急诊科和心内科是胸痛中心建设的主要参与者
 
-### M105-09
+### M105-08
 
-- 事实：急性冠状动脉综合征（`cond.acs`） --推荐检查--> 动脉血气分析（`test.arterial_blood_gas`）
+- 事实：胸痛（`cc.chest_pain`） --推荐检查--> 动脉血气分析（`test.arterial_blood_gas`）
 - 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
 - 定位：§4.2.5 动脉血气分析
 - 引文：> 高危胸痛患者可通过血气分析快速评估患者循环灌注情况
 - 限定条件：`context`=高危胸痛循环灌注评估
 
-### M105-10
+### M105-09
 
-- 事实：β受体阻滞剂（`int.beta_blocker`） --治疗--> 急性冠状动脉综合征（`cond.acs`）
-- 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
-- 定位：§5.1.4 ACS的药物治疗
-- 引文：> 无禁忌证的患者应在发病24 h内常规服用，并逐渐加量
-- 限定条件：`context`=无禁忌证者发病24 h内
-
-### M105-11
-
-- 事实：急性肺栓塞（`cond.ape`） --推荐检查--> 脑钠肽/氨基末端脑钠肽前体（`test.bnp`）
+- 事实：抗凝治疗（`int.anticoagulation`） --治疗--> 急性肺栓塞（`cond.ape`）
 - 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
 - 定位：§5.3 急性肺栓塞
-- 引文：> APE患者入院后须尽快完成心电图检查，并行血气分析、D-二聚体、BNP、cTn等检测
-- 限定条件：`priority`=urgent
+- 引文：> 尽快进行抗凝治疗
+- 限定条件：`urgency`=immediate
 
-### M105-12
-
-- 事实：急性冠状动脉综合征（`cond.acs`） --危险因素--> 吸烟史（`risk.smoking`）
-- 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
-- 定位：§3.2.1 病史
-- 引文：> 是否有高血压病、糖尿病、血脂异常、吸烟史、冠心病家族史等心血管危险因素
-
-### M105-13
-
-- 事实：ESI 2级 高危/不能等待（`level.esi.2`） --级别判定依据--> 危险区生命体征：<3月（HR>180、RR>50、SaO2<92%）（`crit.esi.danger_vitals_infant`）
-- 来源：Emergency Severity Index, Version 4: Implementation Handbook（`src.us.ahrq.esi.v4.2005`）
-- 定位：Chapter 6, Figure 6-1, p. 41
-- 引文：> <3 m >180 >50
-- 限定条件：`criterion_type`=algorithm
-
-### M105-14
+### M105-10
 
 - 事实：CT血管造影（`test.cta`） --检查产出--> 主动脉内膜片（`find.intimal_flap`）
 - 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
 - 定位：§4.5 CT及CT血管造影（CTA）检查
 - 引文：> 血管内膜征，主动脉管腔内发现动脉内膜片提示夹层或壁间血肿
 
+### M105-11
+
+- 事实：Ⅲ级 急症（`level.cn4.3`） --级别判定依据--> 中等程度的非心源性胸痛（`find.moderate_noncardiac_chest_pain`）
+- 来源：急诊预检分诊专家共识（`src.cn.triage.2018`）
+- 定位：§3 表 1 急诊预检分诊分级标准
+- 引文：> 中等程度的非心源性胸痛
+- 限定条件：`criterion_type`=artificial
+
+### M105-12
+
+- 事实：急性肺栓塞（`cond.ape`） --表现为--> 晕厥（`find.syncope`）
+- 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
+- 定位：§3.2.2 症状
+- 引文：> 甚或晕厥、猝死
+- 限定条件：`typicality`=variable
+
+### M105-13
+
+- 事实：急性冠状动脉综合征（`cond.acs`） --危险因素--> 血脂异常（`risk.dyslipidemia`）
+- 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
+- 定位：§3.2.1 病史
+- 引文：> 是否有高血压病、糖尿病、血脂异常、吸烟史、冠心病家族史等心血管危险因素
+
+### M105-14
+
+- 事实：心电图提示急性心肌梗死（`find.ecg_acute_mi`） --支持--> 急性心肌梗死（`cond.acute_mi`）
+- 来源：急诊预检分诊专家共识（`src.cn.triage.2018`）
+- 定位：§3 表 1 急诊预检分诊分级标准
+- 引文：> ECG提示急性心肌梗死
+- 限定条件：`strength`=strong
+
 ### M105-15
 
-- 事实：发热（`cc.fever`） --可能提示--> 肺炎（`cond.pneumonia`）
-- 来源：呼吸困难（`src.msd.dyspnea.2025`）
-- 定位：病因（表：引起急性呼吸困难的部分病因）
-- 引文：> 肺炎 发热、咳痰、呼吸困难、有时胸膜炎性胸痛
-- 限定条件：`risk`=high
+- 事实：急性胆囊炎（`cond.cholecystitis`） --推荐检查--> 腹部超声（`test.abdominal_ultrasound`）
+- 来源：急性腹痛（`src.msd.acute_abdominal_pain.2024`）
+- 定位：检查
+- 引文：> 若疑似胆道疾病或异位妊娠（经阴道探头）以及儿童疑似阑尾炎，应行超声检查。
+- 限定条件：`priority`=urgent, `timing`=unspecified
 
 ### M105-16
 
-- 事实：氧饱和度下降（`find.hypoxemia`） --支持--> 急性肺栓塞（`cond.ape`）
+- 事实：急性冠状动脉综合征（`cond.acs`） --需鉴别--> 急性肺栓塞（`cond.ape`）
 - 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
 - 定位：§3.2.2 症状
-- 引文：> 常同时合并氧饱和度下降
-- 限定条件：`strength`=moderate
+- 引文：> ACS症状主要包括发作性胸部闷痛、压迫感或憋闷感，甚或濒死感，部分患者可放射至上肢、后背部或颈部，劳累、情绪激动、气候骤变等均可诱发，持续数分钟至数十分钟，休息或硝酸甘油可缓解，持续时间超过20 min未缓解，需考虑急性心肌梗死的可能性；AAD及大血管疾病多表现为持续撕裂样胸、背痛，可伴血压明显升高、双侧肢体血压差别较大等；APE常伴呼吸困难或咯血，常同时合并氧饱和度下降，甚或晕厥、猝死
 
 ### M105-17
 
-- 事实：急诊严重度指数（ESI）第4版（`scale.esi_v4_2005`） --分诊级别--> ESI 4级 需1项资源（`level.esi.4`）
-- 来源：Emergency Severity Index, Version 4: Implementation Handbook（`src.us.ahrq.esi.v4.2005`）
-- 定位：Chapter 2, The Emergency Severity Index (ESI)
-- 引文：> The Emergency Severity Index (ESI) is a five-level triage scale
+- 事实：胸痛（`cc.chest_pain`） --可能提示--> 急性肺栓塞（`cond.ape`）
+- 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
+- 定位：§1 急性胸痛救治现状
+- 引文：> 以急性肺栓塞（acute pulmonary embolism，APE）为主的“急性肺动脉综合征”
+- 限定条件：`risk`=high
 
 ### M105-18
 
-- 事实：急性肺栓塞（`cond.ape`） --需鉴别--> 张力性气胸（`cond.tension_pneumothorax`）
-- 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
-- 定位：§3.2.2 症状
-- 引文：> APE常伴呼吸困难或咯血，常同时合并氧饱和度下降，甚或晕厥、猝死；张力性气胸患者表现为极度呼吸困难，缺氧严重者出现发绀、甚至窒息
-
-### M105-19
-
-- 事实：张力性气胸（`cond.tension_pneumothorax`） --表现为--> 突发极度呼吸困难（`find.severe_sudden_dyspnea`）
+- 事实：张力性气胸（`cond.tension_pneumothorax`） --鉴别依据--> 突发极度呼吸困难（`find.severe_sudden_dyspnea`）
 - 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
 - 定位：§3.2.2 症状
 - 引文：> 张力性气胸患者表现为极度呼吸困难
+
+### M105-19
+
+- 事实：急性冠状动脉综合征（`cond.acs`） --表现为--> 胸部闷痛、压迫感或憋闷感（`find.chest_pressure`）
+- 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
+- 定位：§3.2.2 症状
+- 引文：> 发作性胸部闷痛、压迫感或憋闷感
 - 限定条件：`typicality`=typical
 
 ### M105-20
 
-- 事实：急性肺栓塞（`cond.ape`） --鉴别依据--> 氧饱和度下降（`find.hypoxemia`）
-- 来源：急性胸痛急诊诊疗专家共识（`src.cn.chest_pain.2019`）
-- 定位：§3.2.2 症状
-- 引文：> 常同时合并氧饱和度下降
+- 事实：ESI 4级 需1项资源（`level.esi.4`） --级别判定依据--> 预计需要1项资源（`crit.esi.resources_1`）
+- 来源：Emergency Severity Index, Version 4: Implementation Handbook（`src.us.ahrq.esi.v4.2005`）
+- 定位：Chapter 5, Expected Resource Needs
+- 引文：> those who are likely to require one resource are level 4
+- 限定条件：`criterion_type`=algorithm
 
 ## 判定规则
 

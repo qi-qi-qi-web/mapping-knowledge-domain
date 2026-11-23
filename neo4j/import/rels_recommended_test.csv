@@ -7,7 +7,6 @@ fact.abdominal_pain.recommended_test.lipase,cc.abdominal_pain,test.serum_lipase,
 fact.abdominal_pain.recommended_test.ultrasound,cc.abdominal_pain,test.abdominal_ultrasound,src.msd.acute_abdominal_pain.2024,检查,若疑似胆道疾病或异位妊娠（经阴道探头）以及儿童疑似阑尾炎，应行超声检查。,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
 fact.abdominal_pain.recommended_test.urine_pregnancy,cc.abdominal_pain,test.urine_pregnancy,src.msd.acute_abdominal_pain.2024,检查,所有育龄妇女均应行床旁尿液妊娠试验，因阴性结果即可有效排除异位妊娠破裂。,0.99,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
 fact.abdominal_pain.recommended_test.xray,cc.abdominal_pain,test.abdominal_xray,src.msd.acute_abdominal_pain.2024,检查,若怀疑穿孔或梗阻，应行腹部立卧位片及胸部正位片（若患者无法站立，行左侧卧位腹部平片及前后位胸片）。,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,
-fact.acs.recommended_test.blood_gas,cond.acs,test.arterial_blood_gas,src.cn.chest_pain.2019,§4.2.5 动脉血气分析,高危胸痛患者可通过血气分析快速评估患者循环灌注情况,0.98,ai-draft,explicit,manual-curation,2026-10-29,,,高危胸痛循环灌注评估
 fact.acs.recommended_test.bnp,cond.acs,test.bnp,src.cn.chest_pain.2019,§4.2.2 心脏功能标志物,在急性胸痛的鉴别诊断、危险分层和预后判断等方面也具有重要作用,0.98,ai-draft,explicit,manual-curation,2026-10-29,,,鉴别诊断、危险分层与预后判断
 fact.acs.recommended_test.ck_mb,cond.acs,test.ck_mb,src.cn.chest_pain.2019,§4.2.1 心肌损伤标志物,当不能测定cTn时，可选择CK-MB做为诊断AMI的重要指标,0.98,ai-draft,explicit,manual-curation,2026-10-29,,,不能测定cTn时
 fact.acs.recommended_test.ecg,cond.acs,test.ecg_12lead,src.cn.chest_pain.2019,§4.1 心电图,心电图是诊断ACS的主要检查手段，建议首次医疗接触后10 min内完成心电图,0.99,ai-draft,explicit,manual-curation,2026-10-29,immediate,within_10min,
@@ -27,6 +26,7 @@ fact.ape.recommended_test.d_dimer,cond.ape,test.d_dimer,src.cn.chest_pain.2019,�
 fact.ape.recommended_test.hs_troponin,cond.ape,test.hs_troponin,src.cn.chest_pain.2019,§5.3 急性肺栓塞,APE患者入院后须尽快完成心电图检查，并行血气分析、D-二聚体、BNP、cTn等检测,0.98,ai-draft,explicit,manual-curation,2026-10-29,urgent,,
 fact.ape.recommended_test.pesi,cond.ape,test.pesi,src.cn.chest_pain.2019,§5.3 急性肺栓塞,根据Wells评分或PESI分级等评估手段动态评估患者,0.98,ai-draft,explicit,manual-curation,2026-10-29,,,动态危险分层
 fact.ape.recommended_test.wells,cond.ape,test.wells_score,src.cn.chest_pain.2019,§5.3 急性肺栓塞,根据Wells评分或PESI分级等评估手段动态评估患者,0.98,ai-draft,explicit,manual-curation,2026-10-29,,,动态危险分层
+fact.chest_pain.recommended_test.blood_gas,cc.chest_pain,test.arterial_blood_gas,src.cn.chest_pain.2019,§4.2.5 动脉血气分析,高危胸痛患者可通过血气分析快速评估患者循环灌注情况,0.98,ai-draft,explicit,manual-curation,2026-11-23,,,高危胸痛循环灌注评估
 fact.chest_pain.recommended_test.ecg,cc.chest_pain,test.ecg_12lead,src.cn.chest_pain.2019,§3.2.4 辅助检查,所有胸痛患者在首次医疗接触后应在10 min内完成心电图检查,0.99,ai-draft,explicit,manual-curation,2026-10-29,immediate,within_10min,
 fact.chest_pain.recommended_test.triple_cta,cc.chest_pain,test.cta,src.cn.chest_pain.2019,§3.2.4 辅助检查,胸痛三联CTA可同时鉴别ACS、AAD、APE三种高危胸痛,0.98,ai-draft,explicit,manual-curation,2026-10-29,urgent,unspecified,胸痛三联CTA用于同时鉴别ACS、AAD、APE
 fact.cholecystitis.recommended_test.ultrasound,cond.cholecystitis,test.abdominal_ultrasound,src.msd.acute_abdominal_pain.2024,检查,若疑似胆道疾病或异位妊娠（经阴道探头）以及儿童疑似阑尾炎，应行超声检查。,0.98,ai-draft,explicit,manual-curation,2026-11-13,urgent,unspecified,

@@ -16,7 +16,7 @@
 |---|---|---|---|---|
 | 01 | 主诉鉴别 | `complaint_id=cc.chest_pain` | 9 | 主诉 → `MAY_INDICATE` 病种、危险度、ICD-10、来源/引文 |
 | 02 | 高危病种 | 无 | 11 | 全部 `risk=high` 病种及其表现/红旗计数 |
-| 03 | 主诉相关红旗 | `complaint_id=cc.chest_pain` | 6 | 主诉候选病种的 `HAS_RED_FLAG` |
+| 03 | 主诉相关红旗 | `complaint_id=cc.chest_pain` | 5 | 主诉候选病种的 `HAS_RED_FLAG` |
 | 04 | 病种检查 | `condition_id=cond.acute_mi` | 2 | 病种级 `RECOMMENDED_TEST` |
 | 05 | 主诉检查 | `complaint_id=cc.dyspnea` | 6 | 主诉级 `RECOMMENDED_TEST` |
 | 06 | 治疗选项 | `complaint_id=cc.chest_pain` | 11 | 候选病种的 `TREATS` |

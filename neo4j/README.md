@@ -13,7 +13,7 @@ python scripts/export_neo4j.py --out neo4j
 | 路径 | 内容 |
 |---|---|
 | `neo4j/import/nodes_*.csv` | 13 类实体，共 135 行 |
-| `neo4j/import/rels_*.csv` | 15 个谓词，共 192 行 |
+| `neo4j/import/rels_*.csv` | 15 个谓词，共 188 行 |
 | `neo4j/setup.cypher` | 唯一约束与检索索引 |
 | `neo4j/import.cypher` | 28 条 `LOAD CSV WITH HEADERS` 导入语句 |
 
@@ -34,7 +34,7 @@ python scripts/export_neo4j.py --out neo4j
 
    ```cypher
    MATCH (n) RETURN count(n) AS nodes;          // 期望 135
-   MATCH ()-[r]->() RETURN count(r) AS rels;    // 期望 192
+   MATCH ()-[r]->() RETURN count(r) AS rels;    // 期望 188
    ```
 
 4. 用 [`queries/README.md`](../queries/README.md) 中的 10 个用例查询。

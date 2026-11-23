@@ -1,87 +1,87 @@
 {
   "stage": "M1-05",
-  "generated_on": "2026-11-20",
+  "generated_on": "2026-11-23",
   "seed": 20261120,
   "items": [
     {
       "sample_id": "M105-01",
-      "fact_id": "fact.anticoagulation.treats.ape"
+      "fact_id": "fact.aad.disposition.transfer_no_surgery"
     },
     {
       "sample_id": "M105-02",
-      "fact_id": "fact.ape.disposition.admit"
+      "fact_id": "fact.scale.has_level.2"
     },
     {
       "sample_id": "M105-03",
-      "fact_id": "fact.acute_heart_failure.presents.orthopnea"
+      "fact_id": "fact.meningitis.red_flag.petechial_rash"
     },
     {
       "sample_id": "M105-04",
-      "fact_id": "fact.level2.criterion.cardiac_like_chest_pain"
-    },
-    {
-      "sample_id": "M105-05",
-      "fact_id": "fact.dyspnea.may_indicate.ape"
-    },
-    {
-      "sample_id": "M105-06",
-      "fact_id": "fact.ape.red_flag.hypoxemia"
-    },
-    {
-      "sample_id": "M105-07",
       "fact_id": "fact.level4.assigned_to.general"
     },
     {
+      "sample_id": "M105-05",
+      "fact_id": "fact.chest_pain.may_indicate.acs"
+    },
+    {
+      "sample_id": "M105-06",
+      "fact_id": "fact.pci.treats.acs"
+    },
+    {
+      "sample_id": "M105-07",
+      "fact_id": "fact.chest_pain_center.participated_by.emergency"
+    },
+    {
       "sample_id": "M105-08",
-      "fact_id": "fact.chest_pain_center.participated_by.cardiology"
+      "fact_id": "fact.chest_pain.recommended_test.blood_gas"
     },
     {
       "sample_id": "M105-09",
-      "fact_id": "fact.acs.recommended_test.blood_gas"
+      "fact_id": "fact.anticoagulation.treats.ape"
     },
     {
       "sample_id": "M105-10",
-      "fact_id": "fact.beta_blocker.treats.acs"
-    },
-    {
-      "sample_id": "M105-11",
-      "fact_id": "fact.ape.recommended_test.bnp"
-    },
-    {
-      "sample_id": "M105-12",
-      "fact_id": "fact.acs.risk.smoking"
-    },
-    {
-      "sample_id": "M105-13",
-      "fact_id": "fact.esi.level2.criterion.danger_infant"
-    },
-    {
-      "sample_id": "M105-14",
       "fact_id": "fact.cta.yields.intimal_flap"
     },
     {
+      "sample_id": "M105-11",
+      "fact_id": "fact.level3.criterion.moderate_noncardiac"
+    },
+    {
+      "sample_id": "M105-12",
+      "fact_id": "fact.ape.presents.syncope"
+    },
+    {
+      "sample_id": "M105-13",
+      "fact_id": "fact.acs.risk.dyslipidemia"
+    },
+    {
+      "sample_id": "M105-14",
+      "fact_id": "fact.ecg_acute_mi.supports.acute_mi"
+    },
+    {
       "sample_id": "M105-15",
-      "fact_id": "fact.fever.may_indicate.pneumonia"
+      "fact_id": "fact.cholecystitis.recommended_test.ultrasound"
     },
     {
       "sample_id": "M105-16",
-      "fact_id": "fact.hypoxemia.supports.ape"
+      "fact_id": "fact.acs.differentiated_from.ape"
     },
     {
       "sample_id": "M105-17",
-      "fact_id": "fact.esi.scale.has_level.4"
+      "fact_id": "fact.chest_pain.may_indicate.ape"
     },
     {
       "sample_id": "M105-18",
-      "fact_id": "fact.ape.differentiated_from.tension"
+      "fact_id": "fact.tension.distinguished_by.severe_dyspnea"
     },
     {
       "sample_id": "M105-19",
-      "fact_id": "fact.tension.presents.severe_dyspnea"
+      "fact_id": "fact.acs.presents.chest_pressure"
     },
     {
       "sample_id": "M105-20",
-      "fact_id": "fact.ape.distinguished_by.hypoxemia"
+      "fact_id": "fact.esi.level4.criterion.resources_1"
     }
   ]
 }

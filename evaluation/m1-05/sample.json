@@ -1,7 +1,7 @@
 {
   "stage": "M1-05",
-  "generated_on": "2026-11-20",
-  "population_size": 192,
+  "generated_on": "2026-11-23",
+  "population_size": 188,
   "sample_size": 20,
   "seed": 20261120,
   "method": "predicate-stratified: one fact per predicate stratum, then five additional facts from the largest strata; within-stratum random selection; item order shuffled",
@@ -12,11 +12,11 @@
       "selected": 1
     },
     "DIFFERENTIATED_FROM": {
-      "population": 4,
+      "population": 3,
       "selected": 1
     },
     "DISTINGUISHED_BY": {
-      "population": 4,
+      "population": 3,
       "selected": 1
     },
     "HAS_LEVEL": {
@@ -24,7 +24,7 @@
       "selected": 1
     },
     "HAS_RED_FLAG": {
-      "population": 9,
+      "population": 8,
       "selected": 1
     },
     "HAS_RISK_FACTOR": {
@@ -64,13 +64,136 @@
       "selected": 2
     },
     "TYPICAL_DISPOSITION": {
-      "population": 4,
+      "population": 3,
       "selected": 1
     }
   },
   "items": [
     {
       "sample_id": "M105-01",
+      "subject": "cond.aad",
+      "subject_label": "急性主动脉夹层",
+      "predicate": "TYPICAL_DISPOSITION",
+      "predicate_label": "典型去向",
+      "object": "disp.transfer",
+      "object_label": "转诊至具备能力医院",
+      "qualifiers": {
+        "context": "不具备大血管介入和手术能力"
+      },
+      "source_id": "src.cn.chest_pain.2019",
+      "source_title": "急性胸痛急诊诊疗专家共识",
+      "locator": "§5.2 急性主动脉夹层",
+      "quote": "不具备大血管介入和手术能力的医疗机构，应当建立完善的急性主动脉夹层转诊机制"
+    },
+    {
+      "sample_id": "M105-02",
+      "subject": "scale.cn_4level_2018",
+      "subject_label": "中国急诊预检分诊四级标准（2018）",
+      "predicate": "HAS_LEVEL",
+      "predicate_label": "分诊级别",
+      "object": "level.cn4.2",
+      "object_label": "Ⅱ级 急重",
+      "qualifiers": {},
+      "source_id": "src.cn.triage.2018",
+      "source_title": "急诊预检分诊专家共识",
+      "locator": "§3.1 预检分诊级别",
+      "quote": "本标准按病情危急程度分为四级"
+    },
+    {
+      "sample_id": "M105-03",
+      "subject": "cond.meningitis",
+      "subject_label": "脑膜炎",
+      "predicate": "HAS_RED_FLAG",
+      "predicate_label": "危险信号",
+      "object": "find.petechial_rash",
+      "object_label": "瘀点/紫癜样皮疹",
+      "qualifiers": {
+        "note": "发热伴瘀点/紫癜样皮疹提示脑膜炎"
+      },
+      "source_id": "src.msd.fever.2026",
+      "source_title": "发热",
+      "locator": "临床表现解析（危险信号）",
+      "quote": "头痛，颈部僵硬，出现瘀斑或紫癜样皮疹很可能是 脑膜炎 。"
+    },
+    {
+      "sample_id": "M105-04",
+      "subject": "level.cn4.4",
+      "subject_label": "Ⅳ级 亚急症",
+      "predicate": "ASSIGNED_TO",
+      "predicate_label": "归属",
+      "object": "area.general",
+      "object_label": "普通诊疗区",
+      "qualifiers": {},
+      "source_id": "src.cn.triage.2018",
+      "source_title": "急诊预检分诊专家共识",
+      "locator": "§4 急诊分级分区管理；表 2",
+      "quote": "Ⅳ级患者在普通诊疗区顺序就诊"
+    },
+    {
+      "sample_id": "M105-05",
+      "subject": "cc.chest_pain",
+      "subject_label": "胸痛",
+      "predicate": "MAY_INDICATE",
+      "predicate_label": "可能提示",
+      "object": "cond.acs",
+      "object_label": "急性冠状动脉综合征",
+      "qualifiers": {
+        "risk": "high"
+      },
+      "source_id": "src.cn.chest_pain.2019",
+      "source_title": "急性胸痛急诊诊疗专家共识",
+      "locator": "§1 急性胸痛救治现状",
+      "quote": "不仅包括急性冠状动脉综合征（acute coronary syndrome，ACS）"
+    },
+    {
+      "sample_id": "M105-06",
+      "subject": "int.pci",
+      "subject_label": "直接经皮冠状动脉介入治疗",
+      "predicate": "TREATS",
+      "predicate_label": "治疗",
+      "object": "cond.acs",
+      "object_label": "急性冠状动脉综合征",
+      "qualifiers": {
+        "context": "STEMI再灌注",
+        "urgency": "immediate"
+      },
+      "source_id": "src.cn.chest_pain.2019",
+      "source_title": "急性胸痛急诊诊疗专家共识",
+      "locator": "§5.1.1 急性ST段抬高型心肌梗死",
+      "quote": "包括直接PCI（primary PCI，PPCI）、转运PCI或静脉溶栓治疗"
+    },
+    {
+      "sample_id": "M105-07",
+      "subject": "proc.chest_pain_center",
+      "subject_label": "胸痛中心",
+      "predicate": "PARTICIPATED_BY",
+      "predicate_label": "参与角色",
+      "object": "dept.emergency",
+      "object_label": "急诊科",
+      "qualifiers": {},
+      "source_id": "src.cn.chest_pain.2019",
+      "source_title": "急性胸痛急诊诊疗专家共识",
+      "locator": "§6 胸痛中心建设",
+      "quote": "院前急救、急诊科和心内科是胸痛中心建设的主要参与者"
+    },
+    {
+      "sample_id": "M105-08",
+      "subject": "cc.chest_pain",
+      "subject_label": "胸痛",
+      "predicate": "RECOMMENDED_TEST",
+      "predicate_label": "推荐检查",
+      "object": "test.arterial_blood_gas",
+      "object_label": "动脉血气分析",
+      "qualifiers": {
+        "context": "高危胸痛循环灌注评估"
+      },
+      "source_id": "src.cn.chest_pain.2019",
+      "source_title": "急性胸痛急诊诊疗专家共识",
+      "locator": "§4.2.5 动脉血气分析",
+      "quote": "高危胸痛患者可通过血气分析快速评估患者循环灌注情况"
+    },
+    {
+      "sample_id": "M105-09",
       "subject": "int.anticoagulation",
       "subject_label": "抗凝治疗",
       "predicate": "TREATS",
@@ -86,191 +209,7 @@
       "quote": "尽快进行抗凝治疗"
     },
     {
-      "sample_id": "M105-02",
-      "subject": "cond.ape",
-      "subject_label": "急性肺栓塞",
-      "predicate": "TYPICAL_DISPOSITION",
-      "predicate_label": "典型去向",
-      "object": "disp.admit",
-      "object_label": "住院",
-      "qualifiers": {
-        "context": "中低危组；应住院或门诊抗凝治疗"
-      },
-      "source_id": "src.cn.chest_pain.2019",
-      "source_title": "急性胸痛急诊诊疗专家共识",
-      "locator": "§5.3 急性肺栓塞",
-      "quote": "中低危组：应住院或门诊抗凝治疗"
-    },
-    {
-      "sample_id": "M105-03",
-      "subject": "cond.acute_heart_failure",
-      "subject_label": "急性心力衰竭",
-      "predicate": "PRESENTS_WITH",
-      "predicate_label": "表现为",
-      "object": "find.orthopnea",
-      "object_label": "端坐呼吸",
-      "qualifiers": {
-        "typicality": "typical"
-      },
-      "source_id": "src.msd.dyspnea.2025",
-      "source_title": "呼吸困难",
-      "locator": "病因（表：引起急性呼吸困难的部分病因）",
-      "quote": "端坐呼吸或夜间阵发性呼吸困难"
-    },
-    {
-      "sample_id": "M105-04",
-      "subject": "level.cn4.2",
-      "subject_label": "Ⅱ级 急重",
-      "predicate": "LEVEL_CRITERION",
-      "predicate_label": "级别判定依据",
-      "object": "find.cardiac_like_chest_pain",
-      "object_label": "类似心脏因素的胸痛",
-      "qualifiers": {
-        "criterion_type": "artificial"
-      },
-      "source_id": "src.cn.triage.2018",
-      "source_title": "急诊预检分诊专家共识",
-      "locator": "§3 表 1 急诊预检分诊分级标准",
-      "quote": "类似心脏因素的胸痛"
-    },
-    {
-      "sample_id": "M105-05",
-      "subject": "cc.dyspnea",
-      "subject_label": "呼吸困难",
-      "predicate": "MAY_INDICATE",
-      "predicate_label": "可能提示",
-      "object": "cond.ape",
-      "object_label": "急性肺栓塞",
-      "qualifiers": {
-        "risk": "high"
-      },
-      "source_id": "src.cn.chest_pain.2019",
-      "source_title": "急性胸痛急诊诊疗专家共识",
-      "locator": "§5.3 急性肺栓塞",
-      "quote": "APE常伴呼吸困难或咯血"
-    },
-    {
-      "sample_id": "M105-06",
-      "subject": "cond.ape",
-      "subject_label": "急性肺栓塞",
-      "predicate": "HAS_RED_FLAG",
-      "predicate_label": "危险信号",
-      "object": "find.hypoxemia",
-      "object_label": "氧饱和度下降",
-      "qualifiers": {},
-      "source_id": "src.cn.chest_pain.2019",
-      "source_title": "急性胸痛急诊诊疗专家共识",
-      "locator": "§3.2.2 症状",
-      "quote": "常同时合并氧饱和度下降"
-    },
-    {
-      "sample_id": "M105-07",
-      "subject": "level.cn4.4",
-      "subject_label": "Ⅳ级 亚急症",
-      "predicate": "ASSIGNED_TO",
-      "predicate_label": "归属",
-      "object": "area.general",
-      "object_label": "普通诊疗区",
-      "qualifiers": {},
-      "source_id": "src.cn.triage.2018",
-      "source_title": "急诊预检分诊专家共识",
-      "locator": "§4 急诊分级分区管理；表 2",
-      "quote": "Ⅳ级患者在普通诊疗区顺序就诊"
-    },
-    {
-      "sample_id": "M105-08",
-      "subject": "proc.chest_pain_center",
-      "subject_label": "胸痛中心",
-      "predicate": "PARTICIPATED_BY",
-      "predicate_label": "参与角色",
-      "object": "dept.cardiology",
-      "object_label": "心内科",
-      "qualifiers": {},
-      "source_id": "src.cn.chest_pain.2019",
-      "source_title": "急性胸痛急诊诊疗专家共识",
-      "locator": "§6 胸痛中心建设",
-      "quote": "院前急救、急诊科和心内科是胸痛中心建设的主要参与者"
-    },
-    {
-      "sample_id": "M105-09",
-      "subject": "cond.acs",
-      "subject_label": "急性冠状动脉综合征",
-      "predicate": "RECOMMENDED_TEST",
-      "predicate_label": "推荐检查",
-      "object": "test.arterial_blood_gas",
-      "object_label": "动脉血气分析",
-      "qualifiers": {
-        "context": "高危胸痛循环灌注评估"
-      },
-      "source_id": "src.cn.chest_pain.2019",
-      "source_title": "急性胸痛急诊诊疗专家共识",
-      "locator": "§4.2.5 动脉血气分析",
-      "quote": "高危胸痛患者可通过血气分析快速评估患者循环灌注情况"
-    },
-    {
       "sample_id": "M105-10",
-      "subject": "int.beta_blocker",
-      "subject_label": "β受体阻滞剂",
-      "predicate": "TREATS",
-      "predicate_label": "治疗",
-      "object": "cond.acs",
-      "object_label": "急性冠状动脉综合征",
-      "qualifiers": {
-        "context": "无禁忌证者发病24 h内"
-      },
-      "source_id": "src.cn.chest_pain.2019",
-      "source_title": "急性胸痛急诊诊疗专家共识",
-      "locator": "§5.1.4 ACS的药物治疗",
-      "quote": "无禁忌证的患者应在发病24 h内常规服用，并逐渐加量"
-    },
-    {
-      "sample_id": "M105-11",
-      "subject": "cond.ape",
-      "subject_label": "急性肺栓塞",
-      "predicate": "RECOMMENDED_TEST",
-      "predicate_label": "推荐检查",
-      "object": "test.bnp",
-      "object_label": "脑钠肽/氨基末端脑钠肽前体",
-      "qualifiers": {
-        "priority": "urgent"
-      },
-      "source_id": "src.cn.chest_pain.2019",
-      "source_title": "急性胸痛急诊诊疗专家共识",
-      "locator": "§5.3 急性肺栓塞",
-      "quote": "APE患者入院后须尽快完成心电图检查，并行血气分析、D-二聚体、BNP、cTn等检测"
-    },
-    {
-      "sample_id": "M105-12",
-      "subject": "cond.acs",
-      "subject_label": "急性冠状动脉综合征",
-      "predicate": "HAS_RISK_FACTOR",
-      "predicate_label": "危险因素",
-      "object": "risk.smoking",
-      "object_label": "吸烟史",
-      "qualifiers": {},
-      "source_id": "src.cn.chest_pain.2019",
-      "source_title": "急性胸痛急诊诊疗专家共识",
-      "locator": "§3.2.1 病史",
-      "quote": "是否有高血压病、糖尿病、血脂异常、吸烟史、冠心病家族史等心血管危险因素"
-    },
-    {
-      "sample_id": "M105-13",
-      "subject": "level.esi.2",
-      "subject_label": "ESI 2级 高危/不能等待",
-      "predicate": "LEVEL_CRITERION",
-      "predicate_label": "级别判定依据",
-      "object": "crit.esi.danger_vitals_infant",
-      "object_label": "危险区生命体征：<3月（HR>180、RR>50、SaO2<92%）",
-      "qualifiers": {
-        "criterion_type": "algorithm"
-      },
-      "source_id": "src.us.ahrq.esi.v4.2005",
-      "source_title": "Emergency Severity Index, Version 4: Implementation Handbook",
-      "locator": "Chapter 6, Figure 6-1, p. 41",
-      "quote": "<3 m >180 >50"
-    },
-    {
-      "sample_id": "M105-14",
       "subject": "test.cta",
       "subject_label": "CT血管造影",
       "predicate": "TEST_YIELDS",
@@ -284,94 +223,159 @@
       "quote": "血管内膜征，主动脉管腔内发现动脉内膜片提示夹层或壁间血肿"
     },
     {
-      "sample_id": "M105-15",
-      "subject": "cc.fever",
-      "subject_label": "发热",
-      "predicate": "MAY_INDICATE",
-      "predicate_label": "可能提示",
-      "object": "cond.pneumonia",
-      "object_label": "肺炎",
+      "sample_id": "M105-11",
+      "subject": "level.cn4.3",
+      "subject_label": "Ⅲ级 急症",
+      "predicate": "LEVEL_CRITERION",
+      "predicate_label": "级别判定依据",
+      "object": "find.moderate_noncardiac_chest_pain",
+      "object_label": "中等程度的非心源性胸痛",
       "qualifiers": {
-        "risk": "high"
+        "criterion_type": "artificial"
       },
-      "source_id": "src.msd.dyspnea.2025",
-      "source_title": "呼吸困难",
-      "locator": "病因（表：引起急性呼吸困难的部分病因）",
-      "quote": "肺炎 发热、咳痰、呼吸困难、有时胸膜炎性胸痛"
+      "source_id": "src.cn.triage.2018",
+      "source_title": "急诊预检分诊专家共识",
+      "locator": "§3 表 1 急诊预检分诊分级标准",
+      "quote": "中等程度的非心源性胸痛"
+    },
+    {
+      "sample_id": "M105-12",
+      "subject": "cond.ape",
+      "subject_label": "急性肺栓塞",
+      "predicate": "PRESENTS_WITH",
+      "predicate_label": "表现为",
+      "object": "find.syncope",
+      "object_label": "晕厥",
+      "qualifiers": {
+        "typicality": "variable"
+      },
+      "source_id": "src.cn.chest_pain.2019",
+      "source_title": "急性胸痛急诊诊疗专家共识",
+      "locator": "§3.2.2 症状",
+      "quote": "甚或晕厥、猝死"
+    },
+    {
+      "sample_id": "M105-13",
+      "subject": "cond.acs",
+      "subject_label": "急性冠状动脉综合征",
+      "predicate": "HAS_RISK_FACTOR",
+      "predicate_label": "危险因素",
+      "object": "risk.dyslipidemia",
+      "object_label": "血脂异常",
+      "qualifiers": {},
+      "source_id": "src.cn.chest_pain.2019",
+      "source_title": "急性胸痛急诊诊疗专家共识",
+      "locator": "§3.2.1 病史",
+      "quote": "是否有高血压病、糖尿病、血脂异常、吸烟史、冠心病家族史等心血管危险因素"
+    },
+    {
+      "sample_id": "M105-14",
+      "subject": "find.ecg_acute_mi",
+      "subject_label": "心电图提示急性心肌梗死",
+      "predicate": "SUPPORTS",
+      "predicate_label": "支持",
+      "object": "cond.acute_mi",
+      "object_label": "急性心肌梗死",
+      "qualifiers": {
+        "strength": "strong"
+      },
+      "source_id": "src.cn.triage.2018",
+      "source_title": "急诊预检分诊专家共识",
+      "locator": "§3 表 1 急诊预检分诊分级标准",
+      "quote": "ECG提示急性心肌梗死"
+    },
+    {
+      "sample_id": "M105-15",
+      "subject": "cond.cholecystitis",
+      "subject_label": "急性胆囊炎",
+      "predicate": "RECOMMENDED_TEST",
+      "predicate_label": "推荐检查",
+      "object": "test.abdominal_ultrasound",
+      "object_label": "腹部超声",
+      "qualifiers": {
+        "timing": "unspecified",
+        "priority": "urgent"
+      },
+      "source_id": "src.msd.acute_abdominal_pain.2024",
+      "source_title": "急性腹痛",
+      "locator": "检查",
+      "quote": "若疑似胆道疾病或异位妊娠（经阴道探头）以及儿童疑似阑尾炎，应行超声检查。"
     },
     {
       "sample_id": "M105-16",
-      "subject": "find.hypoxemia",
-      "subject_label": "氧饱和度下降",
-      "predicate": "SUPPORTS",
-      "predicate_label": "支持",
+      "subject": "cond.acs",
+      "subject_label": "急性冠状动脉综合征",
+      "predicate": "DIFFERENTIATED_FROM",
+      "predicate_label": "需鉴别",
       "object": "cond.ape",
       "object_label": "急性肺栓塞",
-      "qualifiers": {
-        "strength": "moderate"
-      },
+      "qualifiers": {},
       "source_id": "src.cn.chest_pain.2019",
       "source_title": "急性胸痛急诊诊疗专家共识",
       "locator": "§3.2.2 症状",
-      "quote": "常同时合并氧饱和度下降"
+      "quote": "ACS症状主要包括发作性胸部闷痛、压迫感或憋闷感，甚或濒死感，部分患者可放射至上肢、后背部或颈部，劳累、情绪激动、气候骤变等均可诱发，持续数分钟至数十分钟，休息或硝酸甘油可缓解，持续时间超过20 min未缓解，需考虑急性心肌梗死的可能性；AAD及大血管疾病多表现为持续撕裂样胸、背痛，可伴血压明显升高、双侧肢体血压差别较大等；APE常伴呼吸困难或咯血，常同时合并氧饱和度下降，甚或晕厥、猝死"
     },
     {
       "sample_id": "M105-17",
-      "subject": "scale.esi_v4_2005",
-      "subject_label": "急诊严重度指数（ESI）第4版",
-      "predicate": "HAS_LEVEL",
-      "predicate_label": "分诊级别",
-      "object": "level.esi.4",
-      "object_label": "ESI 4级 需1项资源",
-      "qualifiers": {},
-      "source_id": "src.us.ahrq.esi.v4.2005",
-      "source_title": "Emergency Severity Index, Version 4: Implementation Handbook",
-      "locator": "Chapter 2, The Emergency Severity Index (ESI)",
-      "quote": "The Emergency Severity Index (ESI) is a five-level triage scale"
+      "subject": "cc.chest_pain",
+      "subject_label": "胸痛",
+      "predicate": "MAY_INDICATE",
+      "predicate_label": "可能提示",
+      "object": "cond.ape",
+      "object_label": "急性肺栓塞",
+      "qualifiers": {
+        "risk": "high"
+      },
+      "source_id": "src.cn.chest_pain.2019",
+      "source_title": "急性胸痛急诊诊疗专家共识",
+      "locator": "§1 急性胸痛救治现状",
+      "quote": "以急性肺栓塞（acute pulmonary embolism，APE）为主的“急性肺动脉综合征”"
     },
     {
       "sample_id": "M105-18",
-      "subject": "cond.ape",
-      "subject_label": "急性肺栓塞",
-      "predicate": "DIFFERENTIATED_FROM",
-      "predicate_label": "需鉴别",
-      "object": "cond.tension_pneumothorax",
-      "object_label": "张力性气胸",
-      "qualifiers": {},
-      "source_id": "src.cn.chest_pain.2019",
-      "source_title": "急性胸痛急诊诊疗专家共识",
-      "locator": "§3.2.2 症状",
-      "quote": "APE常伴呼吸困难或咯血，常同时合并氧饱和度下降，甚或晕厥、猝死；张力性气胸患者表现为极度呼吸困难，缺氧严重者出现发绀、甚至窒息"
-    },
-    {
-      "sample_id": "M105-19",
       "subject": "cond.tension_pneumothorax",
       "subject_label": "张力性气胸",
-      "predicate": "PRESENTS_WITH",
-      "predicate_label": "表现为",
+      "predicate": "DISTINGUISHED_BY",
+      "predicate_label": "鉴别依据",
       "object": "find.severe_sudden_dyspnea",
       "object_label": "突发极度呼吸困难",
-      "qualifiers": {
-        "typicality": "typical"
-      },
+      "qualifiers": {},
       "source_id": "src.cn.chest_pain.2019",
       "source_title": "急性胸痛急诊诊疗专家共识",
       "locator": "§3.2.2 症状",
       "quote": "张力性气胸患者表现为极度呼吸困难"
     },
     {
-      "sample_id": "M105-20",
-      "subject": "cond.ape",
-      "subject_label": "急性肺栓塞",
-      "predicate": "DISTINGUISHED_BY",
-      "predicate_label": "鉴别依据",
-      "object": "find.hypoxemia",
-      "object_label": "氧饱和度下降",
-      "qualifiers": {},
+      "sample_id": "M105-19",
+      "subject": "cond.acs",
+      "subject_label": "急性冠状动脉综合征",
+      "predicate": "PRESENTS_WITH",
+      "predicate_label": "表现为",
+      "object": "find.chest_pressure",
+      "object_label": "胸部闷痛、压迫感或憋闷感",
+      "qualifiers": {
+        "typicality": "typical"
+      },
       "source_id": "src.cn.chest_pain.2019",
       "source_title": "急性胸痛急诊诊疗专家共识",
       "locator": "§3.2.2 症状",
-      "quote": "常同时合并氧饱和度下降"
+      "quote": "发作性胸部闷痛、压迫感或憋闷感"
+    },
+    {
+      "sample_id": "M105-20",
+      "subject": "level.esi.4",
+      "subject_label": "ESI 4级 需1项资源",
+      "predicate": "LEVEL_CRITERION",
+      "predicate_label": "级别判定依据",
+      "object": "crit.esi.resources_1",
+      "object_label": "预计需要1项资源",
+      "qualifiers": {
+        "criterion_type": "algorithm"
+      },
+      "source_id": "src.us.ahrq.esi.v4.2005",
+      "source_title": "Emergency Severity Index, Version 4: Implementation Handbook",
+      "locator": "Chapter 5, Expected Resource Needs",
+      "quote": "those who are likely to require one resource are level 4"
     }
   ]
 }

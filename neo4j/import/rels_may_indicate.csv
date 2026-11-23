@@ -12,11 +12,11 @@ fact.chest_pain.may_indicate.neurosis,cc.chest_pain,cond.neurosis,src.cn.chest_p
 fact.chest_pain.may_indicate.stable_cad,cc.chest_pain,cond.stable_cad,src.cn.chest_pain.2019,§1 急性胸痛救治现状,也包括稳定性冠心病、胃食管反流病、肋间神经痛、神经官能症等中低危胸痛,0.98,ai-draft,explicit,manual-curation,2026-10-29,medium
 fact.chest_pain.may_indicate.tension_pneumothorax,cc.chest_pain,cond.tension_pneumothorax,src.cn.chest_pain.2019,§1 急性胸痛救治现状,及张力性气胸（tension pneumothorax）等高危胸痛,0.99,ai-draft,explicit,manual-curation,2026-10-29,high
 fact.dyspnea.may_indicate.acute_heart_failure,cc.dyspnea,cond.acute_heart_failure,src.msd.dyspnea.2025,病因（表：引起急性呼吸困难的部分病因）,心力衰竭 爆裂音、S3奔马律、中心或外周容量超负荷的体征（如颈静脉怒张、外周水肿） 端坐呼吸或夜间阵发性呼吸困难 胸部X光检查 BNP检测 超声心动图,0.99,ai-draft,explicit,manual-curation,2026-11-13,high
-fact.dyspnea.may_indicate.ape,cc.dyspnea,cond.ape,src.cn.chest_pain.2019,§5.3 急性肺栓塞,APE常伴呼吸困难或咯血,0.99,ai-draft,explicit,manual-curation,2026-11-13,high
+fact.dyspnea.may_indicate.ape,cc.dyspnea,cond.ape,src.cn.chest_pain.2019,§5.3 急性肺栓塞,APE常伴呼吸困难或咯血,0.99,ai-draft,explicit,manual-curation,2026-11-23,
 fact.dyspnea.may_indicate.asthma_exacerbation,cc.dyspnea,cond.asthma_exacerbation,src.msd.dyspnea.2025,病因（表：引起急性呼吸困难的部分病因）,哮喘 、支气管痉挛、或反应性气道疾病 自发性地或暴露于特定刺激（如过敏原、上呼吸道感染、冷空气、运动）时发生的哮鸣和气体交换下降,0.98,ai-draft,explicit,manual-curation,2026-11-13,medium
 fact.dyspnea.may_indicate.pneumonia,cc.dyspnea,cond.pneumonia,src.msd.dyspnea.2025,病因（表：引起急性呼吸困难的部分病因）,肺炎 发热、咳痰、呼吸困难、有时胸膜炎性胸痛,0.99,ai-draft,explicit,manual-curation,2026-11-13,high
 fact.dyspnea.may_indicate.tension_pneumothorax,cc.dyspnea,cond.tension_pneumothorax,src.cn.chest_pain.2019,§5.4 张力性气胸患者,张力性气胸患者表现为极度呼吸困难,0.99,ai-draft,explicit,manual-curation,2026-11-13,high
 fact.fever.may_indicate.meningitis,cc.fever,cond.meningitis,src.msd.fever.2026,临床表现解析（危险信号）,头痛，颈部僵硬，出现瘀斑或紫癜样皮疹很可能是 脑膜炎 。,0.99,ai-draft,explicit,manual-curation,2026-11-13,high
-fact.fever.may_indicate.pneumonia,cc.fever,cond.pneumonia,src.msd.dyspnea.2025,病因（表：引起急性呼吸困难的部分病因）,肺炎 发热、咳痰、呼吸困难、有时胸膜炎性胸痛,0.98,ai-draft,explicit,manual-curation,2026-11-13,high
+fact.fever.may_indicate.pneumonia,cc.fever,cond.pneumonia,src.msd.dyspnea.2025,病因（表：引起急性呼吸困难的部分病因）,肺炎 发热、咳痰、呼吸困难、有时胸膜炎性胸痛,0.98,ai-draft,explicit,manual-curation,2026-11-23,
 fact.fever.may_indicate.sepsis,cc.fever,cond.sepsis,src.msd.fever.2026,临床表现解析（危险信号）,心动过速（超出发热引起的正常变化范围）并且呼吸急促，有无低血压或精神状态变化，很可能是 脓毒症 。,0.99,ai-draft,explicit,manual-curation,2026-11-13,high
 fact.fever.may_indicate.viral_upper_respiratory_infection,cc.fever,cond.viral_upper_respiratory_infection,src.msd.fever.2026,病因（感染性原因）,多数急性呼吸道感染和胃肠道感染是病毒性的。,0.98,ai-draft,explicit,manual-curation,2026-11-13,low

@@ -114,7 +114,7 @@
       "icd10": "I26.9",
       "label_zh": "急性肺栓塞",
       "presentations": 4,
-      "red_flags": 2
+      "red_flags": 1
     },
     {
       "condition_id": "cond.appendicitis",
@@ -167,14 +167,6 @@
       "finding_id": "find.tearing_chest_back_pain",
       "finding_label": "持续撕裂样胸背痛",
       "quote": "AAD及大血管疾病多表现为持续撕裂样胸、背痛",
-      "source_id": "src.cn.chest_pain.2019"
-    },
-    {
-      "condition_id": "cond.ape",
-      "condition_label": "急性肺栓塞",
-      "finding_id": "find.hypoxemia",
-      "finding_label": "氧饱和度下降",
-      "quote": "常同时合并氧饱和度下降",
       "source_id": "src.cn.chest_pain.2019"
     },
     {
@@ -726,7 +718,7 @@
   ],
   "10_source_coverage": [
     {
-      "facts": 97,
+      "facts": 93,
       "source_id": "src.cn.chest_pain.2019"
     },
     {
